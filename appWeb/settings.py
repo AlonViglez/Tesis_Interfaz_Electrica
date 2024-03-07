@@ -50,11 +50,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'appWeb.urls'
-
+#directorio de los templates o nombre de la carpeta
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['appWeb/templates'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
