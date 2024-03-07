@@ -1,0 +1,18 @@
+
+#5
+
+para en la terminal y migrar toda la estructura para tener todas la bases necesarias para funcionar:
+
+**python manage.py migrate** (tienes que estar ubicado en el nombre del archivo)
+
+**python manage.py runserver** levantar el sevidor 
+
+el archivo urls.py deben apuntar a las vistas y la vistas trabajan con los modelos y devuelven a los
+templates
+
+#6
+rutas con parametros:
+
+path('adulto/<int:edad>/',views.adulto, name='adulto') #recepionar un parametro
+
+
