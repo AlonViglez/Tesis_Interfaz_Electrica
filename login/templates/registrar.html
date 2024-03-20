@@ -1,0 +1,9 @@
+<h1>Registrar usuario</h1>
+{{error}} <!--Mostrar errores-->
+<form action="/registrar/" method="POST">
+    {% csrf_token %} <!--Creado un token por el servidor de django-->
+    {{form.as_p}}
+    <button>
+        Registrar
+    </button>
+</form>

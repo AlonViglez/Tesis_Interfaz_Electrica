@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Señales Eléctricas</title>
+    <link rel="stylesheet" type="text/css" href="{%static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <main>
+      <header>
+        <nav class="nav container">
+            <h2 class="nav_logo">
+                <img src="{% static 'imagenes/logo.png' %}" alt="logo" class="logo_img">
+                <a href="{% url 'home' %}">VSignal</a>
+            </h2>
+          <ul class="menu_items">
+            <img src="{%static 'imagenes/times.svg' %}" alt="timesicon" id="menu_toggle" />
+            <li><a href="{% url 'home' %}" class="nav_link">Home</a></li>
+            <li><a href="#servicios" class="nav_link" onclick="event.preventDefault(); scrollToServices()">Servicios</a></li>
+            <li><a href="#" class="nav_link">Contáctanos</a></li>
+          </ul>
+          <img src="{%static 'imagenes/bars.svg' %}" alt="timesicon" id="menu_toggle" />
+        </nav>
+      </header>
+      <section class="hero">
+        <div class="row container">
+          <div class="column">
+            <h2>Interfaz gráfica para un sistema de <br />medición de señales eléctricas</h2>
+            <p>Nuestra aplicación permite a los estudiantes visualizar y trabajar con señales eléctricas en forma de gráficas, mediciones y barras. Con nuestra plataforma, 
+              los estudiantes pueden acceder y analizar datos importantes de manera intuitiva y segura, sin temor a perder información crítica.</p>
+            <div class="buttons">
+              <button class="btn" onclick="scrollToServices()">Conoce más</button>
+              <button class="btn" onclick="window.location.href='{% url 'registrar' %}'">Iniciar sesión</button>
+            </div>
+          </div>
+          <div class="column">
+            <img src="{%static 'imagenes/niña.png' %}" alt="heroImg" class="hero_img" />
+          </div>
+        </div>
+        <img src="{%static 'imagenes/bg-bottom-hero.png' %}" alt="" class="curveImg" />
+      </section>
+    </main>
+      <!-- Sección de servicios -->
+      <section id="servicios" class="services container">
+        <div class="card-list">
+          <a href="#" class="card-item">
+              <img src="{%static 'imagenes/graficas.png' %}" alt="Card Image">
+              <span class="developer">Gráficas</span>
+              <h3>Gran variedad de gráficas.</h3>
+              <div class="arrow">
+                  <i class="fas fa-arrow-right card-icon"></i>
+              </div>
+          </a>
+          <a href="#" class="card-item">
+              <img src="{%static 'imagenes/personaliza.jpg' %}" alt="Card Image">
+              <span class="designer">Personaliza</span>
+              <h3>Maneja todos tus datos que quieras observar.</h3>
+              <div class="arrow">
+                  <i class="fas fa-arrow-right card-icon"></i>
+              </div>
+          </a>
+          <a href="#" class="card-item">
+              <img src="{%static 'imagenes/dashboard.jpg' %}" alt="Card Image">
+              <span class="editor">Dashboard</span>
+              <h3>Un control de tus señales eléctricas.</h3>
+              <div class="arrow">
+                  <i class="fas fa-arrow-right card-icon"></i>
+              </div>
+          </a>
+        </div>
+      </section>
+    <script>
+      //Script menu hamburguesa
+      const header = document.querySelector("header");
+      const menuToggler = document.querySelectorAll("#menu_toggle");
+      menuToggler.forEach(toggler => {
+        toggler.addEventListener("click", () => header.classList.toggle("showMenu"));
+      });
+      //Script cambiar a servicios animacion
+      function scrollToServices() {
+        const serviciosSection = document.getElementById('servicios');
+        serviciosSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    //Script desaparecer navbar(falta por definir)
+    let lastScrollTop = 0;
+    const nav = document.querySelector('.nav');
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+            // Scroll hacia abajo y el scroll está por encima de la altura del header
+            nav.classList.add('hidden');
+        } else {
+            // Scroll hacia arriba o el scroll está en la parte superior de la página
+            nav.classList.remove('hidden');
+        }
+        lastScrollTop = scrollTop;
+    });
+    </script>
+  </body>
+</html>
