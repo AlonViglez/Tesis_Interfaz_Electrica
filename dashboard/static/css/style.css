@@ -214,7 +214,7 @@ aside .sidebar a.active span{
 }
 
 aside .sidebar a:hover{
-    color: var(--color-danger); /*color al pasar por el mouse*/
+    color: #FFB38E; /*color al pasar por el mouse*/
 }
 
 aside .sidebar a:hover span{
