@@ -13,12 +13,14 @@
     <!--Formulario para registro-->
     <div class="container" id="container">
         <div class="form-container sign-up-container">
-            <form action="/registrar/" method="POST">
+            <form action="/registrarMaestro" method="POST">
                 {% csrf_token %}
                 <h1>Crear cuenta</h1>
                 <div class="social-container">
+                    <h3>Maestro</h3>
+                    <!--
                     <a href="" class="social"><i class="fa-solid fa-user"></i></a>
-                    <a href="" class="social"><i class="fa-solid fa-person-chalkboard"></i></a>
+                    <a href="" class="social"><i class="fa-solid fa-person-chalkboard"></i></a>-->
                 </div>
                 <!-- Parte de redes sociales
                 <div class="social-container">
@@ -27,6 +29,50 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>-->
                 <span>or use your email for registration</span>
+                <div class="infield">
+                    <input type="text" name="nombre" placeholder="Nombre" required/>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="email" name="email" placeholder="Correo electrónico" required/>
+                    <label></label>
+                    {% if form.email.errors %}
+                        <span style="color: red;">{{ form.email.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="infield">
+                    <input type="password" name="password" placeholder="Password" required/>
+                    <label></label>
+                    <span id="password-error" style="color: red;"></span>
+                </div>
+                <div class="infield">
+                    <input type="password" name="reppassword" placeholder="Confirm Password" required/>
+                    <label></label>
+                    <span id="password-error2" style="color: red;"></span>
+                </div>
+                <div class="infield">
+                    <input type="text" name="especialidad" placeholder="Especialidad" required/>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="number" name="numero_cuenta" placeholder="Número de cuenta" required/>
+                    <label></label>
+                    {% if form.numero_cuenta.errors %}
+                        <span style="color: red;">{{ form.numero_cuenta.errors }}</span>
+                    {% endif %}
+                </div>
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+        <!--Formulario para iniciar sesion-->
+        <div class="form-container sign-in-container">
+            <form action="/registrar/" method="POST">
+                {% csrf_token %}
+                <h1>Crear cuenta</h1>
+                <div class="social-container">
+                    <h3>Alumno</h3>
+                </div>
+                <span>Ingresa tus datos:</span>
                 <div class="infield">
                     <input type="text" name="nombre" placeholder="Nombre" required/>
                     <label></label>
@@ -62,39 +108,16 @@
                 <button type="submit">Registrar</button>
             </form>
         </div>
-        <!--Formulario para iniciar sesion-->
-        <div class="form-container sign-in-container">
-            <form action="/autenticacion/" method="POST">
-                {% csrf_token %}
-                <h1>Iniciar Sesión</h1>
-                <div class="social-container">
-                </div>
-                <span>Ingresa tus datos:</span>
-                <div class="infield">
-                    <input type="email" placeholder="Email" name="email" required value="{{ email }}"/>
-                    <label></label>
-                </div>
-                <div class="infield">
-                    <input type="password" placeholder="Password" name="password" required/>
-                    <label></label>
-                </div>
-                {% if error_message %}
-                    <span style="color: red;">{{ error_message }}</span>
-                {% endif %}
-                <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
-                <button type="submit">Iniciar sesión</button>
-            </form>
-        </div>
         <!--Contenedor informativo-->
         <div class="overlay-container" id="overlayCon">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
-                    <h1 class="texto_cuenta">¿Ya tienes cuenta?</h1>
+                    <h1 class="texto_cuenta">¿Eres alumno?</h1>
                     <p class="texto_cuenta_extra">Mantente conectado. Inicia sesión con tu información personal.</p>
-                    <button>Iniciar Sesión</button>
+                    <button>Registrarse</button>
                 </div>
                 <div class="overlay-panel overlay-right">
-                    <h1>¿Eres nuevo?</h1>
+                    <h1>¿Eres maestro?</h1>
                     <p>Introduce tu información personal para unirte a nosotros</p>
                     <button>Registrarse</button>
                 </div>

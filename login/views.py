@@ -2,10 +2,10 @@ from django.shortcuts import render
 #from django.contrib.auth.forms import UserCreationForm #Clase para autenticacion y formulario
 #from django.contrib.auth.models import User #Clase para registrar usuarios
 from django.http import HttpResponse
-from . forms import UsuarioForm #Uso de mi formulario
+from . forms import UsuarioForm, MaestroForm #Uso de mi formulario
 from django.contrib.auth.hashers import make_password #Hashear
 from django.shortcuts import render, redirect #Redireccionar
-from .models import Usuario #Uso del modelo de la tabla
+from .models import Usuario, Maestro #Uso del modelo de la tabla
 from django.contrib.auth.hashers import check_password #Para contraseña hasheada loguearse
 from django.contrib import messages #Mostrar mensajes en html
 from django.contrib.auth.decorators import login_required
@@ -41,7 +41,7 @@ def registrar(request):   #Funcion para registrar usuario redireccionamiento
                 "error": 'Contraseñas no coinciden'
             })
             '''
-#Registro
+#Registro alumno
 def registrar(request): 
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
@@ -51,13 +51,12 @@ def registrar(request):
             usuario.save()
             #Guardar datos y redirigir a la pagina logueada
             #return render(request, 'logueado.html', {'usuario': usuario})
-            return redirect("registrar")
+            return redirect("logueado")
     else:
         form = UsuarioForm()
     return render(request, 'iniciar_sesion.html', {'form': form})
 
-
-#Autenticacion
+#Autenticacion alumno
 def autenticacion(request):
     # Obtener datos del formulario
     if request.method == 'POST':
@@ -80,7 +79,29 @@ def autenticacion(request):
         # Si no es una solicitud POST, simplemente devolver el formulario
         return redirect("home")
 
-
+#Autenticacion maestro
+def autenticacionMaestro(request):
+    # Obtener datos del formulario
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        try:
+            usuario = Maestro.objects.get(email=email)
+            if check_password(password, usuario.password):
+                request.session['usuario_id'] = usuario.id
+                return render(request, 'logueado.html', {'usuario': usuario})  # Pasar el usuario como contexto
+            else:
+                print("Contraseña incorrecta.")
+                # Devolver el formulario con los datos del usuario
+                return render(request, 'home.html', {'email': email, 'error_message': 'Contraseña incorrecta'})
+        except Maestro.DoesNotExist:
+            print("Usuario no encontrado.")
+            # Devolver el formulario con los datos del usuario
+            return render(request, 'home.html', {'email': email, 'error_message': 'Usuario no encontrado'})
+    else:
+        # Si no es una solicitud POST, simplemente devolver el formulario
+        return redirect("home")
+    
 def logueado(request):
     if 'usuario_id' in request.session:
         usuario_id = request.session['usuario_id']
