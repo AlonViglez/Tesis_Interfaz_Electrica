@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="{% static 'js/charts.js' %}"></script>
+    <title>Bienvenido</title>
+</head>
+<body>
+    <h1>Bienvenido, {{ usuario.nombre }}</h1>
+    <p>Email: {{ usuario.email }}</p>
+    <p>Materia: {{ usuario.materia }}</p>
+    <p>Número de cuenta: {{ usuario.numero_cuenta }}</p>
+    <a href="{% url 'logout' %}">Cerrar sesión</a>
+    <div id="chart1" style="width: 800px; height: 400px;"></div>
+    <div id="chart2" style="width: 800px; height: 400px;"></div>
+    <div id="chart3" style="width: 800px; height: 400px;"></div>
+    <div id="chart-container" style="width: 800px; height: 400px;"></div>
+</body>
+<script>
+    //Primer grafica
+    var chart1Dom = document.getElementById('chart1');
+    createChart1(chart1Dom);
+    //Segunda grafica
+    var chart2Dom = document.getElementById('chart2');
+    createChart2(chart2Dom);
+    //Tercera grafica
+    var chart3Dom = document.getElementById('chart3');
+    createChart3(chart3Dom);
+    //Cuarta grafica
+    var chart4Dom = document.getElementById('chart-container');
+    createChart4(chart4Dom);
+</script>
+</html>

@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Señales Eléctricas</title>
+    <link rel="stylesheet" type="text/css" href="{%static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <main>
+      <header>
+        <nav class="nav container">
+            <h2 class="nav_logo">
+                <img src="{% static 'imagenes/logo.png' %}" alt="logo" class="logo_img">
+                <a href="{% url 'home' %}">VSignal</a>
+            </h2>
+          <ul class="menu_items">
+            <img src="{%static 'imagenes/times.svg' %}" alt="timesicon" id="menu_toggle" />
+            <li><a href="{% url 'home' %}" class="nav_link">Home</a></li>
+            <li><a href="#servicios" class="nav_link" onclick="event.preventDefault(); scrollToServices()">Servicios</a></li>
+            <li><a href="#" class="nav_link">Contáctanos</a></li>
+            <li><a href="#signId" class="nav_link" onclick="event.preventDefault(); scrollToSign()">Ingresar</a></li>
+          </ul>
+          <img src="{%static 'imagenes/bars.svg' %}" alt="timesicon" id="menu_toggle" />
+        </nav>
+      </header>
+      <section id="signId" class="hero">
+        <div class="row container">
+          <div class="column">
+            <h2>Interfaz gráfica para un sistema de <br />medición de señales eléctricas</h2>
+            <p>Nuestra aplicación permite a los estudiantes visualizar y trabajar con señales eléctricas en forma de gráficas, mediciones y barras. Con nuestra plataforma, 
+              los estudiantes pueden acceder y analizar datos importantes de manera intuitiva y segura, sin temor a perder información crítica.</p>
+            <div class="buttons">
+              <button class="btn" onclick="scrollToServices()">Conoce más</button>
+              <!--{% if request.user.is_authenticated %}
+                <button class="btn" onclick="window.location.href='{% url 'registrar' %}'">Iniciar sesión</button>
+              {% else %}
+              <button class="btn" onclick="window.location.href='{% url 'logueado' %}'">Ver mis gráficas</button>
+              {% endif %}-->
+              <button class="btn" onclick="window.location.href='{% url 'registrar' %}'">Comenzar</button>
+              </div>
+          </div>
+          <div class="column-2">
+            <!--<img src="{%static 'imagenes/niño.png' %}" alt="heroImg" class="hero_img" />-->
+            <div class="sign-in-container">
+              <form action="/autenticacion/" method="POST">
+                  {% csrf_token %}
+                  <h1 class="title-sign">Iniciar Sesión</h1>
+                  <div class="social-container">
+                  </div>
+                  <span class="login_span">Ingresa tus datos:</span>
+                  {% if error_message %}
+                      <span style="color: red;">{{ error_message }}</span>
+                  {% endif %}
+                  <div class="infield">
+                      <input type="email" placeholder="Email" name="email" required value="{{ email }}"/>
+                      <label></label>
+                  </div>
+                  <div class="infield">
+                      <input type="password" placeholder="Password" name="password" required/>
+                      <label></label>
+                  </div>
+                  <a href="{% url 'registrar' %}" class="forgot">¿No tienes una cuenta? Registrate aquí</a>
+                  <button class="btn-2" type="submit">Iniciar sesión</button>
+              </form>
+          </div>
+        </div>
+      </section>
+      <hr id="linea_servicios">
+      <h1  id="servicios" class="titulo-servicios">Servicios</h1>
+      <!-- Sección de servicios -->
+      <section class="services container">
+        <div class="card-list">
+          <a href="#" class="card-item">
+              <img src="{%static 'imagenes/graficas.png' %}" alt="Card Image">
+              <span class="developer">Gráficas</span>
+              <h3>Gran variedad de gráficas.</h3>
+              <div class="arrow">
+                  <i class="fas fa-arrow-right card-icon"></i>
+              </div>
+          </a>
+          <a href="#" class="card-item">
+              <img src="{%static 'imagenes/personaliza.jpg' %}" alt="Card Image">
+              <span class="designer">Personaliza</span>
+              <h3>Maneja todos tus datos que quieras observar.</h3>
+              <div class="arrow">
+                  <i class="fas fa-arrow-right card-icon"></i>
+              </div>
+          </a>
+          <a href="#" class="card-item">
+              <img src="{%static 'imagenes/dashboard.jpg' %}" alt="Card Image">
+              <span class="editor">Dashboard</span>
+              <h3>Un control de tus señales eléctricas.</h3>
+              <div class="arrow">
+                  <i class="fas fa-arrow-right card-icon"></i>
+              </div>
+          </a>
+        </div>
+      </section>
+    </main>
+      <footer class="footer">
+        <div class="footer_content container">
+            <div class="footer_section">
+                <h3>Acerca de</h3>
+                <p>VSignal es una empresa que busca mejorar la visualización de señales eléctricas, 
+                  permitiendo a los estudiantes verlas a través de una interfaz web y móvil. 
+                  También incluye la capacidad de almacenar las señales en una base de datos local, 
+                  herramientas para que los profesores gestionen la participación de los alumnos y alertas para señales que excedan ciertos límites.</p>
+            </div>
+            <div class="footer_section">
+                <h3>Contacto</h3>
+                <p>Correo electrónico: VSignal@gmail.com</p>
+                <p>Teléfono: +52 3142055700</p>
+            </div>
+            <div class="footer_section">
+                <h3>Redes Sociales</h3>
+                <div class="social_icons">
+                    <a href="#" class="social_icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social_icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social_icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+      //Script menu hamburguesa
+      const header = document.querySelector("header");
+      const menuToggler = document.querySelectorAll("#menu_toggle");
+      menuToggler.forEach(toggler => {
+        toggler.addEventListener("click", () => header.classList.toggle("showMenu"));
+      });
+      //Script cambiar a servicios animacion
+      function scrollToServices() {
+        const serviciosSection = document.getElementById('linea_servicios');
+        serviciosSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      //Script para cambiar ingresar
+      function scrollToSign() {
+        const signSection = document.getElementById('signId');
+        signSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    //Script desaparecer navbar(falta por definir)
+    let lastScrollTop = 0;
+    const nav = document.querySelector('.nav');
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+            // Scroll hacia abajo y el scroll está por encima de la altura del header
+            nav.classList.add('hidden');
+        } else {
+            // Scroll hacia arriba o el scroll está en la parte superior de la página
+            nav.classList.remove('hidden');
+        }
+        lastScrollTop = scrollTop;
+    });
+    </script>
+  </body>
+</html>

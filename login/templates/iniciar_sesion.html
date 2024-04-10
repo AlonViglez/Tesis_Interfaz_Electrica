@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{%static 'css/login_styles.css' %}">
+</head>
+<body>
+    <!--Formulario para registro-->
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="/registrarMaestro" method="POST">
+                {% csrf_token %}
+                <h1>Crear cuenta</h1>
+                <div class="social-container">
+                    <h3>Maestro</h3>
+                    <!--
+                    <a href="" class="social"><i class="fa-solid fa-user"></i></a>
+                    <a href="" class="social"><i class="fa-solid fa-person-chalkboard"></i></a>-->
+                </div>
+                <!-- Parte de redes sociales
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>-->
+                <span>or use your email for registration</span>
+                <div class="infield">
+                    <input type="text" name="nombre" placeholder="Nombre" required/>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="email" name="email" placeholder="Correo electrónico" required/>
+                    <label></label>
+                    {% if form.email.errors %}
+                        <span style="color: red;">{{ form.email.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="infield">
+                    <input type="password" name="password" placeholder="Password" required/>
+                    <label></label>
+                    <span id="password-error" style="color: red;"></span>
+                </div>
+                <div class="infield">
+                    <input type="password" name="reppassword" placeholder="Confirm Password" required/>
+                    <label></label>
+                    <span id="password-error2" style="color: red;"></span>
+                </div>
+                <div class="infield">
+                    <input type="text" name="especialidad" placeholder="Especialidad" required/>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="number" name="numero_cuenta" placeholder="Número de cuenta" required/>
+                    <label></label>
+                    {% if form.numero_cuenta.errors %}
+                        <span style="color: red;">{{ form.numero_cuenta.errors }}</span>
+                    {% endif %}
+                </div>
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+        <!--Formulario para iniciar sesion-->
+        <div class="form-container sign-in-container">
+            <form action="/registrar/" method="POST">
+                {% csrf_token %}
+                <h1>Crear cuenta</h1>
+                <div class="social-container">
+                    <h3>Alumno</h3>
+                </div>
+                <span>Ingresa tus datos:</span>
+                <div class="infield">
+                    <input type="text" name="nombre" placeholder="Nombre" required/>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="email" name="email" placeholder="Correo electrónico" required/>
+                    <label></label>
+                    {% if form.email.errors %}
+                        <span style="color: red;">{{ form.email.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="infield">
+                    <input type="password" name="password" placeholder="Password" required/>
+                    <label></label>
+                    <span id="password-error" style="color: red;"></span>
+                </div>
+                <div class="infield">
+                    <input type="password" name="reppassword" placeholder="Confirm Password" required/>
+                    <label></label>
+                    <span id="password-error2" style="color: red;"></span>
+                </div>
+                <div class="infield">
+                    <input type="text" name="materia" placeholder="Materia" required/>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="number" name="numero_cuenta" placeholder="Número de cuenta" required/>
+                    <label></label>
+                    {% if form.numero_cuenta.errors %}
+                        <span style="color: red;">{{ form.numero_cuenta.errors }}</span>
+                    {% endif %}
+                </div>
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+        <!--Contenedor informativo-->
+        <div class="overlay-container" id="overlayCon">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1 class="texto_cuenta">¿Eres alumno?</h1>
+                    <p class="texto_cuenta_extra">Mantente conectado. Inicia sesión con tu información personal.</p>
+                    <button>Registrarse</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>¿Eres maestro?</h1>
+                    <p>Introduce tu información personal para unirte a nosotros</p>
+                    <button>Registrarse</button>
+                </div>
+            </div>
+            <button id="overlayBtn"></button>
+        </div>
+    </div>    
+    <script>
+        //Javascript para el cambio de inicio de sesion a registrar
+        const container = document.getElementById('container');
+        const overlaycon = document.getElementById('overlayCon');
+        const overlayBtn = document.getElementById('overlayBtn');
+
+        //Evento del boton
+        overlayBtn.addEventListener('click', ()=>{
+            container.classList.toggle('right-panel-active');
+            overlayBtn.classList.remove('btnScaled');
+            window.requestAnimationFrame( ()=> {
+                overlayBtn.classList.add('btnScaled');
+            })
+        })
+
+        //Mensaje de error de contraseñas
+        document.querySelector('form').addEventListener('submit', function(event) {
+        var password = document.querySelector('input[name="password"]').value;
+        var reppassword = document.querySelector('input[name="reppassword"]').value;
+        if (password !== reppassword) {
+            document.getElementById('password-error').textContent = 'Las contraseñas no coinciden';
+            document.getElementById('password-error2').textContent = 'Las contraseñas no coinciden';
+            event.preventDefault(); // Que no se envie el formulario
+        } else {
+            document.getElementById('password-error').textContent = '';
+        }
+    });
+    </script>
+</body>
+</html>
