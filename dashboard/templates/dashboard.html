@@ -7,7 +7,10 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <script src="{% static 'js/chartlight.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Material-->
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -128,20 +131,12 @@
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <h3>Total sales</h3>
-                        <h1>$25,024</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx='38' cy='38' r='36'></circle>
-                        </svg>
-                        <div class="number">
-                            <p>81%</p>
-                        </div>
-                    </div>
+                        <div id="chart-container" style="width: 800px; height: 400px;"></div>
+                      <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
+        </div>
             <!-- Ende of sales-->
             <div class="expenses">
                 <span class="material-symbols-outlined">bar_chart</span>
@@ -354,6 +349,10 @@
             
         </div>
     </div>
-    <script src="{% static './index.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script>
+        var chart4Dom = document.getElementById('chart-container');
+        createChart4(chart4Dom);
+    </script>
 </body>
 </html>

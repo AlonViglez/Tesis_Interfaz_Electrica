@@ -249,7 +249,7 @@ main .date input[type="date"]{
 }
 
 main .insights { /*tarjetas de dash*/
-    display: inline; /*estar en forma de fila*/
+    display: grid; /*estar en forma de fila*/
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem /*distancia entre las cartas anch*/
 }
