@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <link rel="stylesheet" href="{%static 'css/stylegraficapulso.css' %}">
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Material-->
@@ -32,7 +32,7 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                    <a class="active">
+                    <a href="{% url 'dashboard'%}">
                         <span class="material-symbols-outlined">
                             grid_view
                             </span>
@@ -41,7 +41,7 @@
     
                 <!--3-->
         
-                    <a href="{% url 'grafpulso'%}" >
+                    <a class="active">
                         <span class="material-symbols-outlined">
                             graphic_eq
                             </span>
@@ -50,7 +50,7 @@
         
                 <!--4-->
         
-                <a href="{% url 'graflineal'%}">
+                    <a href="{% url 'graflineal'%}">
                         <span class="material-symbols-outlined">
                             show_chart
                             </span>
@@ -75,7 +75,7 @@
                            <!--mensajes de notificacion <span class="message-count">2</span>-->
                     </a>
         
-                    <a href="{% url 'grafagendar'%}">
+                    <a  href="{% url 'grafagendar'%}">
                     
                         <span class="material-symbols-outlined">
                             schedule
@@ -121,7 +121,7 @@
             </aside>  
                 <!--Find de apartado del menu--> 
                 <main>
-        <h1>Dashboard</h1>
+        <h1>Gráfica de pulsos</h1>
         <div class="date">
             <input type="date">
         </div>
@@ -131,7 +131,7 @@
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="chart-container" ></div>
+                        <div id="chart-container" style="width: 800px; height: 400px;"></div>
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
                 </div>
                 <small class="text-muted">Last 24 hours</small>

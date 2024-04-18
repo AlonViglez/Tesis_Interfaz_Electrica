@@ -56,7 +56,7 @@ ROOT_URLCONF = 'appWeb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['appWeb/templates'], 
+        'DIRS': ['appWeb/templates', 'dashboard/templatesMaestro'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

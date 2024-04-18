@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <link rel="stylesheet" href="{%static 'css/styleM.css' %}">
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Material-->
@@ -32,7 +32,7 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                    <a class="active">
+                    <a>
                         <span class="material-symbols-outlined">
                             grid_view
                             </span>
@@ -41,7 +41,7 @@
     
                 <!--3-->
         
-                    <a href="{% url 'grafpulso'%}" >
+                    <a href="{% url 'grafpulsoM'%}" >
                         <span class="material-symbols-outlined">
                             graphic_eq
                             </span>
@@ -50,7 +50,7 @@
         
                 <!--4-->
         
-                <a href="{% url 'graflineal'%}">
+                <a href="{% url 'graflinealM'%}">
                         <span class="material-symbols-outlined">
                             show_chart
                             </span>
@@ -58,7 +58,7 @@
                     </a>
                 <!--5-->
             
-                    <a href="{% url 'grafbarra'%}">
+                    <a href="{% url 'grafbarraM'%}">
                         <span class="material-symbols-outlined">
                             bar_chart
                             </span>
@@ -67,7 +67,7 @@
     
                 <!--6-->
         
-                    <a href="{% url 'grafmedidores'%}">
+                    <a class="active">
                         <span class="material-symbols-outlined">
                             speed
                             </span>
@@ -75,12 +75,13 @@
                            <!--mensajes de notificacion <span class="message-count">2</span>-->
                     </a>
         
-                    <a href="{% url 'grafagendar'%}">
+                    <a href="{% url 'solicitudes'%}">
                     
                         <span class="material-symbols-outlined">
-                            schedule
+                            message
                             </span>
-                            <h3>Agendar</h3>
+                            <h3>Solicitudes</h3>
+                            <span class="message-count">2</span> 
                             
                     </a>
      <!--
@@ -131,7 +132,7 @@
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="chart-container" ></div>
+                        <div id="chart-container" style="width: 800px; height: 400px;"></div>
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
                 </div>
                 <small class="text-muted">Last 24 hours</small>
