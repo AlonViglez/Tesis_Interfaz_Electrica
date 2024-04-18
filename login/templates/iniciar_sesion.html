@@ -13,7 +13,7 @@
     <!--Formulario para registro-->
     <div class="container" id="container">
         <div class="form-container sign-up-container">
-            <form action="/registrarMaestro" method="POST">
+            <form action="/registrarMaestro/" method="POST">
                 {% csrf_token %}
                 <h1>Crear cuenta</h1>
                 <div class="social-container">
@@ -52,6 +52,10 @@
                 </div>
                 <div class="infield">
                     <input type="text" name="especialidad" placeholder="Especialidad" required/>
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="text" name="materia" placeholder="Materia" required/>
                     <label></label>
                 </div>
                 <div class="infield">

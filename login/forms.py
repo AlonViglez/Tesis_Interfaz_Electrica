@@ -108,7 +108,7 @@ class MaestroForm(forms.ModelForm):
 
         email = cleaned_data.get('email')
         numero_cuenta = cleaned_data.get('numero_cuenta')
-        if Maestro.objects.filter(email=email).exists() or Usuario.objects.filter(numero_cuenta=numero_cuenta).exists():
+        if Maestro.objects.filter(email=email).exists() or Maestro.objects.filter(numero_cuenta=numero_cuenta).exists():
             raise ValidationError('Este correo electrónico o número de cuenta ya están registrados')
 
         return cleaned_data

@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
+#Si se agrega una nueva tabla ejecutar en orden los comandos:
+#Makemigrations
+#Migrate
 
 #Datos para el alumno
 class Usuario(models.Model):
