@@ -1,4 +1,14 @@
-appweb/_pycache_/
-login/_pycache_/
+# Ignorar archivos de la base de datos SQLite
+*.sqlite3
+*.db
+
+# Ignorar archivos de migraciones de Django
+**/migrations/
+
+# Ignorar archivos de caché y sesiones de Django
+**/__pycache__/
+**/pycache/
+**/*.pyc
+
+# Ignorar el directorio de entorno virtual (si estás utilizando virtualenv o venv)
 venv/
-db.sqlite3
