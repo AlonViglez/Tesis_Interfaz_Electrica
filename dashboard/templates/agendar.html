@@ -1,0 +1,420 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <link rel="stylesheet" href="{%static 'css/styleagendar.css' %}">
+    <script src="{% static 'js/chartlight.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Material-->
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+     <!-- Inicio del apartado de menu-->
+    <div class="container">
+        <!-- etiqueta lateral-->
+        <aside>
+                <div class="top">
+                        <div class="logo">
+                            <img src="../static/images/logo.png" alt="">
+                            <h2>V<span class="danger">Signal</span></h2>
+                        </div>
+                    
+                        <div class="close" id="close-btn">
+                            <span class="material-symbols-outlined">
+                                close
+                                </span>
+                        </div>
+                </div>
+                <!--1-->
+                <div class="sidebar">
+                    <a href="{% url 'dashboard'%}">
+                        <span class="material-symbols-outlined">
+                            grid_view
+                            </span>
+                            <h3>dashboard</h3>
+                    </a>
+    
+                <!--3-->
+        
+                    <a  href="{% url 'grafpulso'%}" >
+                        <span class="material-symbols-outlined">
+                            graphic_eq
+                            </span>
+                            <h3>Gráfica de pulso</h3>
+                    </a>
+        
+                <!--4-->
+        
+                    <a href="{% url 'graflineal'%}">
+                        <span class="material-symbols-outlined">
+                            show_chart
+                            </span>
+                            <h3>Gráfica lineal</h3>
+                    </a>
+                <!--5-->
+            
+                    <a  href="{% url 'grafbarra'%}">
+                        <span class="material-symbols-outlined">
+                            bar_chart
+                            </span>
+                            <h3>Gráfica de barra</h3>
+                    </a>
+    
+                <!--6-->
+        
+                    <a  href="{% url 'grafmedidores'%}">
+                        <span class="material-symbols-outlined">
+                            speed
+                            </span>
+                            <h3>Gráfica de medidores</h3>
+                           <!--mensajes de notificacion <span class="message-count">2</span>-->
+                    </a>
+        
+                    <a class="active">
+                    
+                        <span class="material-symbols-outlined">
+                            schedule
+                            </span>
+                            <h3>Agendar</h3>
+                            
+                    </a>
+     <!--
+                    <a href="#">
+                        <span class="material-symbols-outlined">
+                            report_gmailerrorred
+                            </span>
+                            <h3>Reporte</h3>
+                        
+                    </a>
+
+    
+                    <a href="#">
+                        <span class="material-symbols-outlined">
+                            settings
+                            </span>
+                            <h3>Ajustes</h3>
+                        
+                    </a>
+
+
+                    <a href="#">
+                        <span class="material-symbols-outlined">
+                            add
+                            </span>
+                            <h3>Agregar producto</h3>
+                            
+                    </a>
+    -->
+                    <a href="#">
+                        <span class="material-symbols-outlined">
+                            logout
+                            </span>
+                            <h3>Cerrar sesión</h3>
+                            
+                    </a>
+                </div>
+            </aside>  
+                <!--Find de apartado del menu--> 
+    <main>
+        <h1>Gráfica de pulsos</h1>
+        <!--
+        <div class="date">
+            <input type="date">
+        </div>-->
+
+        <div class="insights">
+            <div class="sales">
+               <!-- <span class="material-symbols-outlined">analytics</span>-->
+                <div class="middle">
+                    <div class="left">
+                        <!--Aqui viene el horario o citas-->
+                        <div class="wrapper">
+                            <header>
+                                <h2 class="current-date">Abril 2024</h2>
+                                <div class="icons">
+                                    <span class="material-symbols-rounded">chevron_left</span>
+                                    <span class="material-symbols-rounded">chevron_right</span>
+                                </div>
+                            </header>
+                            <div class="calendar">
+                                <ul class="weeks">
+                                    <li>Lu.</li>
+                                    <li>Ma.</li>
+                                    <li>Mi.</li>
+                                    <li>Ju.</li>
+                                    <li>Vi.</li>
+                                    <li>Sa.</li>
+                                    <li>Do.</li>
+                                </ul>
+                                <ul class="days">
+                                    <li class="inactive">31</li>
+                                    <li >1</li>
+                                    <li>2</li>
+                                    <li>3</li>
+                                    <li>4</li>
+                                    <li>5</li>
+                                    <li>6</li>
+                                    <li>7</li>
+                                    <li>8</li>
+                                    <li>9</li>
+                                    <li>10</li>
+                                    <li>11</li>
+                                    <li>12</li>
+                                    <li>13</li>
+                                    <li>14</li>
+                                    <li>15</li>
+                                    <li>16</li>
+                                    <li>17</li>
+                                    <li class="active">18</li>
+                                    <li>19</li>
+                                    <li>20</li>
+                                    <li>21</li>
+                                    <li>22</li>
+                                    <li>23</li>
+                                    <li>24</li>
+                                    <li>25</li>
+                                    <li>26</li>
+                                    <li>27</li>
+                                    <li>28</li>
+                                    <li>29</li>
+                                    <li>30</li>
+                                    <li class="inactive">1</li>
+                                    <li class="inactive">2</li>
+                                    <li class="inactive">3</li>
+                                    <li class="inactive">4</li>
+                                </ul>
+                            </div>
+                        </div>
+                       
+                </div>
+                <!--<small class="text-muted">Last 24 hours</small>-->
+            </div>
+        </div>
+            <!-- Ende of sales
+            <div class="expenses">
+                <span class="material-symbols-outlined">bar_chart</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Total expenses</h3>
+                        <h1>$14,203</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx='38' cy='38' r='36'></circle>
+                        </svg>
+                        <div class="number">
+                            <p>62%</p>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted">Last 24 hours</small>
+            </div>-->
+            <!-- Ende of expenses
+            <div class="income">
+                <span class="material-symbols-outlined">show_chart</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Total income</h3>
+                        <h1>$10,024</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx='38' cy='38' r='36'></circle>
+                        </svg>
+                        <div class="number">
+                            <p>44%</p>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted">Last 24 hours</small>
+            </div>-->
+            <!-- Ende of income-->
+        </div>
+        <!--termina las tarjetas-->
+        <!--
+        <div class="recent-order">
+            <h2>Orden reciente</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre de producto</th>
+                        <th>Numero de producto</th>
+                        <th>Pagos</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="#">Mostrar todo</a>
+        </div>-->
+     </main> 
+     <!-- termina el main-->
+
+     <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+               
+                <div class="theme-toggler">
+                    <span class="material-symbols-outlined active">light_mode</span>
+                    <span class="material-symbols-outlined">dark_mode</span>
+                </div>
+
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey,</p> <b>Daniel</b>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="../static/images/logo.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- final del top-->
+            <div class="recent-updates">
+                <h2>Recent updates</h2>
+                    <div class="updates">
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img src="../static/images/logo.png" alt="">
+                            </div>  
+                            <div class="message">
+                                <p><b>1Javier Flores </b>solicito acceso</p>
+                                <small class="text-muted">Hace 2 minutos</small>
+                            </div>
+                        </div> 
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img src="../static/images/logo.png" alt="">
+                            </div>  
+                            <div class="message">
+                                <p><b>2Javier Flores </b>solicito acceso</p>
+                                <small class="text-muted">Hace 2 minutos</small>
+                            </div>
+                        </div> 
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img src="../static/images/logo.png" alt="">
+                            </div>  
+                            <div class="message">
+                                <p><b>3Javier Flores </b>solicito acceso</p>
+                                <small class="text-muted">Hace 2 minutos</small>
+                            </div>
+                        </div> 
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img src="../static/images/logo.png" alt="">
+                            </div>  
+                            <div class="message">
+                                <p><b>4Javier Flores  </b>solicito acceso</p>
+                                <small class="text-muted">Hace 2 minutos</small>
+                            </div>
+                        </div>   
+                    </div>
+            </div>
+            <!-- fin de la parte de actualizaciones recientes -->
+            <!-- parte derecha inferior sobre los productos
+            <div class="sales-analytics">
+                <h2>Sales analytics</h2>
+                <div class="item online">
+                        <div class="icon">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                        </div>
+                    <div class="right">
+                            <div class="info">
+                                <h3>online orders</h3>
+                                <small class="text-muted">Last 24 hours</small>
+                            </div>
+                            <h5 class="success">+39%</h5>
+                            <h3>3849</h3>
+                    </div>
+                </div>
+                <div class="item offline">
+                        <div class="icon">
+                        <span class="material-symbols-outlined">local_mall</span>
+                        </div>
+                    <div class="right">
+                            <div class="info">
+                                <h3>offline orders</h3>
+                                <small class="text-muted">Last 24 hours</small>
+                            </div>
+                            <h5 class="danger">-17%</h5>
+                            <h3>1100</h3>
+                    </div>
+                </div>
+                <div class="item customers">
+                        <div class="icon">
+                        <span class="material-symbols-outlined">person</span>
+                        </div>
+                    <div class="right">
+                            <div class="info">
+                                <h3>new customers</h3>
+                                <small class="text-muted">Last 24 hours</small>
+                            </div>
+                            <h5 class="success">+39%</h5>
+                            <h3>849</h3>
+                    </div>
+                </div>
+                <div class="item add-product">
+                    <div>
+                        <span class="material-symbols-outlined">add</span>
+                        <h3>add product</h3>
+                    </div>
+                </div>
+            </div>
+-->
+            
+        </div>
+    </div>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script>
+        var chart4Dom = document.getElementById('chart-container');
+        createChart4(chart4Dom);
+    </script>
+</body>
+</html>
