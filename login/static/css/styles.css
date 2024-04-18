@@ -6,9 +6,10 @@
   font-family: "Poppins", sans-serif;
 }
 :root {
-  --linear-grad: linear-gradient(to right, #141E30, #243B55);
+  --linear-grad: linear-gradient(to right, #243B55, #fff);
   --grad-clr1: #141E30;
   --grad-clr2: #243B55;
+  --grad-clr3: #fff;
 }
 
 main {
@@ -150,8 +151,8 @@ a {
 }
 /*Estilo para card de LOGIN*/
 .sign-in-container{
-  background-image: url("../imagenes/fondo_login.png");
-  box-shadow: 3px 8px 8px #141E30;
+  background-image: url("../imagenes/Rect\ Light.svg");
+  box-shadow: 8px 8px 8px 18px #243B55;
   border-radius: 13px;
   position: relative;
   padding: 20px;
@@ -169,18 +170,26 @@ form{
   padding: 0px 50px;
 }
 .title-sign{
-  color: var(--grad-clr1);
+  color: var(--grad-clr3);
   margin: 10px;
 }
 
 .login_span{
   margin: 10px;
+  color: #fff;
 }
 
 .infield{
   position: relative;
   margin: 8px 0px;
   width: 100%;
+}
+.icon {
+  position: absolute;
+  left: -24px;
+  top: 45%; 
+  transform: translateY(-50%);
+  color: white;
 }
 
 input{
@@ -208,20 +217,17 @@ input:focus ~ label {
 }
 
 .sign-in-container a{
-  color: #0E2A47;
-  background-color: #ffffff96;
+  color: #fff;
   font-size: 14px;
   font-weight: 500;
   font-style: bold;
   margin: 15px 0px;
-  border-top-right-radius: 30%;
-  border-top-left-radius: 30%;
   /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3)*/
 }
 
 .sign-in-container a.forgot {
   padding-bottom: 3px;
-  border-bottom: 2px solid #0E2A47;
+  border-bottom: 2px solid #fff;
 }
 
 .btn-2 {
@@ -237,7 +243,7 @@ input:focus ~ label {
   margin: 10px auto; /* Centra el botón horizontalmente y añade espacio en los márgenes superior e inferior */
 }
 .btn-2:last-child {
-  border: 2px solid var(--grad-clr2);
+  border: 2px solid var(--grad-clr3);
   background: var(--grad-clr2);
   color: #fff;
 }
@@ -438,14 +444,11 @@ hr {
     color: #243B55;
   }
   .sign-in-container a{
-    color: #0E2A47;
-    background-color: #ffffff96;
+    color: #fff;
     font-size: 11px;
     font-weight: 500;
     font-style: bold;
     margin: 15px 0px;
-    border-top-right-radius: 30%;
-    border-top-left-radius: 30%;
     /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3)*/
   }
 }

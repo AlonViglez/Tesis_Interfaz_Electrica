@@ -51,9 +51,24 @@ def registrar(request):
             usuario.save()
             #Guardar datos y redirigir a la pagina logueada
             #return render(request, 'logueado.html', {'usuario': usuario})
-            return redirect("logueado")
+            return redirect("home")
     else:
         form = UsuarioForm()
+    return render(request, 'iniciar_sesion.html', {'form': form})
+
+#Registro maestro
+def registrarMaestro(request): 
+    if request.method == 'POST':
+        form = MaestroForm(request.POST)
+        if form.is_valid():
+            usuario = form.save(commit=False)
+            usuario.password = make_password(form.cleaned_data['password'])  # Hashear la contraseña algoritmo PBKDF2 (Password-Based Key Derivation Function 2) apuntado al diccionario de datos cleaned_data
+            usuario.save()
+            #Guardar datos y redirigir a la pagina logueada
+            #return render(request, 'logueado.html', {'usuario': usuario})
+            return redirect("home")
+    else:
+        form = MaestroForm()
     return render(request, 'iniciar_sesion.html', {'form': form})
 
 #Autenticacion alumno
@@ -74,7 +89,8 @@ def autenticacion(request):
         except Usuario.DoesNotExist:
             print("Usuario no encontrado.")
             # Devolver el formulario con los datos del usuario
-            return render(request, 'home.html', {'email': email, 'error_message': 'Usuario no encontrado'})
+            return autenticacionMaestro(request)
+            #return render(request, 'home.html', {'email': email, 'error_message': 'Usuario no encontrado'})
     else:
         # Si no es una solicitud POST, simplemente devolver el formulario
         return redirect("home")
@@ -101,7 +117,8 @@ def autenticacionMaestro(request):
     else:
         # Si no es una solicitud POST, simplemente devolver el formulario
         return redirect("home")
-    
+
+#Logueo del alumno  
 def logueado(request):
     if 'usuario_id' in request.session:
         usuario_id = request.session['usuario_id']
@@ -109,10 +126,17 @@ def logueado(request):
             usuario = Usuario.objects.get(id=usuario_id)
             return render(request, 'logueado.html', {'usuario': usuario})
         except Usuario.DoesNotExist:
-            # El usuario no existe en la base de datos, eliminar la sesión y redirigir al home
-            del request.session['usuario_id']
+            # El usuario alumno no existe en la base de datos
+            try:
+                #Buscar si es un usuario Maestro
+                usuario = Maestro.objects.get(id=usuario_id)
+                return render(request, 'logueado.html', {'usuario': usuario})
+            except Maestro.DoesNotExist:
+                # El usuario no existe en la base de datos, eliminar la sesión y redirigir al home
+                del request.session['usuario_id']
     return redirect('home')
 
+#Cerrar sesion
 def logout_view(request):
     logout(request)
     return redirect('home')
