@@ -34,16 +34,10 @@
               los estudiantes pueden acceder y analizar datos importantes de manera intuitiva y segura, sin temor a perder información crítica.</p>
             <div class="buttons">
               <button class="btn" onclick="scrollToServices()">Conoce más</button>
-              <!--{% if request.user.is_authenticated %}
-                <button class="btn" onclick="window.location.href='{% url 'registrar' %}'">Iniciar sesión</button>
-              {% else %}
-              <button class="btn" onclick="window.location.href='{% url 'logueado' %}'">Ver mis gráficas</button>
-              {% endif %}-->
-              <button class="btn" onclick="window.location.href='{% url 'registrar' %}'">Comenzar</button>
+              <button class="btn" onclick="window.location.href='{% url 'registrar' %}'">Registrar</button>
               </div>
           </div>
           <div class="column-2">
-            <!--<img src="{%static 'imagenes/niño.png' %}" alt="heroImg" class="hero_img" />-->
             <div class="sign-in-container">
               <form action="/autenticacion/" method="POST">
                   {% csrf_token %}

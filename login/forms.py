@@ -14,8 +14,9 @@ class UsuarioForm(forms.ModelForm):
             'nombre',
             'email',
             'password',
-            'materia',
             'numero_cuenta',
+            'grado',
+            'grupo',
         ]
         #Mensajes de error
         error_messages = {
@@ -73,16 +74,11 @@ class MaestroForm(forms.ModelForm):
             'email',
             'password',
             'materia',
-            'especialidad',
-            'numero_cuenta',
         ]
         #Mensajes de error
         error_messages = {
             'email': {
                 'unique': 'Este correo electrónico ya está registrado.',
-            },
-            'numero_cuenta': {
-                'unique': 'Este número de cuenta ya está registrado.',
             },
         }
         
@@ -93,12 +89,6 @@ class MaestroForm(forms.ModelForm):
             raise ValidationError(self.fields['email'].error_messages['unique'], code='unique')
         return email
     
-    def clean_numero_cuenta(self):
-        numero_cuenta = self.cleaned_data['numero_cuenta']
-        if Maestro.objects.filter(numero_cuenta=numero_cuenta).exists():
-            raise ValidationError(self.fields['numero_cuenta'].error_messages['unique'], code='unique')
-        return numero_cuenta
-    
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
@@ -107,9 +97,8 @@ class MaestroForm(forms.ModelForm):
             raise ValidationError('Las contraseñas no coinciden')
 
         email = cleaned_data.get('email')
-        numero_cuenta = cleaned_data.get('numero_cuenta')
-        if Maestro.objects.filter(email=email).exists() or Maestro.objects.filter(numero_cuenta=numero_cuenta).exists():
-            raise ValidationError('Este correo electrónico o número de cuenta ya están registrados')
+        if Maestro.objects.filter(email=email).exists():
+            raise ValidationError('Este correo electrónico  ya está registrado')
 
         return cleaned_data
     

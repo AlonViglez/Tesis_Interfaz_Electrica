@@ -110,7 +110,7 @@
                             
                     </a>
     -->
-                    <a href="#">
+                    <a href="{% url 'logout' %}">
                         <span class="material-symbols-outlined">
                             logout
                             </span>
@@ -246,8 +246,8 @@
 
                 <div class="profile">
                     <div class="info">
-                        <p>Hey,</p> <b>Daniel</b>
-                        <small class="text-muted">Admin</small>
+                        <p>Hola,</p> <b>{{ usuario.nombre }}</b>
+                        <small class="text-muted">Estudiante</small>
                     </div>
                     <div class="profile-photo">
                         <img src="../static/images/logo.png" alt="">
