@@ -14,7 +14,7 @@
     --color-light: #rgba(132, 139, 200, 0.18);
     --color-primary-variant: #111e88;
     --color-dark-variant: #677483;
-    --color-background: #f6f6f9;
+    --color-background: #243B55;
 
 
     --card-border-radius: 2rem;
@@ -52,7 +52,7 @@ body {
     background: var(--color-background);
     user-select: none;
     overflow-x: hidden;
-    color: var(--color-dark);
+    color: white;
 }
 
 .container{
@@ -162,7 +162,7 @@ aside .close{
 /* BARRA LATERAL */
 
 aside .sidebar{
-    background: white;
+    background: var(--color-dark);
     display: flex;
     flex-direction: column; /*menu*/
     height: 86vh;
@@ -199,7 +199,7 @@ aside .sidebar a:last-child{
 
 aside .sidebar a.active{
     background: var(--color-light);
-    color: var(--color-primary-blue); /*color de letra y fondo de cliente o principal*/
+    color: var(--color-white); /*color de letra y fondo de cliente o principal*/
     margin-left: 0;
 }
 
@@ -256,7 +256,7 @@ main .insights { /*tarjetas de dash*/
 }
 
 main .insights > div {
-    background-color: var(--color-white);
+    background-color: var(--color-dark);
     padding: var(--card-padding); /*color de las tarjetas*/
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
