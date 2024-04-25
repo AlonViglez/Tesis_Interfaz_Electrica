@@ -54,6 +54,10 @@ header .icons span:hover{
 .days li.inactive{
     color: #aaa;
 }
+.days li.active{
+    color: #fff;
+}
+
 .calendar .days li::before{
     position: absolute;
     content: "";
@@ -73,6 +77,10 @@ header .icons span:hover{
 
 .days li.active::before{
     background: #7380ec;
+}
+
+.days li.inactive {
+    color: lightgray;
 }
 
 
