@@ -47,3 +47,6 @@ def grafmedidoresM(request):
 
 def solicitudes(request):
     return check_logueado(request, 'solicitudes.html')
+
+def chart(request):
+    return check_logueado(request, 'simplechart.py')

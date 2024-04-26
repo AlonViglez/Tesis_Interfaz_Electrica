@@ -177,7 +177,7 @@ aside h3{
 
 aside .sidebar a{
     display: flex;
-    color: var(--color-info-dark);
+    color: var(--color-white);
     margin-left: 2rem;
     gap: 1rem;
     align-items: center; /*acomodo de los iconos y color*/

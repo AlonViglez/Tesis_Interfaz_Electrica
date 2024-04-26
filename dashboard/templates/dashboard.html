@@ -10,7 +10,9 @@
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Material-->
-    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script>
+    <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -131,8 +133,12 @@
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="chart-container" ></div>
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
+                      <h3>{{ chartTitle|safe }}</h3>
+                      <div id="chart-1">{{ output|safe }}</div>
+                      <div id="chart-2">{{ output_2|safe }}</div>
+                      <br/>
+                      <a href="/">Back</a> 
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
@@ -351,9 +357,6 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
-    <script>
-        var chart4Dom = document.getElementById('chart-container');
-        createChart4(chart4Dom);
-    </script>
+    
 </body>
 </html>
