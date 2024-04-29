@@ -360,7 +360,7 @@ main .recent-order h2{
 }
 
 main .recent-order table {
-    background: var(--color-white);
+    background: var(--color-dark);
     width: 100%;
     border-radius: var(--card-border-radius);
     padding: var(--card-padding);
@@ -477,7 +477,7 @@ main .recent-order a{
 }
 
 .right .recent-updates .updates {
-    background: var(--color-white);
+    background: var(--color-dark);
     padding: var(--card-padding); /*Tarjeta de la parte derecha actualizaciones*/
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow);
