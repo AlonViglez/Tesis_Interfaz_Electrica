@@ -11,8 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script>
-    <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
-    <script type="text/javascript" src="//cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script> 
+  <!-- Raphael must be included before justgage -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -132,15 +133,35 @@
             <div class="sales">
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
-                    <div class="left">
-                      <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
-                      <h3>{{ chartTitle|safe }}</h3>
-                      <div id="chart-1">{{ output|safe }}</div>
-                      <div id="chart-2">{{ output_2|safe }}</div>
-                      <br/>
-                      <a href="/">Back</a> 
+                    <div class="left" >
+                        <div id="gauge1" style="width: 135px;">
+                            <script>
+                                var gauge1 = new JustGage({
+                                    id: "gauge1", // the id of the html element
+                                    value: 10,
+                                    min: 0,
+                                    max: 100,
+                                    decimals: 2,
+                                    gaugeWidthScale: 0.6,
+                                    valueFontColor: "#FFFFFF"
+                                });
+                            </script>
+                        </div>
+                        <div id="gauge2" style="width: 135px;">
+                            <script>
+                                var gauge2 = new JustGage({
+                                    id: "gauge2", // the id of the html element
+                                    value: 50,
+                                    min: 0,
+                                    max: 100,
+                                    decimals: 2,
+                                    gaugeWidthScale: 0.6,
+                                    valueFontColor: "#FFFFFF"
+                                });
+                            </script>
+                        </div>
+                        
                 </div>
-                <small class="text-muted">Last 24 hours</small>
             </div>
         </div>
             <!-- Ende of sales-->
@@ -167,15 +188,38 @@
                 <span class="material-symbols-outlined">show_chart</span>
                 <div class="middle">
                     <div class="left">
-                        <h3>Total income</h3>
-                        <h1>$10,024</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx='38' cy='38' r='36'></circle>
-                        </svg>
-                        <div class="number">
-                            <p>44%</p>
+                        <div id="gauge3" style="width: 135px;">
+                            <script>
+                                                                var gauge3 = new JustGage({
+                                            id: "gauge3", // the id of the html element
+                                            value: 50,
+                                            min: 0,
+                                            max: 100,
+                                            decimals: 2,
+                                            gaugeWidthScale: 0.6,
+                                            valueFontColor: "#FFFFFF"
+                                        });
+
+                                // update the value randomly
+                                setInterval(() => {
+                                gauge3.refresh(Math.random() * 100);
+                                }, 500)
+
+                                
+                            </script>
+                        </div>
+                        <div id="gauge4" style="width: 135px;">
+                            <script>
+                                var gauge4= new JustGage({
+                                    id: "gauge4", // the id of the html element
+                                    value: 50,
+                                    min: 0,
+                                    max: 100,
+                                    decimals: 2,
+                                    gaugeWidthScale: 0.6,
+                                    valueFontColor: "#FFFFFF"
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -357,6 +401,7 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
+    
     
 </body>
 </html>
