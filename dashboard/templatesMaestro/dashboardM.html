@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{%static 'css/styleM.css' %}">
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="{% static 'js/echartsN.js' %}"></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -78,10 +80,9 @@
                     <a href="{% url 'solicitudes'%}">
                     
                         <span class="material-symbols-outlined">
-                            message
+                            schedule
                             </span>
-                            <h3>Solicitudes</h3>
-                            <span class="message-count">2</span> 
+                            <h3>Agendar</h3>
                             
                     </a>
      <!--
@@ -123,17 +124,34 @@
                 <!--Find de apartado del menu--> 
                 <main>
         <h1>Dashboard</h1>
-        <div class="date">
-            <input type="date">
-        </div>
+
 
         <div class="insights">
             <div class="sales">
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="chart-container" style="width: 800px; height: 400px;"></div>
-                      <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
+                        <div id="pulsochart" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
+                        <div id="gauge3" style="width: 135px;">
+                            <script>
+                                                                var gauge3 = new JustGage({
+                                            id: "gauge3", // the id of the html element
+                                            value: 50,
+                                            min: 0,
+                                            max: 100,
+                                            decimals: 2,
+                                            gaugeWidthScale: 0.6,
+                                            valueFontColor: "#FFFFFF"
+                                        });
+
+                                // update the value randomly
+                                setInterval(() => {
+                                gauge3.refresh(Math.random() * 100);
+                                }, 500)
+
+                                
+                            </script>
+                        </div>
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
@@ -353,8 +371,9 @@
     </div>
     <script src="{% static 'js/index.js' %}"></script>
     <script>
-        var chart4Dom = document.getElementById('chart-container');
-        createChart4(chart4Dom);
+        document.addEventListener('DOMContentLoaded', function () {
+            createStepLineChart(document.getElementById('pulsochart')); // Llamar a la función con el contenedor de la gráfica
+        });
     </script>
 </body>
 </html>

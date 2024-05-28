@@ -35,6 +35,7 @@ header .icons span:hover{
 
 .calendar .days{
     margin-bottom: 20px;
+    color: black;
 }
 .calendar .weeks li{
     font-weight: 500;

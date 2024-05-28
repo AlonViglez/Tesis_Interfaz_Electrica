@@ -8,9 +8,14 @@
 
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
     <script src="{% static 'js/chartlight.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="{% static 'js/echarts.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Material-->
-    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script>
+  <!-- Raphael must be included before justgage -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -80,7 +85,7 @@
                         <span class="material-symbols-outlined">
                             schedule
                             </span>
-                            <h3>Agendar</h3>
+                            <h3>Agenda</h3>
                             
                     </a>
      <!--
@@ -122,19 +127,41 @@
                 <!--Find de apartado del menu--> 
                 <main>
         <h1>Dashboard</h1>
-        <div class="date">
-            <input type="date">
-        </div>
+       
 
         <div class="insights">
             <div class="sales">
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
-                    <div class="left">
-                        <div id="chart-container" ></div>
-                      <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
+                    <div class="left" >
+                        <div id="gauge1" style="width: 135px;">
+                            <script>
+                                var gauge1 = new JustGage({
+                                    id: "gauge1", // the id of the html element
+                                    value: 10,
+                                    min: 0,
+                                    max: 100,
+                                    decimals: 2,
+                                    gaugeWidthScale: 0.6,
+                                    valueFontColor: "#FFFFFF"
+                                });
+                            </script>
+                        </div>
+                        <div id="gauge2" style="width: 135px;">
+                            <script>
+                                var gauge2 = new JustGage({
+                                    id: "gauge2", // the id of the html element
+                                    value: 50,
+                                    min: 0,
+                                    max: 100,
+                                    decimals: 2,
+                                    gaugeWidthScale: 0.6,
+                                    valueFontColor: "#FFFFFF"
+                                });
+                            </script>
+                        </div>
+                        
                 </div>
-                <small class="text-muted">Last 24 hours</small>
             </div>
         </div>
             <!-- Ende of sales-->
@@ -161,15 +188,39 @@
                 <span class="material-symbols-outlined">show_chart</span>
                 <div class="middle">
                     <div class="left">
-                        <h3>Total income</h3>
-                        <h1>$10,024</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx='38' cy='38' r='36'></circle>
-                        </svg>
-                        <div class="number">
-                            <p>44%</p>
+                        <div id="pulsochart" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
+                        <div id="gauge3" style="width: 135px;">
+                            <script>
+                                                                var gauge3 = new JustGage({
+                                            id: "gauge3", // the id of the html element
+                                            value: 50,
+                                            min: 0,
+                                            max: 100,
+                                            decimals: 2,
+                                            gaugeWidthScale: 0.6,
+                                            valueFontColor: "#FFFFFF"
+                                        });
+
+                                // update the value randomly
+                                setInterval(() => {
+                                gauge3.refresh(Math.random() * 100);
+                                }, 500)
+
+                                
+                            </script>
+                        </div>
+                        <div id="gauge4" style="width: 135px;">
+                            <script>
+                                var gauge4= new JustGage({
+                                    id: "gauge4", // the id of the html element
+                                    value: 50,
+                                    min: 0,
+                                    max: 100,
+                                    decimals: 2,
+                                    gaugeWidthScale: 0.6,
+                                    valueFontColor: "#FFFFFF"
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -238,12 +289,12 @@
                 <button id="menu-btn">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
-               
+                <!--
                 <div class="theme-toggler">
                     <span class="material-symbols-outlined active">light_mode</span>
                     <span class="material-symbols-outlined">dark_mode</span>
                 </div>
-
+            -->
                 <div class="profile">
                     <div class="info">
                         <p>Hola,</p> <b>{{ usuario.nombre }}</b>
@@ -351,9 +402,11 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
+
     <script>
-        var chart4Dom = document.getElementById('chart-container');
-        createChart4(chart4Dom);
+        document.addEventListener('DOMContentLoaded', function () {
+            createStepLineChart(document.getElementById('pulsochart')); // Llamar a la función con el contenedor de la gráfica
+        });
     </script>
 </body>
 </html>
