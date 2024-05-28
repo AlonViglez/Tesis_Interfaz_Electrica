@@ -62,7 +62,7 @@ def solicitudes(request):
     return check_logueado_Maestro(request, 'solicitudes.html')
 
 #Código para ARDUINO NANO, sensor LM35 
-ser = serial.Serial('COM7', 9600)
+'''ser = serial.Serial('COM7', 9600)
 
 def extract_temperature(line):
     # Utiliza una expresión regular para buscar el número flotante que representa la temperatura
@@ -101,3 +101,4 @@ def chart_data(request):
     
     # Si hay un error o no se puede abrir el puerto serial, se envía un valor de temperatura y voltaje nulos
     return JsonResponse({"time": "", "temperature": None, "voltage": None})
+'''

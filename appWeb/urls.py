@@ -29,7 +29,7 @@ urlpatterns = [
     path('dashboardbarraM/', dashboard_views.grafbarraM, name='grafbarraM'),
     path('dashboardmedidoresM/', dashboard_views.grafmedidoresM, name='grafmedidoresM'),
     path('solicitudes/', dashboard_views.solicitudes, name='solicitudes'),
-    path('chart-data/', dashboard_views.chart_data, name='chart-data'),
+    #path('chart-data/', dashboard_views.chart_data, name='chart-data'),
 ]
 
 
