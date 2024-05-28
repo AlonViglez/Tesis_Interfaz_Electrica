@@ -39,7 +39,14 @@
     list-style: none;
     box-sizing: border-box;
 }
-
+#chart-container{
+    width: 800px; height: 400px;
+}
+#pulsochart {
+    width: 800px;
+    height: 400px;
+    background-color: transparent;
+}
 html{
     font-size: 14px;
 }
@@ -104,6 +111,14 @@ small{
     border-radius: 50%;
     overflow: hidden;
 }
+
+.profile-photos{
+    width: 5.8rem;
+    height: 5.8rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 
 .text-muted{
     color: var(--color-info-dark);
@@ -623,7 +638,9 @@ main .recent-order a{
         width: 100%;
         grid-template-columns: 1fr;
     }
-
+    #chart-container{
+        width: 280px; height: 240px;
+    }
     aside {
         position: fixed;
         background: var(--color-white);

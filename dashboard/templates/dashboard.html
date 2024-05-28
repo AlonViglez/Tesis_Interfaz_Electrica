@@ -8,11 +8,13 @@
 
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
     <script src="{% static 'js/chartlight.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="{% static 'js/echarts.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script>
   <!-- Raphael must be included before justgage -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script> 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
@@ -125,9 +127,7 @@
                 <!--Find de apartado del menu--> 
                 <main>
         <h1>Dashboard</h1>
-        <div class="date">
-            <input type="date">
-        </div>
+       
 
         <div class="insights">
             <div class="sales">
@@ -188,6 +188,7 @@
                 <span class="material-symbols-outlined">show_chart</span>
                 <div class="middle">
                     <div class="left">
+                        <div id="pulsochart" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
                         <div id="gauge3" style="width: 135px;">
                             <script>
                                                                 var gauge3 = new JustGage({
@@ -401,7 +402,11 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
-    
-    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            createStepLineChart(document.getElementById('pulsochart')); // Llamar a la función con el contenedor de la gráfica
+        });
+    </script>
 </body>
 </html>
