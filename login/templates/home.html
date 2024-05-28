@@ -20,7 +20,7 @@
             <img src="{%static 'imagenes/times.svg' %}" alt="timesicon" id="menu_toggle" />
             <li><a href="{% url 'home' %}" class="nav_link">Home</a></li>
             <li><a href="#servicios" class="nav_link" onclick="event.preventDefault(); scrollToServices()">Servicios</a></li>
-            <li><a href="#contactanos" class="nav_link">Contáctanos</a></li>
+            <li><a href="#contactanos" class="nav_link" onclick="event.preventDefault(); scrollToContact()">Contáctanos</a></li>
             <li><a href="#signId" class="nav_link" onclick="event.preventDefault(); scrollToSign()">Ingresar</a></li>
           </ul>
           <img src="{%static 'imagenes/bars.svg' %}" alt="timesicon" id="menu_toggle" />
@@ -128,6 +128,11 @@
       function scrollToServices() {
         const serviciosSection = document.getElementById('linea_servicios');
         serviciosSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      //Script cambiar a contactanos animacion
+      function scrollToContact() {
+        const contactSection = document.getElementById('contactanos');
+        contactSection.scrollIntoView({ behavior: 'smooth' });
       }
       //Script para cambiar ingresar
       function scrollToSign() {
