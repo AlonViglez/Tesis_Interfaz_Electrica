@@ -12,3 +12,4 @@
 
 # Ignorar el directorio de entorno virtual (si estás utilizando virtualenv o venv)
 venv/
+*.pyc

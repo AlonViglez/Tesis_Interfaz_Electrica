@@ -1,15 +1,28 @@
 from django.shortcuts import render,redirect
 from login.models import Usuario,Maestro
 from django.http import HttpResponse
+from django.http import JsonResponse
+import serial
+import re
+import random
+import datetime
 from . forms import Maestrocitar
 #from . forms import registrarAgenda #Uso de mi formulario
 
 
-#Checar si esta logueado sino mandarlo al home
+#Checar si esta logueado el alumno sino mandarlo al home
 def check_logueado(request, template_name):
     if 'usuario_id' in request.session:
         usuario_id = request.session['usuario_id']
         usuario = Usuario.objects.get(id=usuario_id)
+        return render(request, template_name,{'usuario': usuario})
+    else:
+        return redirect('home')
+#Checar si esta logueado el maestro sino mandarlo al home
+def check_logueado_Maestro(request, template_name):
+    if 'usuario_id' in request.session:
+        usuario_id = request.session['usuario_id']
+        usuario = Maestro.objects.get(id=usuario_id)
         return render(request, template_name,{'usuario': usuario})
     else:
         return redirect('home')
@@ -43,19 +56,19 @@ def grafagendar(request):
     return check_logueado(request, 'agendar.html')
 
 def dashboardM(request):
-    return check_logueado(request, 'dashboardM.html')
+    return check_logueado_Maestro(request, 'dashboardM.html')
 
 def grafpulsoM(request):
-    return check_logueado(request, 'grafica_de_pulsoM.html')
+    return check_logueado_Maestro(request, 'grafica_de_pulsoM.html')
 
 def graflinealM(request):
-    return check_logueado(request, 'grafica_linealM.html')
+    return check_logueado_Maestro(request, 'grafica_linealM.html')
 
 def grafbarraM(request):
-    return check_logueado(request, 'grafbarraM.html')
+    return check_logueado_Maestro(request, 'grafbarraM.html')
 
 def grafmedidoresM(request):
-    return check_logueado(request, 'grafmedidoresM.html')
+    return check_logueado_Maestro(request, 'grafmedidoresM.html')
 
 def solicitudes(request):
     return check_logueado(request, 'solicitudes.html')

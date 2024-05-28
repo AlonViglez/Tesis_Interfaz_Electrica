@@ -47,6 +47,9 @@
                 <div class="input-container password">
                     <label for="reppassword">Repetir contraseña</label>
                     <input id="reppassword" name="reppassword" type="password" placeholder="Repetir contraseña" required>
+                    {% if form.reppassword.errors %}
+                        <span style="color: red;">{{ form.reppassword.errors }}</span>
+                    {% endif %}
                 </div>
                 <div class="input-container password">
                     <label for="numero_cuenta">Número de cuenta</label>
