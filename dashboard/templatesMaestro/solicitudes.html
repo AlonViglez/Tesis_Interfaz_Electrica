@@ -6,11 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{%static 'css/styleM.css' %}">
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <link rel="stylesheet" href="{%static 'css/styleagendar.css' %}">
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/scriptagen.js' %}" defer></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -32,7 +35,7 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                   <a href="{% url 'dashboardM'%}">
+                    <a href="{% url 'dashboardM'%}">
                         <span class="material-symbols-outlined">
                             grid_view
                             </span>
@@ -41,7 +44,7 @@
     
                 <!--3-->
         
-                    <a href="{% url 'grafpulsoM'%}" >
+                    <a  href="{% url 'grafpulsoM'%}" >
                         <span class="material-symbols-outlined">
                             graphic_eq
                             </span>
@@ -50,7 +53,7 @@
         
                 <!--4-->
         
-                <a href="{% url 'graflinealM'%}">
+                    <a href="{% url 'graflinealM'%}">
                         <span class="material-symbols-outlined">
                             show_chart
                             </span>
@@ -58,7 +61,7 @@
                     </a>
                 <!--5-->
             
-                    <a href="{% url 'grafbarraM'%}">
+                    <a  href="{% url 'grafbarraM'%}">
                         <span class="material-symbols-outlined">
                             bar_chart
                             </span>
@@ -67,7 +70,7 @@
     
                 <!--6-->
         
-                    <a href="{% url 'grafmedidoresM'%}">
+                    <a  href="{% url 'grafmedidoresM'%}">
                         <span class="material-symbols-outlined">
                             speed
                             </span>
@@ -78,10 +81,10 @@
                     <a class="active">
                     
                         <span class="material-symbols-outlined">
-                            message
+                            schedule
                             </span>
-                            <h3>Solicitudes</h3>
-                            <span class="message-count">2</span> 
+                            <h3>Agendar</h3>
+                            
                     </a>
      <!--
                     <a href="#">
@@ -110,7 +113,7 @@
                             
                     </a>
     -->
-                    <a href="{% url 'logout' %}">
+                    <a href="#">
                         <span class="material-symbols-outlined">
                             logout
                             </span>
@@ -120,24 +123,104 @@
                 </div>
             </aside>  
                 <!--Find de apartado del menu--> 
-                <main>
-        <h1>Dashboard</h1>
+    <main>
+        <h1>Realizar una agenda</h1>
+        <!--
         <div class="date">
             <input type="date">
-        </div>
+        </div>-->
 
         <div class="insights">
             <div class="sales">
-                <span class="material-symbols-outlined">analytics</span>
+               <!-- <span class="material-symbols-outlined">analytics</span>-->
                 <div class="middle">
+                    <div class="wrapper">
+                        <header>
+                            <h2  class="current-date"></h2>
+                            <div class="icons">
+                                <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                                <span id="next" class="material-symbols-rounded">chevron_right</span>
+                            </div>
+                        </header>
+                        <div class="calendar">
+                            <ul class="weeks">
+                                <li>Lu.</li>
+                                <li>Ma.</li>
+                                <li>Mi.</li>
+                                <li>Ju.</li>
+                                <li>Vi.</li>
+                                <li>Sa.</li>
+                                <li>Do.</li>
+                            </ul>
+                            <ul class="days">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                   
                     <div class="left">
-                        <div id="chart-container" style="width: 800px; height: 400px;"></div>
-                      <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
-                </div>
-                <small class="text-muted">Last 24 hours</small>
+
+                        <form action="{% url 'agendar_fecha_view' %}" method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <!-- Aqui viene el horario o citas -->
+                            <div class="input-container date1">
+                                <label for="selected-day">Día seleccionado:</label>
+                                <span id="selected-day" class="selected-day"></span>
+                            </div>
+                        
+                            <div class="input-container dateall">
+                                <label for="full-date">Fecha :</label>
+                                <span id="full-date" class="full-date"></span>
+                            </div>
+                        
+                            <div class="input-container limit">
+                                <label for="numero_cuenta">Limite de acceso</label>
+                                <input id="numero_cuenta" name="numero_cuenta" type="number" placeholder="1-42" required>
+                            </div>
+                        
+                            <div class="input-row">
+                                <div class="input-container grade">
+                                    <label for="grado">Grado</label>
+                                    <select id="grado" name="grado" required>
+                                        <option value="" disabled selected>Selecciona un grado</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                    </select>
+                                </div>
+                                <div class="input-container group">
+                                    <label for="grupo">Grupo</label>
+                                    <select id="grupo" name="grupo" required>
+                                        <option value="" disabled selected>Selecciona un grupo</option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                    </select>
+                                </div>
+                            </div>
+                        
+                            <div class="input-container clave">
+                                <label for="random-key">Clave Generada :</label>
+                                <span id="random-key" class="random-key" readonly></span>
+                            </div>
+                            <button type="button" id="generate-key">Generar clave</button>
+                            <button type="submit">Aceptar</button>
+                            <button type="reset">Cancelar</button>
+                        </form>
+                        
+                    </div>
+                <!--<small class="text-muted">Last 24 hours</small>-->
             </div>
         </div>
-            <!-- Ende of sales-->
+            <!-- Ende of sales
             <div class="expenses">
                 <span class="material-symbols-outlined">bar_chart</span>
                 <div class="middle">
@@ -155,8 +238,8 @@
                     </div>
                 </div>
                 <small class="text-muted">Last 24 hours</small>
-            </div>
-            <!-- Ende of expenses-->
+            </div>-->
+            <!-- Ende of expenses
             <div class="income">
                 <span class="material-symbols-outlined">show_chart</span>
                 <div class="middle">
@@ -174,10 +257,11 @@
                     </div>
                 </div>
                 <small class="text-muted">Last 24 hours</small>
-            </div>
+            </div>-->
             <!-- Ende of income-->
         </div>
         <!--termina las tarjetas-->
+        <!--
         <div class="recent-order">
             <h2>Orden reciente</h2>
             <table>
@@ -229,7 +313,7 @@
                 </tbody>
             </table>
             <a href="#">Mostrar todo</a>
-        </div>
+        </div>-->
      </main> 
      <!-- termina el main-->
 
@@ -238,16 +322,16 @@
                 <button id="menu-btn">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
-               
+               <!--
                 <div class="theme-toggler">
                     <span class="material-symbols-outlined active">light_mode</span>
                     <span class="material-symbols-outlined">dark_mode</span>
                 </div>
-
+-->
                 <div class="profile">
                     <div class="info">
-                        <p>Hey,</p> <b>Daniel</b>
-                        <small class="text-muted">Admin</small>
+                        <p>Hey,</p> <b>Nombre</b>
+                        <small class="text-muted">Maestro</small>
                     </div>
                     <div class="profile-photo">
                         <img src="../static/images/logo.png" alt="">
