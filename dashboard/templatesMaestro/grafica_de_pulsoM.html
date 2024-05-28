@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{%static 'css/styleM.css' %}">
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="{% static 'js/echartsN.js' %}"></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -130,7 +132,7 @@
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="chart-container" style="width: 800px; height: 400px;"></div>
+                        <div id="pulsochart" style="width: 800px; height: 400px;  background-color: transparent;"></div>
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
                 </div>
                 <small class="text-muted">Last 24 hours</small>
@@ -351,8 +353,9 @@
     </div>
     <script src="{% static 'js/index.js' %}"></script>
     <script>
-        var chart4Dom = document.getElementById('chart-container');
-        createChart4(chart4Dom);
+        document.addEventListener('DOMContentLoaded', function () {
+            createStepLineChart(document.getElementById('pulsochart')); // Llamar a la función con el contenedor de la gráfica
+        });
     </script>
 </body>
 </html>
