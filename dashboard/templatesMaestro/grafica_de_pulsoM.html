@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{%static 'css/styleM.css' %}">
+    <link rel="stylesheet" href="{%static 'css/styleM.css' %}" id="theme-link">
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
@@ -84,6 +84,14 @@
                             </span>
                             <h3>Solicitudes</h3>
                             <span class="message-count">2</span> 
+                            
+                    </a>
+                    <a class="accessibility-buttons" onclick="cambiarEstilo()">
+                    
+                        <span class="material-symbols-outlined">
+                            dark_mode
+                            </span>
+                            <h3>cambiar contraste</h3>
                             
                     </a>
      <!--
@@ -356,6 +364,38 @@
         document.addEventListener('DOMContentLoaded', function () {
             createStepLineChart(document.getElementById('pulsochart')); // Llamar a la función con el contenedor de la gráfica
         });
+    </script>
+    <script>
+        function cambiarEstilo() {
+            var link = document.getElementById('theme-link');
+            var hrefActual = link.href;
+            var urlOriginal = "{%static 'css/styleM.css' %}";
+            var urlAlternativo = "{%static 'css/style.css' %}";
+
+            if (hrefActual.includes(urlOriginal)) {
+                link.href = urlAlternativo;
+                localStorage.setItem('theme', 'alternativo');
+            } else {
+                link.href = urlOriginal;
+                localStorage.setItem('theme', 'original');
+            }
+        }
+        // Función para aplicar el estilo guardado al cargar la página
+        function aplicarEstiloGuardado() {
+            var theme = localStorage.getItem('theme');
+            var link = document.getElementById('theme-link');
+            var urlOriginal = "{%static 'css/styleM.css' %}";
+            var urlAlternativo = "{%static 'css/style.css' %}";
+
+            if (theme === 'alternativo') {
+                link.href = urlAlternativo;
+            } else {
+                link.href = urlOriginal;
+            }
+        }
+
+        // Llamar a aplicarEstiloGuardado al cargar la página
+        window.onload = aplicarEstiloGuardado;
     </script>
 </body>
 </html>

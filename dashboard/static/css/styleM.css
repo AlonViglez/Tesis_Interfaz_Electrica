@@ -44,7 +44,19 @@ html{
     font-size: 14px;
 }
 
+body.dark-mode {
+    width: 100vw;
+    height: 100vh;
+    font-family: sans-serif;
+    font-size: 1rem;
+    background: #243B55;
+    user-select: none;
+    overflow-x: hidden;
+    color: rgb(0, 0, 0);
+}
+
 body {
+    transition: background-color 1.9s ease, color 0.9s ease, border-color 0.9s ease;
     width: 100vw;
     height: 100vh;
     font-family: poppins, sans-serif;

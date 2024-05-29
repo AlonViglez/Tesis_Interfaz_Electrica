@@ -2,9 +2,9 @@ from django.shortcuts import render,redirect
 from login.models import Usuario,Maestro
 from django.http import HttpResponse
 from django.http import JsonResponse
-import serial
-import re
-import random
+#import serial
+#import re
+#import random
 import datetime
 from . forms import Maestrocitar
 #from . forms import registrarAgenda #Uso de mi formulario

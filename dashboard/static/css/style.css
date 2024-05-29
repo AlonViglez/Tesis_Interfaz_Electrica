@@ -52,6 +52,7 @@ html{
 }
 
 body {
+    transition: background-color 1.9s ease, color 0.9s ease, border-color 0.9s ease;
     width: 100vw;
     height: 100vh;
     font-family: poppins, sans-serif;
@@ -150,6 +151,7 @@ b{
 
 aside{
     height: 100vh;
+    transition: background-color 2.9s ease, color 0.9s ease, border-color 0.9s ease;
 }
 
 aside .top{
