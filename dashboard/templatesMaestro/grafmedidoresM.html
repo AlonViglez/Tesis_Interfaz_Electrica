@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{%static 'css/styleM.css' %}"  id="theme-link">
+    <link rel="stylesheet" href="{%static 'css/style.css' %}"  id="theme-link">
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
@@ -34,12 +34,12 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                    <a>
-                        <span class="material-symbols-outlined">
-                            grid_view
-                            </span>
-                            <h3>dashboard</h3>
-                    </a>
+                        <a href="{% url 'dashboardM'%}">
+                            <span class="material-symbols-outlined">
+                                grid_view
+                                </span>
+                                <h3>dashboard</h3>
+                        </a>
     
                 <!--3-->
         
@@ -86,12 +86,33 @@
                             <span class="message-count">2</span> 
                             
                     </a>
-                    <a class="accessibility-buttons" onclick="cambiarEstilo()">
+                    <span class="material-symbols-outlined">
+                        horizontal_rule
+                        </span>
+                    <a>
+                       
+                        <span class="material-symbols-outlined">
+                            accessibility_new
+                            </span>
+                            <h3>Seccion de accesibilidad</h3>     
+
+                    </a>
+       
+                    </a>
+                    <a class="accessibility-buttons" onclick="increaseTextSize()">
                     
                         <span class="material-symbols-outlined">
-                            dark_mode
+                            format_size
                             </span>
-                            <h3>cambiar contraste</h3>
+                            <h3>Aumentar el tamaño de texto</h3>
+                            
+                    </a>
+                    <a class="accessibility-buttons" onclick="decreaseTextSize()">
+                    
+                        <span class="material-symbols-outlined">
+                            format_size
+                            </span>
+                            <h3>Disminuir el tamaño de texto</h3>
                             
                     </a>
      <!--
@@ -145,7 +166,7 @@
                 <small class="text-muted">Last 24 hours</small>
             </div>
         </div>
-            <!-- Ende of sales-->
+            <!-- Ende of sales
             <div class="expenses">
                 <span class="material-symbols-outlined">bar_chart</span>
                 <div class="middle">
@@ -164,7 +185,8 @@
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
-            <!-- Ende of expenses-->
+            -->
+            <!-- Ende of expenses
             <div class="income">
                 <span class="material-symbols-outlined">show_chart</span>
                 <div class="middle">
@@ -183,6 +205,7 @@
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
+            -->
             <!-- Ende of income-->
         </div>
         <!--termina las tarjetas-->
@@ -247,10 +270,12 @@
                     <span class="material-symbols-outlined">menu</span>
                 </button>
                
+                <!--
                 <div class="theme-toggler">
                     <span class="material-symbols-outlined active">light_mode</span>
                     <span class="material-symbols-outlined">dark_mode</span>
                 </div>
+                -->
 
                 <div class="profile">
                     <div class="info">
@@ -359,9 +384,15 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/letras.js' %}"></script>
     <script>
         var chart4Dom = document.getElementById('chart-container');
         createChart4(chart4Dom);
+    </script>
+    <script>
+        var theme = localStorage.getItem('theme') || 'original';
+        var cssFile = theme === 'alternativo' ? "{%static 'css/style.css' %}" : "{%static 'css/styleM.css' %}";
+        document.write('<link rel="stylesheet" href="' + cssFile + '" id="theme-link">');
     </script>
     <script>
         function cambiarEstilo() {

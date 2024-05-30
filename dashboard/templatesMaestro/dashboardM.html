@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{%static 'css/styleM.css' %}">
+    <link rel="stylesheet" href="{%static 'css/styleM.css' %}" id="theme-link">
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-    <script src="{% static 'js/echartsN.js' %}"></script>
+    <script src="{% static 'js/echartsN.js' %}" id="theme-linkc"></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -85,6 +85,14 @@
                             <h3>Agendar</h3>
                             
                     </a>
+                    <a class="accessibility-buttons" onclick="cambiarEstilo()">
+                    
+                        <span class="material-symbols-outlined">
+                            dark_mode
+                            </span>
+                            <h3>cambiar contraste</h3>
+                            
+                    </a>
      <!--
                     <a href="#">
                         <span class="material-symbols-outlined">
@@ -156,7 +164,7 @@
                 <small class="text-muted">Last 24 hours</small>
             </div>
         </div>
-            <!-- Ende of sales-->
+            <!-- Ende of sales
             <div class="expenses">
                 <span class="material-symbols-outlined">bar_chart</span>
                 <div class="middle">
@@ -175,7 +183,8 @@
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
-            <!-- Ende of expenses-->
+            -->
+            <!-- Ende of expenses
             <div class="income">
                 <span class="material-symbols-outlined">show_chart</span>
                 <div class="middle">
@@ -194,6 +203,7 @@
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
+            -->
             <!-- Ende of income-->
         </div>
         <!--termina las tarjetas-->
@@ -257,12 +267,12 @@
                 <button id="menu-btn">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
-               
+               <!--
                 <div class="theme-toggler">
                     <span class="material-symbols-outlined active">light_mode</span>
                     <span class="material-symbols-outlined">dark_mode</span>
                 </div>
-
+                -->
                 <div class="profile">
                     <div class="info">
                         <p>Hey,</p> <b>Daniel</b>
@@ -374,6 +384,49 @@
         document.addEventListener('DOMContentLoaded', function () {
             createStepLineChart(document.getElementById('pulsochart')); // Llamar a la función con el contenedor de la gráfica
         });
+    </script>
+   <script>
+        function cambiarEstilo() {
+            var link = document.getElementById('theme-link');
+            var linkc = document.getElementById('theme-linkc');
+            var hrefActual = link.href;
+            var urlOriginal = "{% static 'css/styleM.css' %}";
+            var urlOriginalc = "{% static 'js/echartsN.css' %}";
+            var urlAlternativo = "{% static 'css/style.css' %}";
+            var urlAlternativoc = "{% static 'js/echarts.css' %}";
+
+            if (hrefActual.includes(urlOriginal)) {
+                link.href = urlAlternativo;
+                linkc.href = urlAlternativoc;
+                localStorage.setItem('theme', 'alternativo');
+            } else {
+                link.href = urlOriginal;
+                linkc.href = urlOriginalc;
+                localStorage.setItem('theme', 'original');
+            }
+        }
+
+        // Función para aplicar el estilo guardado al cargar la página
+        function aplicarEstiloGuardado() {
+            var theme = localStorage.getItem('theme');
+            var link = document.getElementById('theme-link');
+            var linkc = document.getElementById('theme-linkc');
+            var urlOriginal = "{% static 'css/styleM.css' %}";
+            var urlOriginalc = "{% static 'js/echartsN.css' %}";
+            var urlAlternativo = "{% static 'css/style.css' %}";
+            var urlAlternativoc = "{% static 'js/echarts.css' %}";
+
+            if (theme === 'alternativo') {
+                link.href = urlAlternativo;
+                linkc.href = urlAlternativoc;
+            } else {
+                link.href = urlOriginal;
+                linkc.href = urlOriginalc;
+            }
+        }
+
+        // Llamar a aplicarEstiloGuardado al cargar la página
+        window.onload = aplicarEstiloGuardado;
     </script>
 </body>
 </html>

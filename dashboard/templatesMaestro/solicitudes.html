@@ -86,12 +86,33 @@
                             <h3>Agendar</h3>
                             
                     </a>
-                    <a class="accessibility-buttons" onclick="cambiarEstilo()">
+                    <span class="material-symbols-outlined">
+                        horizontal_rule
+                        </span>
+                    <a>
+                       
+                        <span class="material-symbols-outlined">
+                            accessibility_new
+                            </span>
+                            <h3>Seccion de accesibilidad</h3>     
+
+                    </a>
+       
+                    </a>
+                    <a class="accessibility-buttons" onclick="increaseTextSize()">
                     
                         <span class="material-symbols-outlined">
-                            dark_mode
+                            format_size
                             </span>
-                            <h3>cambiar contraste</h3>
+                            <h3>Aumentar el tamaño de texto</h3>
+                            
+                    </a>
+                    <a class="accessibility-buttons" onclick="decreaseTextSize()">
+                    
+                        <span class="material-symbols-outlined">
+                            format_size
+                            </span>
+                            <h3>Disminuir el tamaño de texto</h3>
                             
                     </a>
      <!--
@@ -443,6 +464,7 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/letras.js' %}"></script>
     <script>
         var chart4Dom = document.getElementById('chart-container');
         createChart4(chart4Dom);

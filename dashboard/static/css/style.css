@@ -51,11 +51,40 @@ html{
     font-size: 14px;
 }
 
+body.large-text {
+    font-size: 15px;
+}
+
+h1.large-text{
+    font-weight: 800;
+    font-size: 2rem;
+}
+
+h2.large-text{
+    font-size: 1.8rem;
+}
+
+h3.large-text{
+    font-size: 2.1rem;
+
+}
+
+h4.large-text{
+    font-size: 1rem;
+}
+
+h5.large-text{
+    font-size: 1.3rem;
+}
+small.large-text{
+    font-size: 1.3rem;
+}
+
 body {
-    transition: background-color 1.9s ease, color 0.9s ease, border-color 0.9s ease;
+   
     width: 100vw;
     height: 100vh;
-    font-family: poppins, sans-serif;
+    font-family:monospace;
     font-size: 0.88rem;
     background: var(--color-background);
     user-select: none;
@@ -126,12 +155,13 @@ small{
 }
 
 p{
-    color: var(--color-dark-variant);
+    color: white;
 }
 
 b{
-    color: var(--color-dark);
+    color: white;
 }
+
 
 .primary{
     color: var(--color-primary);
@@ -151,7 +181,6 @@ b{
 
 aside{
     height: 100vh;
-    transition: background-color 2.9s ease, color 0.9s ease, border-color 0.9s ease;
 }
 
 aside .top{
