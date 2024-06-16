@@ -75,3 +75,68 @@ def solicitudes(request):
 
 def chart(request):
     return check_logueado(request, 'simplechart.py')
+
+# Variables globales para el puerto serial
+ser = None
+serial_available = False
+
+def connect_serial():
+    global ser, serial_available
+    try:
+        if ser is None or not ser.isOpen():
+            ser = serial.Serial('COM7', 9600)
+            serial_available = True
+    except serial.SerialException as e:
+        print(f"Error opening serial port: {e}")
+        ser = None
+        serial_available = False
+
+def disconnect_serial():
+    global ser, serial_available
+    if ser is not None and ser.isOpen():
+        try:
+            ser.close()
+        except serial.SerialException as e:
+            print(f"Error closing serial port: {e}")
+        finally:
+            ser = None
+            serial_available = False
+
+def extract_temperature(line):
+    match = re.search(r'Temperatura: (\d+\.\d+)', line)
+    if match:
+        temperature = float(match.group(1))
+        return temperature
+    return None
+
+def extract_voltage(line):
+    match = re.search(r'Voltaje: (\d+\.\d+)', line)
+    if match:
+        voltage = float(match.group(1))
+        return voltage
+    return None
+
+def chart_data(request):
+    data = {"time": "", "temperature": None, "voltage": None, "connected": serial_available}
+    if serial_available and ser.isOpen():
+        try:
+            line = ser.readline().decode('utf-8').strip()
+            temperature = extract_temperature(line)
+            voltage = extract_voltage(line)
+            if temperature is not None and voltage is not None:
+                now = datetime.datetime.now()
+                time = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+                data.update({
+                    "time": time,
+                    "temperature": temperature,
+                    "voltage": voltage
+                })
+        except Exception as e:
+            print(f"Error reading from serial port: {e}")
+            disconnect_serial()
+    return JsonResponse(data)
+
+def connect_arduino(request):
+    connect_serial()
+    return JsonResponse({"connected": serial_available})

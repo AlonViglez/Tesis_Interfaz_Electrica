@@ -132,6 +132,8 @@
                 <div class="middle">
                     <div class="left">
                         <div id="graficalineal" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
+                        <button class="btn btn-primary" onclick="toggleUpdate()">Iniciar</button>
+                        <p id="connection-status" class="mt-3"></p>
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
                 </div>
                 <small class="text-muted">Last 24 hours</small>
@@ -249,7 +251,7 @@
             -->
                 <div class="profile">
                     <div class="info">
-                        <p>Hola,</p> <b>{{ usuario.nombre }}</b>
+                        <p>Hola,</p> <b style="color: white;">{{ usuario.nombre }}</b>
                         <small class="text-muted">Estudiante</small>
                     </div>
                     <div class="profile-photo">
