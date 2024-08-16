@@ -10,7 +10,6 @@
     <script src="{% static 'js/chartlight.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-    <script src="{% static 'js/echarts.js' %}"></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -356,10 +355,11 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
-    <script>
+    <!--script>
         document.addEventListener('DOMContentLoaded', function () {
             createLineChart(document.getElementById('graficalineal')); // Llamar a la función con el contenedor de la gráfica de líneas
         });
-    </script>
+    </script-->
+    <script src="{% static 'js/pruebaEcharts.js' %}"></script>
 </body>
 </html>

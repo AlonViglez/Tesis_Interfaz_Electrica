@@ -84,7 +84,7 @@ def connect_serial():
     global ser, serial_available
     try:
         if ser is None or not ser.isOpen():
-            ser = serial.Serial('COM7', 9600)
+            ser = serial.Serial('COM5', 9600)
             serial_available = True
     except serial.SerialException as e:
         print(f"Error opening serial port: {e}")
