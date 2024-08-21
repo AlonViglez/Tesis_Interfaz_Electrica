@@ -139,15 +139,15 @@
             </div>
             <!-- final del top-->
             <div class="recent-updates">
-                <h2>Recent updates</h2>
+                <h2>Medidores</h2>
                     <div class="updates">
                         <div class="message">
-                            <p>Medidor de voltajes</p>
+                            <p>Voltajes</p>
                             
                         </div>
                         <div class="update">
                            
-                            <div class="profile-photos" id="gauge3" >
+                            <div class="profile-photos" id="gauge3" style="width: 85px;">
                                     <script>
                                                     var gauge3 = new JustGage({
                                                     id: "gauge3", // the id of the html element
@@ -170,31 +170,34 @@
                             
                         </div> 
                         <div class="message">
-                            <p>Medidor de tiempo</p>
+                            <p>Tiempo por grafica</p>
+                            
                         </div>
                         <div class="update">
                             
-                            <div class="profile-photo" id="gauge4">
+                            <div class="profile-photo" id="gauge4" style="width: 85px;">
                                 <script>
-                                    var gauge4 = new JustGage({
-                                    id: "gauge4", // the id of the html element
-                                    value: 50,
-                                    min: 0,
-                                    max: 100,
-                                    decimals: 2,
-                                    gaugeWidthScale: 0.6,
-                                    valueFontColor: "#FFFFFF"
-                                });
-    
-                        // update the value randomly
-                        setInterval(() => {
-                        gauge4.refresh(Math.random() * 100);
-                        }, 500)
-                    </script>
+                                            var gauge4 = new JustGage({
+                                            id: "gauge4", // the id of the html element
+                                            value: 50,
+                                            min: 0,
+                                            max: 100,
+                                            decimals: 2,
+                                            gaugeWidthScale: 0.6,
+                                            valueFontColor: "#FFFFFF"
+                                        });
+            
+                                            // update the value randomly
+                                            setInterval(() => {
+                                            gauge4.refresh(Math.random() * 100);
+                                            }, 500)
+                                </script>
                             </div>  
                             
                         </div> 
                        
+                        
+
                     </div>
             </div>
                

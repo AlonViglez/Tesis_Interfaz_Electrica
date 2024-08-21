@@ -12,6 +12,8 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <script src="{% static 'js/echarts.js' %}"></script>
     <!-- Material-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
@@ -135,44 +137,34 @@
             </div>
             <!-- final del top-->
             <div class="recent-updates">
-                <h2>Recent updates</h2>
+                <h2>Medidores</h2>
                     <div class="updates">
+                        <div class="message">
+                            <p>Medidor de tiempo</p>
+                        </div>
                         <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
+                            
+                            <div class="profile-photo" id="gauge4" style="width: 85px;">
+                                <script>
+                                            var gauge4 = new JustGage({
+                                            id: "gauge4", // the id of the html element
+                                            value: 50,
+                                            min: 0,
+                                            max: 100,
+                                            decimals: 2,
+                                            gaugeWidthScale: 0.6,
+                                            valueFontColor: "#FFFFFF"
+                                        });
+            
+                                            // update the value randomly
+                                            setInterval(() => {
+                                            gauge4.refresh(Math.random() * 100);
+                                            }, 500)
+                                </script>
                             </div>  
-                            <div class="message">
-                                <p><b>1Javier Flores </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
+                            
                         </div> 
-                        <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
-                            </div>  
-                            <div class="message">
-                                <p><b>2Javier Flores </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
-                        </div> 
-                        <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
-                            </div>  
-                            <div class="message">
-                                <p><b>3Javier Flores </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
-                        </div> 
-                        <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
-                            </div>  
-                            <div class="message">
-                                <p><b>4Javier Flores  </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
-                        </div>   
+                        
                     </div>
             </div>
             
