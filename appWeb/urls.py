@@ -30,6 +30,7 @@ urlpatterns = [
     path('dashboardmedidoresM/', dashboard_views.grafmedidoresM, name='grafmedidoresM'),
     path('solicitudes/', dashboard_views.solicitudes, name='solicitudes'),
     path('agendar_fecha_view/', dashboard_views.agendar_fecha_view, name='agendar_fecha_view'),
+    path('dashboardhistorial/', dashboard_views.historial_view, name='historial_view'),
     path('chart-data/', dashboard_views.chart_data, name='chart-data'),
     path('connect-arduino/', dashboard_views.connect_arduino, name='connect_arduino'),
 ]

@@ -64,12 +64,12 @@
                     </a>
                 <!--5-->
             
-                    <a  class="active">
-                        <span class="material-symbols-outlined">
-                            bar_chart
-                            </span>
-                            <h3>Gráfica de barra</h3>
-                    </a>
+                <a href="{% url 'grafbarra'%}">
+                    <span class="material-symbols-outlined">
+                        bar_chart
+                        </span>
+                        <h3>Gráfica de barra</h3>
+                </a>
     
                 <!--6-->
         
@@ -81,13 +81,11 @@
                            <!--mensajes de notificacion <span class="message-count">2</span>-->
                     </a>
 
-                    <a href="{% url 'historial_view'%}">
-                    
+                    <a  class="active">
                         <span class="material-symbols-outlined">
-                            schedule
+                            bar_chart
                             </span>
-                            <h3>Historial de gráficas</h3>
-                            
+                            <h3>Historial de datos</h3>
                     </a>
         
                     <a href="{% url 'grafagendar'%}">

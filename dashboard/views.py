@@ -73,6 +73,9 @@ def grafmedidoresM(request):
 def solicitudes(request):
     return check_logueado(request, 'solicitudes.html')
 
+def historial_view(request):
+    return check_logueado_Maestro(request, 'historial_graficas.html')
+
 def chart(request):
     return check_logueado(request, 'simplechart.py')
 
