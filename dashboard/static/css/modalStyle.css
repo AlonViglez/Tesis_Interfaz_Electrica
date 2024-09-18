@@ -1,0 +1,82 @@
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Fijo en la pantalla */
+  z-index: 1000; /* Encima de los elementos */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo con opacidad */
+  backdrop-filter: blur(5px); /* Desenfoque del fondo */
+}
+
+/* Estilo del contenido del modal */
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto; /* Centrado en la pantalla */
+  padding: 20px;
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  width: 80%; /* Ancho del modal */
+  max-width: 500px; /* Máximo ancho del modal */
+  display: flex;
+  flex-direction: column; /* Organiza el contenido en columna */
+  align-items: center; /* Centra el contenido horizontalmente */
+}
+
+/* Estilo del texto del modal */
+.modal-content p {
+  font-size: 18px; /* Tamaño de fuente más grande */
+  font-weight: bold; /* Texto en negritas */
+  color: #333; /* Color del texto */
+  margin: 0;
+  padding: 0;
+  text-align: center; /* Alinear texto al centro */
+  margin-bottom: 20px; /* Espacio abajo del texto */
+}
+
+/* Estilo del botón de cerrar */
+.close {
+  color: #555;
+  font-size: 24px;
+  font-weight: bold;
+  transition: color 0.3s; /* Transición suave del color */
+  cursor: pointer;
+  align-self: flex-end; /* Alinea el botón de cerrar al final */
+}
+
+.close:hover,
+.close:focus {
+  color: #ff4d4d; /* Color de cierre en hover/focus */
+  text-decoration: none;
+}
+
+/* Contenedor para los botones */
+.modal-buttons {
+  display: flex;
+  justify-content: center; /* Centra los botones horizontalmente */
+  margin-top: 20px; /* Espacio arriba de los botones */
+}
+
+/* Estilo de los botones dentro del modal */
+.modal-buttons button {
+  background-color: #32a5da; /* Color de fondo */
+  color: #fff; /* Color del texto */
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin: 0 10px; /* Espacio entre botones */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
+}
+
+.modal-buttons button:hover {
+  background-color: #0056b3; /* Color en hover */
+  transform: scale(1.05); /* Efecto de aumento en hover */
+}
+
+.modal-buttons button:focus {
+  outline: none; /* Eliminar el contorno en foco */
+}

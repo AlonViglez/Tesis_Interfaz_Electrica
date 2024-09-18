@@ -26,6 +26,10 @@
     --padding-1: 1.2rem;
 
     --box-shadow: 0 2rem 3rem var(--color-light);
+    --linear-grad: linear-gradient(to right, #314255, #fff, #314255);
+    --grad-clr1: #141E30;
+    --grad-clr2: #243B55;
+    --grad-clr3: #fff;
 }
 
 
@@ -390,8 +394,13 @@ main .recent-order table:hover {
 
 main table tbody td{
     height: 2.8rem; /*ancho de cada fila tabla*/
-    border-bottom: 1px solid var(--color-dark);/*linea de tabla*/
-    color: var(--color-dark-variant);/*color linea tabla*/
+    border-bottom: 1px solid #fff;/*linea de tabla*/
+    color: #fff/*color linea tabla*/
+}
+
+main table thead th{
+    color: #3445ff; /*color linea tabla*/
+    font-size: 18px; 
 }
 
 main table tbody tr:last-child td{
@@ -578,7 +587,34 @@ main .recent-order a{
 .right .sales-analytics .add-product div h3{
     font-weight: 700; /*grosor de la letra*/
 }
+/* Estilo para botón de iniciar el arduino*/
+#toggle-btn {
+    background: var(--linear-grad); /* Fondo con degradado */
+    color: #141E30; /* Texto blanco */
+    padding: 12px 25px; /* Tamaño del botón */
+    font-size: 18px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negritas */
+    border: none; /* Sin bordes */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor a pointer */
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar efecto de elevación */
+}
 
+#toggle-btn:hover {
+    background: var(--grad-clr2); /* Cambia el fondo a un color sólido al pasar el mouse */
+    color: #fff;
+}
+
+#toggle-btn:active {
+    background: var(--grad-clr1); /* Cambia el fondo al hacer clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce la sombra al hacer clic */
+}
+
+#toggle-btn:disabled {
+    background-color: #cccccc; /* Color gris cuando está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor cuando está deshabilitado */
+}
 /*tamaño para tablets*/
 
 @media  screen and (max-width: 1200px) {
@@ -735,3 +771,4 @@ main .recent-order a{
     }
 
 }
+

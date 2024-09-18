@@ -36,7 +36,7 @@
                         <span class="material-symbols-outlined">
                             grid_view
                             </span>
-                            <h3>asdfghjklkjhg</h3>
+                            <h3>dashboard</h3>
                     </a>
     
                 <!--3-->
@@ -73,6 +73,15 @@
                             </span>
                             <h3>Gráfica de medidores</h3>
                            <!--mensajes de notificacion <span class="message-count">2</span>-->
+                    </a>
+
+                    <a href="{% url 'historial_view'%}">
+                    
+                        <span class="material-symbols-outlined">
+                            database
+                            </span>
+                            <h3>Historial de datos</h3>
+                            
                     </a>
         
                     <a href="{% url 'grafagendar'%}">
@@ -121,7 +130,7 @@
             </aside>  
                 <!--Find de apartado del menu--> 
                 <main>
-        <h1>Gráfica de pulsos</h1>
+        <h1>Gráfica de medidores</h1>
 
 
         <div class="insights">
@@ -181,52 +190,46 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nombre de producto</th>
-                        <th>Numero de producto</th>
-                        <th>Pagos</th>
-                        <th>Estado</th>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Voltaje</th>
+                        <th>Temperatura</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Foldable mini drone</td>
+                        <td>1</td>
                         <td>85631</td>
                         <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
+                        <td>Pendiente</td>
                     </tr>
                     <tr>
-                        <td>Foldable mini drone</td>
+                        <td>2</td>
                         <td>85631</td>
                         <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
+                        <td>Pendiente</td>
                     </tr>
                     <tr>
-                        <td>Foldable mini drone</td>
+                        <td>3</td>
                         <td>85631</td>
                         <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
+                        <td>Pendiente</td>
                     </tr>
                     <tr>
-                        <td>Foldable mini drone</td>
+                        <td>4</td>
                         <td>85631</td>
                         <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
+                        <td>Pendiente</td>
                     </tr>
                     <tr>
-                        <td>Foldable mini drone</td>
+                        <td>5</td>
                         <td>85631</td>
                         <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
+                        <td>Pendiente</td>
                     </tr>
                 </tbody>
             </table>
-            <a href="#">Mostrar todo</a>
         </div>
      </main> 
      <!-- termina el main-->

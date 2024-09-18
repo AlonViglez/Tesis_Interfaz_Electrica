@@ -41,13 +41,23 @@ var rowsPerPage = 10;
 
                             var option = {
                                 title: {
-                                    text: 'Stacked Line'
+                                    text: 'Gráfica Lineal',
+                                    top: '20px',       // Aplica un margen superior de 20px
+                                    bottom: '20px',
+                                    textStyle: {
+                                        color: '#FFFF', // Cambia el color del texto del título a blanco
+                                        fontSize: 18,     // Ajusta el tamaño de la fuente
+                                        fontWeight: 'bold'// Hace el texto en negrita
+                                    }
                                 },
                                 tooltip: {
                                     trigger: 'axis'
                                 },
                                 legend: {
-                                    data: ['Temperature', 'Voltage']
+                                    data: ['Temperature', 'Voltage'],
+                                    textStyle: {
+                                        color: '#FFFF' // Cambia el color del texto de la leyenda a rojo
+                                    }
                                 },
                                 grid: {
                                     left: '3%',
@@ -93,16 +103,41 @@ var rowsPerPage = 10;
                     });
             }
 
+            // Función para iniciar/pausar la actualización
             function toggleUpdate() {
                 if (updateInterval) {
                     clearInterval(updateInterval);
                     updateInterval = null;
                     document.querySelector('button').textContent = 'Iniciar';
                 } else {
-                    connectArduino();
+                    openModal();
                 }
             }
 
+            // Función para mostrar el modal
+            function openModal() {
+                document.getElementById('myModal').style.display = 'block';
+            }
+
+            // Función para cerrar el modal
+            function closeModal() {
+                document.getElementById('myModal').style.display = 'none';
+            }
+
+            // Función para almacenar los datos
+            function storeData() {
+                // Lógica para almacenar los datos
+                connectArduino();
+                closeModal(); // Cierra el modal
+            }
+
+            function notStoreData() {
+                // Lógica para almacenar los datos
+                connectArduino();
+                closeModal(); // Cierra el modal 
+            }
+
+           
             function connectArduino() {
                 fetch('/connect-arduino/')
                     .then(response => response.json())

@@ -83,7 +83,7 @@
 
                     <a  class="active">
                         <span class="material-symbols-outlined">
-                            bar_chart
+                            database
                             </span>
                             <h3>Historial de datos</h3>
                     </a>
@@ -134,19 +134,16 @@
             </aside>  
                 <!--Find de apartado del menu--> 
                 <main>
-        <h1>Gráfica de barra</h1>
-
-
+        <h1>Historial de datos</h1>
+        
         <div class="insights">
             <div class="sales">
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="graficabarra" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
-                        <!--<div id="bar-chart-container" style="width: 800px; height: 400px;"></div>-->
-                      <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
+    
                 </div>
-                <small class="text-muted">Last 24 hours</small>
+                <small class="text-muted"></small>
             </div>
             <div id="gauge3"></div>
             <div id="gauge4"></div>
@@ -371,10 +368,5 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            createDynamicChart(document.getElementById('graficabarra')); // Llamar a la función con el contenedor de la gráfica
-        });
-    </script>
 </body>
 </html>
