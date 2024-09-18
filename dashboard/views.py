@@ -36,9 +36,9 @@ def agendar_fecha_view(request):
     else:
         form = Maestrocitar()
     return render(request, 'agendar_fecha.html', {'form': form})
-#seccion del alumno
+#Seccion del alumno
 def dashboard(request):
-    return check_logueado(request, 'dashboard.html')
+    return check_logueado(request, 'dashboard.html') #Enviar a la funcion para checar si esta logueado (se manda el request y el html)
 
 def grafpulso(request):
     return check_logueado(request, 'grafica_de_pulso.html')
@@ -52,6 +52,7 @@ def grafbarra(request):
 def grafmedidores(request):
     return check_logueado(request, 'grafmedidores.html')
 
+#Seccion Maestros
 def grafagendar(request):
     return check_logueado(request, 'agendar.html')
 
@@ -80,66 +81,83 @@ def chart(request):
     return check_logueado(request, 'simplechart.py')
 
 # Variables globales para el puerto serial
-ser = None
-serial_available = False
+ser = None #Variable serial None para que no haya una conexion serial activa
+serial_available = False #Estado del serial en falso 
 
 def connect_serial():
-    global ser, serial_available
+    global ser, serial_available  # Variables globales ser y serial_available para permitir su modificación dentro de la función.
     try:
-        if ser is None or not ser.isOpen():
-            ser = serial.Serial('COM5', 9600)
-            serial_available = True
-    except serial.SerialException as e:
-        print(f"Error opening serial port: {e}")
-        ser = None
-        serial_available = False
+        if ser is None or not ser.isOpen():  # Verifica si no hay una conexión activa o si el puerto no está abierto.
+            ser = serial.Serial('COM5', 9600)  # Abrir una conexión en el puerto 'COM5' con una tasa de 9600 baudios.
+            serial_available = True  # Marca el estado del serial conectado con éxito.
+    except serial.SerialException as e:  #Capturar alguna excepción relacionada con el puerto.
+        print(f"Error opening serial port: {e}") 
+        ser = None  # Reinicia ser a None en caso de fallo para evitar usar una conexión errónea.
+        serial_available = False  # Marca el serial como no disponible si no se pudo conectar.
 
 def disconnect_serial():
-    global ser, serial_available
-    if ser is not None and ser.isOpen():
+    global ser, serial_available  # Nuevamente, se usan las variables globales para permitir su modificación.
+    if ser is not None and ser.isOpen():  # Verifica si el serial está conectado y abierto antes de intentar cerrarlo.
         try:
-            ser.close()
-        except serial.SerialException as e:
-            print(f"Error closing serial port: {e}")
+            ser.close()  # Intenta cerrar la conexión serial.
+        except serial.SerialException as e:  # Captura cualquier error relacionado con el cierre del puerto.
+            print(f"Error closing serial port: {e}") 
         finally:
-            ser = None
-            serial_available = False
+            ser = None  # Reinicia ser a None tras cerrar la conexión, ya sea exitoso o con error.
+            serial_available = False  # Marca el serial como no disponible tras el cierre.
 
 def extract_temperature(line):
-    match = re.search(r'Temperatura: (\d+\.\d+)', line)
-    if match:
-        temperature = float(match.group(1))
-        return temperature
-    return None
+    match = re.search(r'Temperatura: (\d+\.\d+)', line) #Busca una cadena de texto que comience con "Temperatura: " seguida de un número decimal
+    
+    if match: 
+        temperature = float(match.group(1))  # Extrae el valor numérico de la coincidencia y lo convierte a float.
+        return temperature  # Devolver el valor de temperatura
+    
+    return None  #Si no se encuentra ninguna coincidencia, devuelve None.
 
 def extract_voltage(line):
-    match = re.search(r'Voltaje: (\d+\.\d+)', line)
-    if match:
-        voltage = float(match.group(1))
-        return voltage
-    return None
+    match = re.search(r'Voltaje: (\d+\.\d+)', line) #Busca una cadena de texto que comience con "Voltaje: " seguida de un número decimal
+    
+    if match: 
+        voltage = float(match.group(1))  # Extrae el valor numérico de la coincidencia y lo convierte a float.
+        return voltage  # Devolver el valor de voltaje
+    
+    return None  # Si no se encuentra ninguna coincidencia, devuelve None.
 
 def chart_data(request):
+    #Inicializa un diccionario con datos predeterminados, incluyendo el estado de la conexión serial.
     data = {"time": "", "temperature": None, "voltage": None, "connected": serial_available}
+    #Verifica si la conexión serial está disponible y si el puerto está abierto.
     if serial_available and ser.isOpen():
         try:
+            #Lee una línea de datos desde el puerto serial, decodifica en UTF-8 y elimina los espacios en blanco.
             line = ser.readline().decode('utf-8').strip()
+
+            # Extrae la temperatura y el voltaje de la línea de datos utilizando las funciones definidas.
             temperature = extract_temperature(line)
             voltage = extract_voltage(line)
+
+            #Si existen valores válidos para temperatura y voltaje se hace lo siguiente
             if temperature is not None and voltage is not None:
+                #Obtiene la fecha y hora actuales en formato ISO 8601.
                 now = datetime.datetime.now()
                 time = now.strftime("%Y-%m-%dT%H:%M:%SZ")
 
+                #Actualiza el diccionario 'data' con los valores de tiempo, temperatura y voltaje.
                 data.update({
                     "time": time,
                     "temperature": temperature,
                     "voltage": voltage
                 })
         except Exception as e:
+            # Imprime un mensaje de error si ocurre una excepción al leer del puerto serial.
             print(f"Error reading from serial port: {e}")
+            # Desconecta el puerto serial en caso de error
             disconnect_serial()
+
+    #Devuelve los datos en formato JSON como respuesta.
     return JsonResponse(data)
 
 def connect_arduino(request):
-    connect_serial()
-    return JsonResponse({"connected": serial_available})
+    connect_serial() #Ir a la función de conectar serial
+    return JsonResponse({"connected": serial_available}) # Devuelve una respuesta JSON que indica si la conexión serial está disponible (True) o no (False).
