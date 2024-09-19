@@ -1,5 +1,6 @@
 from django.db import models
 from login.models import Maestro, Usuario  # Asegúrate de que la aplicación login esté incluida en INSTALLED_APPS
+from django.core.validators import RegexValidator
 
 class AgendarFecha(models.Model):
     id_maestro = models.ForeignKey(Maestro, on_delete=models.CASCADE)
@@ -30,4 +31,14 @@ class AgendarFecha(models.Model):
     grupo = models.CharField(max_length=1, choices=grupo_choices,default='A')
     def __str__(self):
         return f'Agenda {self.id} - Maestro: {self.id_maestro.nombre} - Usuario: {self.id_alumno.nombre}'
+
+#Almacenar datos extraídos del arduino
+class DatosAlumno(models.Model):
+    voltaje = models.FloatField()
+    temperatura = models.FloatField()
+    fecha = models.DateTimeField()
+    id_alumno = models.CharField(max_length=9, validators=[RegexValidator(r'^\d{1,10}$')])
+
+    def __str__(self):
+        return str(self.id_alumno)
 

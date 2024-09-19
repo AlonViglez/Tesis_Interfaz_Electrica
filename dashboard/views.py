@@ -7,15 +7,23 @@ import re
 import random
 import datetime
 from . forms import Maestrocitar
+from .models import DatosAlumno  # Modelo de la tabla alumnos
 #from . forms import registrarAgenda #Uso de mi formulario
 
 
 #Checar si esta logueado el alumno sino mandarlo al home
-def check_logueado(request, template_name):
+def check_logueado(request, template_name, filtrar_datos=False):
     if 'usuario_id' in request.session:
         usuario_id = request.session['usuario_id']
         usuario = Usuario.objects.get(id=usuario_id)
-        return render(request, template_name,{'usuario': usuario})
+        # Guardar numero_cuenta en la sesión que se usará para identificar quien esta guardando los datos
+        request.session['numero_cuenta'] = usuario.numero_cuenta
+        # Filtrar DatosAlumno solo si filtrar_datos es True
+        if filtrar_datos:
+            datos = DatosAlumno.objects.filter(id_alumno=usuario.numero_cuenta) #Filtrar datos del alumno por su numero de cuenta
+            return render(request, template_name, {'usuario': usuario, 'datos': datos}) #Enviar al html junto con los datos
+        
+        return render(request, template_name, {'usuario': usuario}) #Enviar al html solo los datos del usuario
     else:
         return redirect('home')
 #Checar si esta logueado el maestro sino mandarlo al home
@@ -75,7 +83,7 @@ def solicitudes(request):
     return check_logueado(request, 'solicitudes.html')
 
 def historial_view(request):
-    return check_logueado_Maestro(request, 'historial_graficas.html')
+    return check_logueado(request, 'historial_graficas.html', filtrar_datos=True)
 
 def chart(request):
     return check_logueado(request, 'simplechart.py')
@@ -125,8 +133,13 @@ def extract_voltage(line):
     return None  # Si no se encuentra ninguna coincidencia, devuelve None.
 
 def chart_data(request):
-    #Inicializa un diccionario con datos predeterminados, incluyendo el estado de la conexión serial.
-    data = {"time": "", "temperature": None, "voltage": None, "connected": serial_available}
+    #Inicializa un diccionario con datos predeterminados
+    data = {
+        "time": "",
+        "temperature": None,
+        "voltage": None,
+        "connected": serial_available
+    }
     #Verifica si la conexión serial está disponible y si el puerto está abierto.
     if serial_available and ser.isOpen():
         try:
@@ -136,25 +149,35 @@ def chart_data(request):
             # Extrae la temperatura y el voltaje de la línea de datos utilizando las funciones definidas.
             temperature = extract_temperature(line)
             voltage = extract_voltage(line)
+            
+            if 'numero_cuenta' in request.session:
+                numero_cuenta = request.session['numero_cuenta'] #Obtener el numero de cuenta del alumno
+                #Si existen valores válidos para temperatura y voltaje se hace lo siguiente
+                if temperature is not None and voltage is not None:
+                    #Obtiene la fecha y hora actuales en formato ISO 8601.
+                    now = datetime.datetime.now()
+                    time = now.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-            #Si existen valores válidos para temperatura y voltaje se hace lo siguiente
-            if temperature is not None and voltage is not None:
-                #Obtiene la fecha y hora actuales en formato ISO 8601.
-                now = datetime.datetime.now()
-                time = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+                    # Almacenar los datos en la base de datos
+                    DatosAlumno.objects.create(
+                        voltaje=voltage,
+                        temperatura=temperature,
+                        fecha=now,  
+                        id_alumno=numero_cuenta  # Guarda el numero_cuenta en el campo id_alumno
+                    )
 
-                #Actualiza el diccionario 'data' con los valores de tiempo, temperatura y voltaje.
-                data.update({
-                    "time": time,
-                    "temperature": temperature,
-                    "voltage": voltage
-                })
+                    #Actualiza el diccionario 'data' con los valores de tiempo, temperatura y voltaje.
+                    data.update({
+                        "time": time,
+                        "temperature": temperature,
+                        "voltage": voltage
+                    })
+
         except Exception as e:
             # Imprime un mensaje de error si ocurre una excepción al leer del puerto serial.
             print(f"Error reading from serial port: {e}")
             # Desconecta el puerto serial en caso de error
             disconnect_serial()
-
     #Devuelve los datos en formato JSON como respuesta.
     return JsonResponse(data)
 

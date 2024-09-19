@@ -11,7 +11,7 @@ var rowsPerPage = 10;
                 fetch('/chart-data/')
                     .then(response => response.json())
                     .then(data => {
-                        var connectionStatus = document.getElementById('connection-status');
+                        /*var connectionStatus = document.getElementById('connection-status');
                         if (data.connected) {
                             connectionStatus.textContent = 'Conectado el Arduino';
                             connectionStatus.classList.remove('text-danger');
@@ -20,7 +20,7 @@ var rowsPerPage = 10;
                             connectionStatus.textContent = 'Desconectado';
                             connectionStatus.classList.remove('text-success');
                             connectionStatus.classList.add('text-danger');
-                        }
+                        }*/
 
                         if (data.time && data.temperature !== null && data.voltage !== null) {
                             var utcDate = new Date(data.time);
@@ -137,7 +137,6 @@ var rowsPerPage = 10;
                 closeModal(); // Cierra el modal 
             }
 
-           
             function connectArduino() {
                 fetch('/connect-arduino/')
                     .then(response => response.json())

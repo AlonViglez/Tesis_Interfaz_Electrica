@@ -138,11 +138,35 @@
         
         <div class="insights">
             <div class="sales">
-                <span class="material-symbols-outlined">analytics</span>
-                <div class="middle">
+                <span class="material-symbols-outlined">database</span>
+                <div class="">
                     <div class="left">
-    
-                </div>
+                        <div class="recent-order">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Voltaje</th>
+                                        <th>Temperatura</th>
+                                        <th>Usuario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Iterar sobre los registros de DatosAlumno -->
+                                    {% for dato in datos %}
+                                    <tr>
+                                        <td>{{ dato.id }}</td>
+                                        <td>{{ dato.fecha }}</td>
+                                        <td>{{ dato.voltaje }}</td>
+                                        <td>{{ dato.temperatura }}</td>
+                                        <td>{{ dato.id_alumno }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 <small class="text-muted"></small>
             </div>
             <div id="gauge3"></div>
