@@ -157,15 +157,17 @@ def chart_data(request):
                     #Obtiene la fecha y hora actuales en formato ISO 8601.
                     now = datetime.datetime.now()
                     time = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+                    #Obtener el true o false para que se almecenen los datos
+                    store_data = request.GET.get('store', 'false').lower() in ['true', '1']
 
                     # Almacenar los datos en la base de datos
-                    DatosAlumno.objects.create(
-                        voltaje=voltage,
-                        temperatura=temperature,
-                        fecha=now,  
-                        id_alumno=numero_cuenta  # Guarda el numero_cuenta en el campo id_alumno
-                    )
-
+                    if store_data:
+                        DatosAlumno.objects.create(
+                            voltaje=voltage,
+                            temperatura=temperature,
+                            fecha=now,  
+                            id_alumno=numero_cuenta  # Guarda el numero_cuenta en el campo id_alumno
+                        )
                     #Actualiza el diccionario 'data' con los valores de tiempo, temperatura y voltaje.
                     data.update({
                         "time": time,

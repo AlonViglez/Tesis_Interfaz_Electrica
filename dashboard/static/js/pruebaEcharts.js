@@ -6,9 +6,11 @@ var tableData = [];
 var updateInterval;
 var currentPage = 1;
 var rowsPerPage = 10;
+let shouldStoreData = false;  // Variable global para controlar el almacenamiento de datos
 
             function fetchData() {
-                fetch('/chart-data/')
+                const url = `/chart-data/?store=${shouldStoreData}`;  // Envía la variable global en la URL
+                fetch(url)
                     .then(response => response.json())
                     .then(data => {
                         /*var connectionStatus = document.getElementById('connection-status');
@@ -127,12 +129,14 @@ var rowsPerPage = 10;
             // Función para almacenar los datos
             function storeData() {
                 // Lógica para almacenar los datos
+                shouldStoreData = true;  // Establece la variable global a true
                 connectArduino();
                 closeModal(); // Cierra el modal
             }
 
             function notStoreData() {
                 // Lógica para almacenar los datos
+                shouldStoreData = false;  // Establece la variable global a false
                 connectArduino();
                 closeModal(); // Cierra el modal 
             }
