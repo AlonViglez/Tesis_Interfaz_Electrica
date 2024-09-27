@@ -21,7 +21,7 @@ def check_logueado(request, template_name, filtrar_datos=False):
         # Filtrar DatosAlumno solo si filtrar_datos es True
         if filtrar_datos:
             datos = DatosAlumno.objects.filter(id_alumno=usuario.numero_cuenta) #Filtrar datos del alumno por su numero de cuenta
-            return render(request, template_name, {'usuario': usuario, 'datos': datos}) #Enviar al html junto con los datos
+            return render(request, template_name, {'usuario': usuario, 'datos': datos}) #Enviar al html junto con ambos datos
         
         return render(request, template_name, {'usuario': usuario}) #Enviar al html solo los datos del usuario
     else:
@@ -92,6 +92,10 @@ def chart(request):
 ser = None #Variable serial None para que no haya una conexion serial activa
 serial_available = False #Estado del serial en falso 
 
+# Variables globales para almacenar temporalmente los datos
+last_temperature = None
+last_voltage = None
+
 def connect_serial():
     global ser, serial_available  # Variables globales ser y serial_available para permitir su modificación dentro de la función.
     try:
@@ -132,12 +136,20 @@ def extract_voltage(line):
     
     return None  # Si no se encuentra ninguna coincidencia, devuelve None.
 
+def extract_humidity(line):
+    match = re.search(r'Humedad: (\d+\.\d+)', line)  # Buscar la humedad en la línea
+    if match:
+        return float(match.group(1))
+    return None
+
 def chart_data(request):
-    #Inicializa un diccionario con datos predeterminados
+    global last_temperature, last_voltage  # Usar variables globales para almacenar temporalmente
+    #Inicializar un diccionario con datos predeterminados
     data = {
         "time": "",
         "temperature": None,
         "voltage": None,
+        "humidity": None,
         "connected": serial_available
     }
     #Verifica si la conexión serial está disponible y si el puerto está abierto.
@@ -149,31 +161,43 @@ def chart_data(request):
             # Extrae la temperatura y el voltaje de la línea de datos utilizando las funciones definidas.
             temperature = extract_temperature(line)
             voltage = extract_voltage(line)
+            humidity = extract_humidity(line)
+
+            # Si se recibió temperatura y voltaje, almacenarlos temporalmente
+            if temperature is not None and voltage is not None:
+                last_temperature = temperature
+                last_voltage = voltage
+                #print(f"Temperatura y voltaje almacenados temporalmente: {temperature}, {voltage}")
             
-            if 'numero_cuenta' in request.session:
-                numero_cuenta = request.session['numero_cuenta'] #Obtener el numero de cuenta del alumno
-                #Si existen valores válidos para temperatura y voltaje se hace lo siguiente
-                if temperature is not None and voltage is not None:
-                    #Obtiene la fecha y hora actuales en formato ISO 8601.
-                    now = datetime.datetime.now()
-                    time = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+            # Si se recibió humedad, ahora podemos crear el paquete completo
+            if humidity is not None and last_temperature is not None and last_voltage is not None:
+                #Obtiene la fecha y hora actuales en formato ISO 8601.
+                now = datetime.datetime.now()
+                time = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+                if 'numero_cuenta' in request.session:
+                    numero_cuenta = request.session['numero_cuenta'] #Obtener el numero de cuenta del alumno
                     #Obtener el true o false para que se almecenen los datos
                     store_data = request.GET.get('store', 'false').lower() in ['true', '1']
-
-                    # Almacenar los datos en la base de datos
+                              
+                    # Almacenar los datos en la base de datos (FALTA AGREGAR EL CAMPO DE HUMEDAD A LA TABLA DATOSALUMNO)
                     if store_data:
                         DatosAlumno.objects.create(
-                            voltaje=voltage,
-                            temperatura=temperature,
+                            voltaje=last_voltage,
+                            temperatura=last_temperature,
                             fecha=now,  
                             id_alumno=numero_cuenta  # Guarda el numero_cuenta en el campo id_alumno
                         )
                     #Actualiza el diccionario 'data' con los valores de tiempo, temperatura y voltaje.
                     data.update({
                         "time": time,
-                        "temperature": temperature,
-                        "voltage": voltage
+                        "temperature": last_temperature,
+                        "voltage": last_voltage,
+                        "humidity": humidity
                     })
+                # Reinicia las variables temporales
+                last_temperature = None
+                last_voltage = None
 
         except Exception as e:
             # Imprime un mensaje de error si ocurre una excepción al leer del puerto serial.

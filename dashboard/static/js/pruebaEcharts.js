@@ -2,10 +2,7 @@ var myChart = echarts.init(document.getElementById('graficalineal')); // Gráfic
 
 var dataPointsTemperature = [];
 var dataPointsVoltage = [];
-var tableData = [];
-var updateInterval;
-var currentPage = 1;
-var rowsPerPage = 10;
+var dataPointsHumidity = [];
 let shouldStoreData = false;  // Variable global para controlar el almacenamiento de datos
 
             function fetchData() {
@@ -24,13 +21,14 @@ let shouldStoreData = false;  // Variable global para controlar el almacenamient
                             connectionStatus.classList.add('text-danger');
                         }*/
 
-                        if (data.time && data.temperature !== null && data.voltage !== null) {
+                        if (data.time && data.temperature !== null && data.voltage !== null && data.humidity !== null) {
                             var utcDate = new Date(data.time);
                             var offset = utcDate.getTimezoneOffset();
                             utcDate.setMinutes(utcDate.getMinutes() - offset);
 
                             dataPointsTemperature.push([utcDate, data.temperature]);
                             dataPointsVoltage.push([utcDate, data.voltage]);
+                            dataPointsHumidity.push([utcDate, data.humidity]);
                            
                             if (dataPointsTemperature.length > 50) {
                                 dataPointsTemperature.shift();
@@ -40,6 +38,10 @@ let shouldStoreData = false;  // Variable global para controlar el almacenamient
                                 dataPointsVoltage.shift();
                 
                             }
+                            if (dataPointsHumidity.length > 50) {  
+                                dataPointsHumidity.shift();
+                            }
+            
 
                             var option = {
                                 title: {
@@ -56,7 +58,7 @@ let shouldStoreData = false;  // Variable global para controlar el almacenamient
                                     trigger: 'axis'
                                 },
                                 legend: {
-                                    data: ['Temperature', 'Voltage'],
+                                    data: ['Temperature', 'Voltage','Humidity'],
                                     textStyle: {
                                         color: '#FFFF' // Cambia el color del texto de la leyenda a rojo
                                     }
@@ -96,6 +98,13 @@ let shouldStoreData = false;  // Variable global para controlar el almacenamient
                                         lineStyle: {
                                             color: 'green'
                                         }
+                                    },
+                                    {
+                                        name: 'Humidity',  
+                                        type: 'line',
+                                        data: dataPointsHumidity,
+                                        showSymbol: false,
+                                        animation: false,
                                     }
                                 ]
                             };
