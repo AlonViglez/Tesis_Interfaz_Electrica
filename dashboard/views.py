@@ -92,15 +92,11 @@ def chart(request):
 ser = None #Variable serial None para que no haya una conexion serial activa
 serial_available = False #Estado del serial en falso 
 
-# Variables globales para almacenar temporalmente los datos
-last_temperature = None
-last_voltage = None
-
 def connect_serial():
     global ser, serial_available  # Variables globales ser y serial_available para permitir su modificación dentro de la función.
     try:
         if ser is None or not ser.isOpen():  # Verifica si no hay una conexión activa o si el puerto no está abierto.
-            ser = serial.Serial('COM5', 9600)  # Abrir una conexión en el puerto 'COM5' con una tasa de 9600 baudios.
+            ser = serial.Serial('COM6', 9600)  # Abrir una conexión en el puerto 'COM5' con una tasa de 9600 baudios.
             serial_available = True  # Marca el estado del serial conectado con éxito.
     except serial.SerialException as e:  #Capturar alguna excepción relacionada con el puerto.
         print(f"Error opening serial port: {e}") 
@@ -118,6 +114,53 @@ def disconnect_serial():
             ser = None  # Reinicia ser a None tras cerrar la conexión, ya sea exitoso o con error.
             serial_available = False  # Marca el serial como no disponible tras el cierre.
 
+def chart_data(request):
+    data = {
+        "time": "",
+        "raw_data": [],  # Inicializa como un array vacío
+        "connected": serial_available
+    }
+    if serial_available and ser.isOpen():
+        try:
+            # Lee la línea completa de datos del puerto serial
+            line = ser.readline().decode('utf-8').strip()
+
+            # Imprime los datos que llegan por el puerto serial
+            print(f"Datos recibidos: {line}")
+
+            # Extrae todos los valores numéricos de la línea, sin importar las etiquetas
+            values = re.findall(r'(\d+\.\d+)', line)
+
+            # Convierte los valores extraídos en flotantes
+            values = [float(value) for value in values]
+
+            # Imprime los valores extraídos
+            print(f"Valores extraídos: {values}")
+
+            # Si se encontraron valores, actualiza el diccionario de datos
+            if values:
+                now = datetime.datetime.now()
+                time = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+                # Actualiza el diccionario con los valores extraídos
+                data.update({
+                    "time": time,
+                    "raw_data": values
+                })
+
+        except Exception as e:
+            print(f"Error reading from serial port: {e}")
+            disconnect_serial()
+    return JsonResponse(data)
+
+def connect_arduino(request):
+    connect_serial() #Ir a la función de conectar serial
+    return JsonResponse({"connected": serial_available}) # Devuelve una respuesta JSON que indica si la conexión serial está disponible (True) o no (False).
+
+'''CODIGO DE SENSORES
+# Variables globales para almacenar temporalmente los datos
+last_temperature = None
+last_voltage = None
 def extract_temperature(line):
     match = re.search(r'Temperatura: (\d+\.\d+)', line) #Busca una cadena de texto que comience con "Temperatura: " seguida de un número decimal
     
@@ -137,7 +180,7 @@ def extract_voltage(line):
     return None  # Si no se encuentra ninguna coincidencia, devuelve None.
 
 def extract_humidity(line):
-    match = re.search(r'Humedad: (\d+\.\d+)', line)  # Buscar la humedad en la línea
+    match = re.search(r'ValorA0: (\d+\.\d+)', line)  # Buscar la humedad en la línea
     if match:
         return float(match.group(1))
     return None
@@ -206,7 +249,4 @@ def chart_data(request):
             disconnect_serial()
     #Devuelve los datos en formato JSON como respuesta.
     return JsonResponse(data)
-
-def connect_arduino(request):
-    connect_serial() #Ir a la función de conectar serial
-    return JsonResponse({"connected": serial_available}) # Devuelve una respuesta JSON que indica si la conexión serial está disponible (True) o no (False).
+'''
