@@ -78,7 +78,7 @@ function createDynamicChart(chartDom) {
             }
         },
         dataZoom: {
-            show: false,
+            show: true,
             start: 0,
             end: 100
         },
@@ -205,85 +205,129 @@ function createDynamicChart(chartDom) {
 function createStepLineChart(chartDom) {
     var chart = echarts.init(chartDom, 'dark');
 
-    var option = {
-        backgroundColor: 'transparent',
-        title: {
-            text: 'Step Line',
-            textStyle: {
-                color: '#fff'
-            }
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data: ['Step Start', 'Step Middle', 'Step End'],
-            textStyle: {
-                color: '#fff'
-            }
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            axisLine: {
-                lineStyle: {
-                    color: '#fff'
-                }
-            },
-            axisLabel: {
-                textStyle: {
-                    color: '#fff'
-                }
-            }
-        },
-        yAxis: {
-            type: 'value',
-            axisLine: {
-                lineStyle: {
-                    color: '#fff'
-                }
-            },
-            axisLabel: {
-                textStyle: {
-                    color: '#fff'
-                }
-            }
-        },
-        series: [
-            {
-                name: 'Step Start',
-                type: 'line',
-                step: 'start',
-                data: [120, 132, 101, 134, 90, 230, 210]
-            },
-            {
-                name: 'Step Middle',
-                type: 'line',
-                step: 'middle',
-                data: [220, 282, 201, 234, 290, 430, 410]
-            },
-            {
-                name: 'Step End',
-                type: 'line',
-                step: 'end',
-                data: [450, 432, 401, 454, 590, 530, 510]
-            }
-        ]
-    };
+        var maxPoints = 60; // Máximo número de puntos a mostrar
+        var xAxisData = ['Dato 1']; // dato incializado
+        var seriesData1 = [2]; // datos de la linea 1 random para incializarlo
+        var seriesData2 = [1]; // datos de la lina 2 random para incializarlo
+        var seriesData3 = [0]; // datos de la linea 3 random para incializarlo
 
-    chart.setOption(option);
-}
+        var option = {
+            backgroundColor: 'transparent',
+            title: {
+                text: 'Step Line',
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['Step Start', 'Step Middle', 'Step End'],
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: xAxisData.slice(-maxPoints), // Muestra los últimos puntos
+                axisLine: {
+                    lineStyle: {
+                        color: '#fff'
+                    }
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#fff'
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: {
+                    lineStyle: {
+                        color: '#fff'
+                    }
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#fff'
+                    }
+                }
+            },
+            dataZoom: [
+                {
+                    type: 'slider',  // Permite el desplazamiento horizontal
+                    start: 0,
+                    end: 100
+                }
+            ],
+            series: [
+                {
+                    name: 'Step Start',
+                    type: 'line',
+                    step: 'start',
+                    data: seriesData1.slice(-maxPoints) // Muestra los últimos puntos
+                },
+                {
+                    name: 'Step Middle',
+                    type: 'line',
+                    step: 'middle',
+                    data: seriesData2.slice(-maxPoints)
+                },
+                {
+                    name: 'Step End',
+                    type: 'line',
+                    step: 'end',
+                    data: seriesData3.slice(-maxPoints)
+                }
+            ]
+        };
+
+        chart.setOption(option);
+
+        // Simula la recepción de datos en tiempo real
+        setInterval(function () {
+            var newPoint = Math.round(Math.random() * 500); // Genera nuevos puntos aleatorios
+            var newCategory = 'Dato ' + (xAxisData.length + 1); // Nueva etiqueta en el eje X
+
+            // Agregar los nuevos datos
+            xAxisData.push(newCategory);
+            seriesData1.push(newPoint);
+            seriesData2.push(newPoint + 100);
+            seriesData3.push(newPoint + 200);
+
+            // Actualizar la gráfica mostrando solo los últimos puntos
+            chart.setOption({
+                xAxis: {
+                    data: xAxisData.slice(-maxPoints) // Solo muestra los últimos puntos
+                },
+                series: [
+                    {
+                        data: seriesData1.slice(-maxPoints)
+                    },
+                    {
+                        data: seriesData2.slice(-maxPoints)
+                    },
+                    {
+                        data: seriesData3.slice(-maxPoints)
+                    }
+                ]
+            });
+        }, 200000); // Intervalo de 2 segundos para recibir nuevos datos
+    }
+
 
 function createLineChart(chartDom) {
     var chart = echarts.init(chartDom);
