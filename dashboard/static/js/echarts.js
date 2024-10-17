@@ -325,7 +325,7 @@ function createStepLineChart(chartDom) {
                     }
                 ]
             });
-        }, 200000); // Intervalo de 2 segundos para recibir nuevos datos
+        }, 2000); // Intervalo de 2 segundos para recibir nuevos datos
     }
 
 
