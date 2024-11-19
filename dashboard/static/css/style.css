@@ -242,6 +242,9 @@ aside .sidebar a:hover span{
     margin-left: 1rem; /*distancia que recorrerá al pasar por el mouse*/
 }
 
+.message b{
+    color: #cccccc;
+}
 aside .sidebar .message-count{
     background: var(--color-danger);
     color: var(--color-white);
@@ -490,7 +493,100 @@ main .recent-order a{
 }
 
 /* actualizaciones recientes*/
+.event-container {
+    margin-top: 1rem;
+    background: var(--color-dark);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+    height: 550px; /* Altura del contenedor */
+    display: flex;
+    flex-direction: column;
+}
 
+.event-container h2{
+    margin-bottom: 15px;
+}
+
+.event-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.control-button {
+    background: transparent;
+    border: none;
+    color: var(--color-white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.search-bar {
+    flex-grow: 1;
+    background: var(--color-dark-light);
+    border: 2px solid var(--color-white);
+    color: var(--color-white);
+    padding: 0.5rem;
+    border-radius: var(--card-border-radius);
+}
+
+.event-table {
+    max-height: calc(100% - 100px); /* Ajusta el máximo de la tabla al 100% de la altura disponible */
+    overflow-y: auto;
+    border: 1px solid #434343;
+    position: relative; /* Asegura que el contenedor sea un bloque bien definido */
+    flex-grow: 1; /* Permite que la tabla ocupe el espacio restante */
+}
+
+/* Personalizar la barra de desplazamiento en Webkit (Chrome, Safari, etc.) */
+.event-table::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+}
+
+.event-table::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color del "pulgar" de la barra de desplazamiento */
+    border-radius: 10px; /* Bordes redondeados del pulgar */
+}
+
+.event-table::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Color cuando el pulgar se desplaza sobre él */
+}
+
+.event-table::-webkit-scrollbar-track {
+    background-color: #363949; /* Color del fondo de la pista */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.event-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.event-table table thead {
+    border-radius: var(--card-border-radius);
+    background-color: var(--color-dark-variant);
+}
+
+.event-table th, .event-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-light);
+    color: var(--color-white);
+}
+
+.event-table th {
+    background: var(--color-dark-light);
+}
+
+/*
 .right .recent-updates{
     margin-top: 1rem;
 
@@ -502,7 +598,7 @@ main .recent-order a{
 
 .right .recent-updates .updates {
     background: var(--color-dark);
-    padding: var(--card-padding); /*Tarjeta de la parte derecha actualizaciones*/
+    padding: var(--card-padding); 
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
@@ -517,7 +613,7 @@ main .recent-order a{
     grid-template-columns: 2.6rem auto;
     gap: 1rem;
     margin-bottom: 1rem;
-}
+}*/
 
 
 /*ventas de  analytics*/

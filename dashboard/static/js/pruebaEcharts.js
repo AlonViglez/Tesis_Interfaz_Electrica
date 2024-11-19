@@ -1,9 +1,51 @@
 var myChart = echarts.init(document.getElementById('graficalineal')); // Gráfica 2
+var eventTableBody = document.getElementById('event-table-body');
 
 var dataPointsSeries = []; // Un array para cada serie de datos
 let shouldStoreData = false;  // Variable global para controlar el almacenamiento de datos
 var updateInterval = null;
 
+let isPaused = false; // Variable para controlar el estado de pausa
+
+// Función para agregar datos a la tabla
+function addDataToTable(data) {
+    if (Array.isArray(data.raw_data) && !isPaused) {
+        data.raw_data.forEach((value) => {
+            // Crear una nueva fila y celdas
+            var newRow = document.createElement('tr');
+            var dataCell = document.createElement('td');
+            var timeCell = document.createElement('td');
+
+            // Establecer el contenido de las celdas
+            dataCell.textContent = value;
+            timeCell.textContent = new Date(data.time).toLocaleString();
+
+            // Agregar celdas a la fila
+            newRow.appendChild(dataCell);
+            newRow.appendChild(timeCell);
+
+            // Agregar la fila al cuerpo de la tabla
+            eventTableBody.appendChild(newRow);
+
+            // Mantener solo las últimas 50 filas
+            if (eventTableBody.rows.length > 50) {
+                eventTableBody.removeChild(eventTableBody.firstChild);
+            }
+        });
+    }
+}
+
+//LIMPIAR TABLA
+function TableClean() {
+    eventTableBody.innerHTML = ''; // LAS FILAS
+}
+
+//PAUSAR TABLA
+function TablePause() {
+    isPaused = !isPaused; // ALTERNAR 
+}
+
+//GRAFICA LINEAL
 function fetchData() {
     const url = `/chart-data/?store=${shouldStoreData}`;  // Envía la variable global en la URL
     fetch(url)
@@ -20,7 +62,7 @@ function fetchData() {
                 connectionStatus.classList.remove('text-success');
                 connectionStatus.classList.add('text-danger');
             }
-
+            
             if (data.time) {
                 var utcDate = new Date(data.time);
                 var offset = utcDate.getTimezoneOffset();
@@ -94,6 +136,8 @@ function fetchData() {
                 } else {
                     console.warn("raw_data no es un array válido:", data.raw_data);
                 }
+
+                addDataToTable(data); //ACTUALIZAR LA TABLA
             }
         })
         .catch(error => console.error("Error al obtener datos:", error));
@@ -145,7 +189,7 @@ function connectArduino() {
                 connectionStatus.classList.remove('text-danger');
                 connectionStatus.classList.add('text-success');
                 fetchData();
-                updateInterval = setInterval(fetchData, 250);
+                updateInterval = setInterval(fetchData, 500);
                 document.querySelector('button').textContent = 'Pausar';
             } else {
                 connectionStatus.textContent = 'Desconectado';
@@ -154,6 +198,7 @@ function connectArduino() {
             }
         });
 }
+
 
 /*
 function fetchData() {
