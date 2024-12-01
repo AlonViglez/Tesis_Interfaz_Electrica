@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{%static 'css/styleM.css' %}" id="theme-link">
+    <script src="{% static 'js/chartlight.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="{% static 'js/echartsN.js' %}" id="theme-linkc"></script>
+    <!-- Material-->
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+     <!-- Inicio del apartado de menu-->
+    <div class="container">
+        <!-- etiqueta lateral-->
+        <aside>
+                <div class="top">
+                        <div class="logo">
+                            <img src="../static/images/logo.png" alt="">
+                            <h2>V<span class="danger">Signal</span></h2>
+                        </div>
+                    
+                        <div class="close" id="close-btn">
+                            <span class="material-symbols-outlined">
+                                close
+                                </span>
+                        </div>
+                </div>
+                <!--1-->
+                <div class="sidebar">
+                    <a class="active">
+                        <span class="material-symbols-outlined">
+                            grid_view
+                            </span>
+                            <h3>dashboard</h3>
+                    </a>
+    
+                <!--3-->
+        
+                    <a href="{% url 'grafpulsoM'%}" >
+                        <span class="material-symbols-outlined">
+                            graphic_eq
+                            </span>
+                            <h3>Gráfica de pulso</h3>
+                    </a>
+        
+                <!--4-->
+        
+                <a href="{% url 'graflinealM'%}">
+                        <span class="material-symbols-outlined">
+                            show_chart
+                            </span>
+                            <h3>Gráfica lineal</h3>
+                    </a>
+                <!--5-->
+            
+                    <a href="{% url 'grafbarraM'%}">
+                        <span class="material-symbols-outlined">
+                            bar_chart
+                            </span>
+                            <h3>Gráfica de barra</h3>
+                    </a>
+    
+                <!--6-->
+        
+                    <a href="{% url 'grafmedidoresM'%}">
+                        <span class="material-symbols-outlined">
+                            speed
+                            </span>
+                            <h3>Gráfica de medidores</h3>
+                           <!--mensajes de notificacion <span class="message-count">2</span>-->
+                    </a>
+        
+                    <a href="{% url 'solicitudes'%}">
+                    
+                        <span class="material-symbols-outlined">
+                            schedule
+                            </span>
+                            <h3>Agendar</h3>
+                            
+                    </a>
+                    <a class="accessibility-buttons" onclick="cambiarEstilo()">
+                    
+                        <span class="material-symbols-outlined">
+                            dark_mode
+                            </span>
+                            <h3>cambiar contraste</h3>
+                            
+                    </a>
+     
+                    <a href="{% url 'logout' %}">
+                        <span class="material-symbols-outlined">
+                            logout
+                            </span>
+                            <h3>Cerrar sesión</h3>
+                            
+                    </a>
+                </div>
+            </aside>  
+                <!--Find de apartado del menu--> 
+                <main>
+        <h1>Dashboard</h1>
+
+
+        <div class="insights">
+            <div class="sales">
+                <span class="material-symbols-outlined">analytics</span>
+                <div class="middle">
+                    <div class="left">
+                        <div id="pulsochart" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
+                        <div id="gauge3" style="width: 135px;">
+                            <script>
+                                                                var gauge3 = new JustGage({
+                                            id: "gauge3", // the id of the html element
+                                            value: 50,
+                                            min: 0,
+                                            max: 100,
+                                            decimals: 2,
+                                            gaugeWidthScale: 0.6,
+                                            valueFontColor: "#FFFFFF"
+                                        });
+
+                                // update the value randomly
+                                setInterval(() => {
+                                gauge3.refresh(Math.random() * 100);
+                                }, 500)
+
+                                
+                            </script>
+                        </div>
+                </div>
+                <small class="text-muted">Last 24 hours</small>
+            </div>
+        </div>
+            <!-- Ende of sales -->
+        <div class="recent-order">
+            <h2>Orden reciente</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre de producto</th>
+                        <th>Numero de producto</th>
+                        <th>Pagos</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                    <tr>
+                        <td>Foldable mini drone</td>
+                        <td>85631</td>
+                        <td>Due</td>
+                        <td class="warning">Pendiente</td>
+                        <td class="primary">Detalles</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="#">Mostrar todo</a>
+        </div>
+     </main> 
+     <!-- termina el main-->
+
+     <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+               <!--
+                <div class="theme-toggler">
+                    <span class="material-symbols-outlined active">light_mode</span>
+                    <span class="material-symbols-outlined">dark_mode</span>
+                </div>
+                -->
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey,</p> <b>Daniel</b>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="../static/images/logo.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- final del top-->
+            <div class="recent-updates">
+                <h2>Recent updates</h2>
+                    <div class="updates">
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img src="../static/images/logo.png" alt="">
+                            </div>  
+                            <div class="message">
+                                <p><b>1Javier Flores </b>solicito acceso</p>
+                                <small class="text-muted">Hace 2 minutos</small>
+                            </div>
+                        </div> 
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img src="../static/images/logo.png" alt="">
+                            </div>  
+                            <div class="message">
+                                <p><b>2Javier Flores </b>solicito acceso</p>
+                                <small class="text-muted">Hace 2 minutos</small>
+                            </div>
+                        </div> 
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img src="../static/images/logo.png" alt="">
+                            </div>  
+                            <div class="message">
+                                <p><b>3Javier Flores </b>solicito acceso</p>
+                                <small class="text-muted">Hace 2 minutos</small>
+                            </div>
+                        </div> 
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img src="../static/images/logo.png" alt="">
+                            </div>  
+                            <div class="message">
+                                <p><b>4Javier Flores  </b>solicito acceso</p>
+                                <small class="text-muted">Hace 2 minutos</small>
+                            </div>
+                        </div>   
+                    </div>
+            </div>
+            <!-- fin de la parte de actualizaciones recientes -->
+           
+            
+        </div>
+    </div>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            createStepLineChart(document.getElementById('pulsochart')); // Llamar a la función con el contenedor de la gráfica
+        });
+    </script>
+   <script>
+        function cambiarEstilo() {
+            var link = document.getElementById('theme-link');
+            var linkc = document.getElementById('theme-linkc');
+            var hrefActual = link.href;
+            var urlOriginal = "{% static 'css/styleM.css' %}";
+            var urlOriginalc = "{% static 'js/echartsN.css' %}";
+            var urlAlternativo = "{% static 'css/style.css' %}";
+            var urlAlternativoc = "{% static 'js/echarts.css' %}";
+
+            if (hrefActual.includes(urlOriginal)) {
+                link.href = urlAlternativo;
+                linkc.href = urlAlternativoc;
+                localStorage.setItem('theme', 'alternativo');
+            } else {
+                link.href = urlOriginal;
+                linkc.href = urlOriginalc;
+                localStorage.setItem('theme', 'original');
+            }
+        }
+
+        // Función para aplicar el estilo guardado al cargar la página
+        function aplicarEstiloGuardado() {
+            var theme = localStorage.getItem('theme');
+            var link = document.getElementById('theme-link');
+            var linkc = document.getElementById('theme-linkc');
+            var urlOriginal = "{% static 'css/styleM.css' %}";
+            var urlOriginalc = "{% static 'js/echartsN.css' %}";
+            var urlAlternativo = "{% static 'css/style.css' %}";
+            var urlAlternativoc = "{% static 'js/echarts.css' %}";
+
+            if (theme === 'alternativo') {
+                link.href = urlAlternativo;
+                linkc.href = urlAlternativoc;
+            } else {
+                link.href = urlOriginal;
+                linkc.href = urlOriginalc;
+            }
+        }
+
+        // Llamar a aplicarEstiloGuardado al cargar la página
+        window.onload = aplicarEstiloGuardado;
+    </script>
+</body>
+</html>

@@ -54,7 +54,7 @@ def registrar(request):
             return redirect("home")
     else:
         form = UsuarioForm()
-    return render(request, 'iniciar_sesion.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
 
 #Registro maestro
 def registrarMaestro(request): 
@@ -69,7 +69,7 @@ def registrarMaestro(request):
             return redirect("home")
     else:
         form = MaestroForm()
-    return render(request, 'iniciar_sesion.html', {'form': form})
+    return render(request, 'register_maestro.html', {'form': form})
 
 #Autenticacion alumno
 def autenticacion(request):
@@ -81,7 +81,7 @@ def autenticacion(request):
             usuario = Usuario.objects.get(email=email)
             if check_password(password, usuario.password):
                 request.session['usuario_id'] = usuario.id
-                return render(request, 'logueado.html', {'usuario': usuario})  # Pasar el usuario como contexto
+                return render(request, 'dashboard.html', {'usuario': usuario})  # Pasar el usuario como contexto
             else:
                 print("Contraseña incorrecta.")
                 # Devolver el formulario con los datos del usuario
@@ -105,7 +105,7 @@ def autenticacionMaestro(request):
             usuario = Maestro.objects.get(email=email)
             if check_password(password, usuario.password):
                 request.session['usuario_id'] = usuario.id
-                return render(request, 'logueado.html', {'usuario': usuario})  # Pasar el usuario como contexto
+                return render(request, 'dashboardM.html', {'usuario': usuario})  # Pasar el usuario como contexto
             else:
                 print("Contraseña incorrecta.")
                 # Devolver el formulario con los datos del usuario
@@ -124,13 +124,13 @@ def logueado(request):
         usuario_id = request.session['usuario_id']
         try:
             usuario = Usuario.objects.get(id=usuario_id)
-            return render(request, 'logueado.html', {'usuario': usuario})
+            return render(request, 'dashboard.html', {'usuario': usuario})
         except Usuario.DoesNotExist:
             # El usuario alumno no existe en la base de datos
             try:
                 #Buscar si es un usuario Maestro
                 usuario = Maestro.objects.get(id=usuario_id)
-                return render(request, 'logueado.html', {'usuario': usuario})
+                return render(request, 'dashboardM.html', {'usuario': usuario})
             except Maestro.DoesNotExist:
                 # El usuario no existe en la base de datos, eliminar la sesión y redirigir al home
                 del request.session['usuario_id']

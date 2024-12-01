@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <script src="{% static 'js/chartlight.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="{% static 'js/echarts.js' %}"></script>
+    <!-- Material-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+     <!-- Inicio del apartado de menu-->
+    <div class="container">
+        <!-- etiqueta lateral-->
+        <aside>
+                <div class="top">
+                        <div class="logo">
+                            <img src="../static/images/logo.png" alt="">
+                            <h2>V<span class="danger">Signal</span></h2>
+                        </div>
+                    
+                        <div class="close" id="close-btn">
+                            <span class="material-symbols-outlined">
+                                close
+                                </span>
+                        </div>
+                </div>
+                <!--1-->
+                <div class="sidebar">
+                    <a href="{% url 'dashboard'%}">
+                        <span class="material-symbols-outlined">
+                            grid_view
+                            </span>
+                            <h3>dashboard</h3>
+                    </a>
+    
+                <!--3-->
+        
+                    <a href="{% url 'grafpulso'%}" >
+                        <span class="material-symbols-outlined">
+                            graphic_eq
+                            </span>
+                            <h3>Gráfica de pulso</h3>
+                    </a>
+        
+                <!--4-->
+        
+                    <a class="active">
+                        <span class="material-symbols-outlined">
+                            show_chart
+                            </span>
+                            <h3>Gráfica lineal</h3>
+                    </a>
+                <!--5-->
+            
+                    <a href="{% url 'grafbarra'%}">
+                        <span class="material-symbols-outlined">
+                            bar_chart
+                            </span>
+                            <h3>Gráfica de barra</h3>
+                    </a>
+    
+                <!--6-->
+        
+                    <a href="{% url 'grafmedidores'%}">
+                        <span class="material-symbols-outlined">
+                            speed
+                            </span>
+                            <h3>Gráfica de medidores</h3>
+                           <!--mensajes de notificacion <span class="message-count">2</span>-->
+                    </a>
+        
+                    <a  href="{% url 'grafagendar'%}">
+                    
+                        <span class="material-symbols-outlined">
+                            schedule
+                            </span>
+                            <h3>Agenda</h3>
+                            
+                    </a>
+    
+                    <a href="{% url 'logout' %}">
+                        <span class="material-symbols-outlined">
+                            logout
+                            </span>
+                            <h3>Cerrar sesión</h3>
+                            
+                    </a>
+                </div>
+            </aside>  
+                <!--Find de apartado del menu--> 
+                <main>
+        <h1>Dashboard</h1>
+
+
+        <div class="insights">
+            <div class="sales">
+                <span class="material-symbols-outlined">analytics</span>
+                <div class="middle">
+                    <div class="left">
+                        <div id="graficalineal" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
+                      <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
+                </div>
+                <small class="text-muted">Last 24 hours</small>
+            </div>
+        </div>
+           
+        </div>
+        
+     </main> 
+     <!-- termina el main-->
+
+     <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                
+                <div class="profile">
+                    <div class="info">
+                        <p>Hola,</p> <b>{{ usuario.nombre }}</b>
+                        <small class="text-muted">Estudiante</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="../static/images/logo.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- final del top-->
+            <div class="recent-updates">
+                <h2>Medidores</h2>
+                    <div class="updates">
+                        <div class="message">
+                            <p>Medidor de tiempo</p>
+                        </div>
+                        <div class="update">
+                            
+                            <div class="profile-photo" id="gauge4" style="width: 85px;">
+                                <script>
+                                            var gauge4 = new JustGage({
+                                            id: "gauge4", // the id of the html element
+                                            value: 50,
+                                            min: 0,
+                                            max: 100,
+                                            decimals: 2,
+                                            gaugeWidthScale: 0.6,
+                                            valueFontColor: "#FFFFFF"
+                                        });
+            
+                                            // update the value randomly
+                                            setInterval(() => {
+                                            gauge4.refresh(Math.random() * 100);
+                                            }, 500)
+                                </script>
+                            </div>  
+                            
+                        </div> 
+                        
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            createLineChart(document.getElementById('graficalineal')); // Llamar a la función con el contenedor de la gráfica de líneas
+        });
+    </script>
+</body>
+</html>
