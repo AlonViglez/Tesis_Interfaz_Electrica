@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-8v=!))12ugozfv)r*r+l%btfe*b-ngs@5e^#f8k=uftqwz31&l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.3.218','192.168.0.9', '192.168.1.104','192.168.23.121']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.3.218','192.168.231.115','192.168.1.5']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,7 +71,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'appWeb.wsgi.application'
-
+ASGI_APPLICATION = 'appWeb.asgi.application'
+'''
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("192.168.1.5", 8000)],  # Cambia esto si usas otro host o puerto
+        },
+    },
+}'''
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -123,5 +133,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-

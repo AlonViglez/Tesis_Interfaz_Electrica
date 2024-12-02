@@ -35,13 +35,6 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                    <a href="{% url 'dashboardM'%}">
-                        <span class="material-symbols-outlined">
-                            grid_view
-                            </span>
-                            <h3>dashboard</h3>
-                    </a>
-    
                 <!--3-->
         
                     <a  href="{% url 'grafpulsoM'%}" >
@@ -69,14 +62,6 @@
                     </a>
     
                 <!--6-->
-        
-                    <a  href="{% url 'grafmedidoresM'%}">
-                        <span class="material-symbols-outlined">
-                            speed
-                            </span>
-                            <h3>Gráfica de medidores</h3>
-                           <!--mensajes de notificacion <span class="message-count">2</span>-->
-                    </a>
         
                     <a class="active">
                     
@@ -113,7 +98,7 @@
                             
                     </a>
     -->
-                    <a href="#">
+                    <a href="{% url 'logout' %}">
                         <span class="material-symbols-outlined">
                             logout
                             </span>
@@ -330,7 +315,7 @@
 -->
                 <div class="profile">
                     <div class="info">
-                        <p>Hey,</p> <b>Nombre</b>
+                        <p>Hola,</p> <b style="color: white;">{{ usuario.nombre }}</b>
                         <small class="text-muted">Maestro</small>
                     </div>
                     <div class="profile-photo">

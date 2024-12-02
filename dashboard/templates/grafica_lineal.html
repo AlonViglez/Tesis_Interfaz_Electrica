@@ -8,11 +8,8 @@
 
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
     <link rel="stylesheet" href="{%static 'css/modalStyle.css' %}">
-    <script src="{% static 'js/chartlight.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <!-- Material-->
-    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -34,13 +31,6 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                    <a href="{% url 'dashboard'%}">
-                        <span class="material-symbols-outlined">
-                            grid_view
-                            </span>
-                            <h3>dashboard</h3>
-                    </a>
-    
                 <!--3-->
         
                     <a href="{% url 'grafpulso'%}" >
@@ -68,15 +58,6 @@
                     </a>
     
                 <!--6-->
-        
-                    <a href="{% url 'grafmedidores'%}">
-                        <span class="material-symbols-outlined">
-                            speed
-                            </span>
-                            <h3>Gráfica de medidores</h3>
-                           <!--mensajes de notificacion <span class="message-count">2</span>-->
-                    </a>
-
                     <a href="{% url 'historial_view'%}">
                     
                         <span class="material-symbols-outlined">
@@ -366,6 +347,6 @@
             createLineChart(document.getElementById('graficalineal')); // Llamar a la función con el contenedor de la gráfica de líneas
         });
     </script-->
-    <script src="{% static 'js/pruebaEcharts.js' %}"></script>
+    <script src="{% static 'js/maestro_lineal_echart.js' %}"></script>
 </body>
 </html>

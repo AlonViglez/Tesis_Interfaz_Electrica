@@ -6,13 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{%static 'css/styleM.css' %}">
-    <script src="{% static 'js/chartlight.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-    <script src="{% static 'js/echartsN.js' %}"></script>
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <link rel="stylesheet" href="{%static 'css/modalStyle.css' %}">
+    <script src="/static/js/echarts.min.js"></script>
     <!-- Material-->
-    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -34,16 +31,9 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                    <a>
-                        <span class="material-symbols-outlined">
-                            grid_view
-                            </span>
-                            <h3>dashboard</h3>
-                    </a>
-    
                 <!--3-->
         
-                    <a href="{% url 'grafpulsoM'%}" >
+                    <a  href="{% url 'grafpulsoM'%}" >
                         <span class="material-symbols-outlined">
                             graphic_eq
                             </span>
@@ -52,7 +42,7 @@
         
                 <!--4-->
         
-                <a class="active">
+                    <a class="active">
                         <span class="material-symbols-outlined">
                             show_chart
                             </span>
@@ -60,33 +50,23 @@
                     </a>
                 <!--5-->
             
-                    <a href="{% url 'grafbarraM'%}">
+                    <a  href="{% url 'grafbarraM'%}">
                         <span class="material-symbols-outlined">
                             bar_chart
                             </span>
                             <h3>Gráfica de barra</h3>
                     </a>
-    
+
                 <!--6-->
-        
-                    <a href="{% url 'grafmedidoresM'%}">
-                        <span class="material-symbols-outlined">
-                            speed
-                            </span>
-                            <h3>Gráfica de medidores</h3>
-                           <!--mensajes de notificacion <span class="message-count">2</span>-->
-                    </a>
         
                     <a href="{% url 'solicitudes'%}">
                     
                         <span class="material-symbols-outlined">
-                            message
+                            schedule
                             </span>
-                            <h3>Solicitudes</h3>
-                            <span class="message-count">2</span> 
-                            
+                            <h3>Agendar</h3>
                     </a>
-     <!--
+    <!--
                     <a href="#">
                         <span class="material-symbols-outlined">
                             report_gmailerrorred
@@ -95,7 +75,7 @@
                         
                     </a>
 
-    
+
                     <a href="#">
                         <span class="material-symbols-outlined">
                             settings
@@ -124,20 +104,24 @@
             </aside>  
                 <!--Find de apartado del menu--> 
                 <main>
-        <h1>Dashboard</h1>
+        <h1>Gráfica lineal</h1>
+
 
         <div class="insights">
             <div class="sales">
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="graficalineal" style="width: 800px; height: 400px;  background-color: transparent;"></div> 
+                        <div id="graficalineal" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
+                        <button id="toggle-btn" onclick="toggleUpdate()">Iniciar</button>
+                        <p id="connection-status"></p>
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
                 </div>
-                <small class="text-muted">Last 24 hours</small>
+                <!--small class="text-muted">Last 24 hours</small-->
             </div>
         </div>
-            <!-- Ende of sales-->
+        
+            <!-- Ende of sales
             <div class="expenses">
                 <span class="material-symbols-outlined">bar_chart</span>
                 <div class="middle">
@@ -156,7 +140,8 @@
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
-            <!-- Ende of expenses-->
+            -->
+            <!-- Ende of expenses
             <div class="income">
                 <span class="material-symbols-outlined">show_chart</span>
                 <div class="middle">
@@ -175,9 +160,12 @@
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
+            -->
             <!-- Ende of income-->
         </div>
-        <!--termina las tarjetas-->
+        <div class="insights">
+        </div>
+        <!--termina las tarjetas
         <div class="recent-order">
             <h2>Orden reciente</h2>
             <table>
@@ -230,6 +218,21 @@
             </table>
             <a href="#">Mostrar todo</a>
         </div>
+        -->
+        <!-- Contenedor para el modal -->
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>¿Quieres almacenar los datos?</p>
+            <!-- Contenedor para los botones -->
+            <div class="modal-buttons">
+                <button id="yes-btn" onclick="storeData()">Sí</button>
+                <button id="no-btn" onclick="notStoreData()">No</button>
+            </div>
+            </div>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
      </main> 
      <!-- termina el main-->
 
@@ -238,16 +241,16 @@
                 <button id="menu-btn">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
-               
+                <!--
                 <div class="theme-toggler">
                     <span class="material-symbols-outlined active">light_mode</span>
                     <span class="material-symbols-outlined">dark_mode</span>
                 </div>
-
+            -->
                 <div class="profile">
                     <div class="info">
-                        <p>Hey,</p> <b>Daniel</b>
-                        <small class="text-muted">Admin</small>
+                        <p>Hola,</p> <b style="color: white;">{{ usuario.nombre }}</b>
+                        <small class="text-muted">Maestro</small>
                     </div>
                     <div class="profile-photo">
                         <img src="../static/images/logo.png" alt="">
@@ -255,46 +258,29 @@
                 </div>
             </div>
             <!-- final del top-->
-            <div class="recent-updates">
-                <h2>Recent updates</h2>
-                    <div class="updates">
-                        <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
-                            </div>  
-                            <div class="message">
-                                <p><b>1Javier Flores </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
-                        </div> 
-                        <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
-                            </div>  
-                            <div class="message">
-                                <p><b>2Javier Flores </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
-                        </div> 
-                        <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
-                            </div>  
-                            <div class="message">
-                                <p><b>3Javier Flores </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
-                        </div> 
-                        <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
-                            </div>  
-                            <div class="message">
-                                <p><b>4Javier Flores  </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
-                        </div>   
-                    </div>
+            <div class="event-container">
+                <h2>Eventos recientes</h2>
+                <div class="event-header">
+                    <button class="control-button pause" onclick="TablePause()">⏸</button>
+                    <button class="control-button delete" onclick="TableClean()">🗑</button>
+                    <input type="text" placeholder="Search for events" class="search-bar">
+                </div>
+                <div class="event-table" id="event-table-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>DATOS</th>
+                                <th>FECHA</th>
+                            </tr>
+                        </thead>
+                        <tbody id="event-body">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <!-- fin de la parte de actualizaciones recientes -->
             <!-- parte derecha inferior sobre los productos
@@ -350,11 +336,7 @@
             
         </div>
     </div>
-    <script src="{% static 'js/index.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            createLineChart(document.getElementById('graficalineal')); // Llamar a la función con el contenedor de la gráfica de líneas
-        });
-    </script>
+    <script src="{% static 'js/index.js' %}"></script> <!--SCRIPT PARA MENU HAMBURGUESA-->
+    <script src="{% static 'js/maestro_lineal_echart.js' %}"></script>
 </body>
 </html>

@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="{%static 'css/styleM.css' %}">
-    <script src="{% static 'js/chartlight.js' %}"></script>
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <link rel="stylesheet" href="{%static 'css/modalStyle.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-    <script src="{% static 'js/echartsN.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -34,110 +35,97 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                    <a >
-                        <span class="material-symbols-outlined">
-                            grid_view
-                            </span>
-                            <h3>dashboard</h3>
-                    </a>
-    
-                <!--3-->
-        
-                    <a href="{% url 'grafpulsoM'%}" >
-                        <span class="material-symbols-outlined">
-                            graphic_eq
-                            </span>
-                            <h3>Gráfica de pulso</h3>
-                    </a>
-        
-                <!--4-->
-        
-                <a href="{% url 'graflinealM'%}">
-                        <span class="material-symbols-outlined">
-                            show_chart
-                            </span>
-                            <h3>Gráfica lineal</h3>
-                    </a>
-                <!--5-->
+                    <!--3-->
             
-                    <a class="active">
-                        <span class="material-symbols-outlined">
-                            bar_chart
-                            </span>
-                            <h3>Gráfica de barra</h3>
-                    </a>
+                        <a  href="{% url 'grafpulsoM'%}" >
+                            <span class="material-symbols-outlined">
+                                graphic_eq
+                                </span>
+                                <h3>Gráfica de pulso</h3>
+                        </a>
+            
+                    <!--4-->
+            
+                        <a href="{% url 'graflinealM'%}">
+                            <span class="material-symbols-outlined">
+                                show_chart
+                                </span>
+                                <h3>Gráfica lineal</h3>
+                        </a>
+                    <!--5-->
+                
+                        <a  class="active">
+                            <span class="material-symbols-outlined">
+                                bar_chart
+                                </span>
+                                <h3>Gráfica de barra</h3>
+                        </a>
     
-                <!--6-->
-        
-                    <a href="{% url 'grafmedidoresM'%}">
-                        <span class="material-symbols-outlined">
-                            speed
-                            </span>
-                            <h3>Gráfica de medidores</h3>
-                           <!--mensajes de notificacion <span class="message-count">2</span>-->
-                    </a>
-        
-                    <a href="{% url 'solicitudes'%}">
-                    
-                        <span class="material-symbols-outlined">
-                            message
-                            </span>
-                            <h3>Solicitudes</h3>
-                            <span class="message-count">2</span> 
-                            
-                    </a>
-     <!--
-                    <a href="#">
-                        <span class="material-symbols-outlined">
-                            report_gmailerrorred
-                            </span>
-                            <h3>Reporte</h3>
+                    <!--6-->
+            
+                        <a href="{% url 'solicitudes'%}">
                         
-                    </a>
-
+                            <span class="material-symbols-outlined">
+                                schedule
+                                </span>
+                                <h3>Agendar</h3>
+                        </a>
+        <!--
+                        <a href="#">
+                            <span class="material-symbols-outlined">
+                                report_gmailerrorred
+                                </span>
+                                <h3>Reporte</h3>
+                            
+                        </a>
     
-                    <a href="#">
-                        <span class="material-symbols-outlined">
-                            settings
-                            </span>
-                            <h3>Ajustes</h3>
-                        
-                    </a>
-
-
-                    <a href="#">
-                        <span class="material-symbols-outlined">
-                            add
-                            </span>
-                            <h3>Agregar producto</h3>
+    
+                        <a href="#">
+                            <span class="material-symbols-outlined">
+                                settings
+                                </span>
+                                <h3>Ajustes</h3>
                             
-                    </a>
-    -->
-                    <a href="{% url 'logout' %}">
-                        <span class="material-symbols-outlined">
-                            logout
-                            </span>
-                            <h3>Cerrar sesión</h3>
-                            
-                    </a>
-                </div>
+                        </a>
+    
+    
+                        <a href="#">
+                            <span class="material-symbols-outlined">
+                                add
+                                </span>
+                                <h3>Agregar producto</h3>
+                                
+                        </a>
+        -->
+                        <a href="{% url 'logout' %}">
+                            <span class="material-symbols-outlined">
+                                logout
+                                </span>
+                                <h3>Cerrar sesión</h3>
+                                
+                        </a>
+                    </div>
             </aside>  
                 <!--Find de apartado del menu--> 
                 <main>
-        <h1>Dashboard</h1>
+        <h1>Gráfica de pulsos</h1>
+
 
         <div class="insights">
             <div class="sales">
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="graficabarra" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
+                         <div id="barrachart" style="width: 800px; height: 400px;  background-color: transparent;"></div> 
+                         <button id="toggle-btn" onclick="toggleUpdate()">Iniciar</button>
+                        <p id="connection-status"></p> 
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
+                      
                 </div>
-                <small class="text-muted">Last 24 hours</small>
             </div>
+        
         </div>
-            <!-- Ende of sales-->
+            <!-- Ende of sales
             <div class="expenses">
                 <span class="material-symbols-outlined">bar_chart</span>
                 <div class="middle">
@@ -156,7 +144,8 @@
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
-            <!-- Ende of expenses-->
+            -->
+            <!-- Ende of expenses
             <div class="income">
                 <span class="material-symbols-outlined">show_chart</span>
                 <div class="middle">
@@ -175,9 +164,10 @@
                 </div>
                 <small class="text-muted">Last 24 hours</small>
             </div>
+            -->
             <!-- Ende of income-->
         </div>
-        <!--termina las tarjetas-->
+        <!--termina las tarjetas
         <div class="recent-order">
             <h2>Orden reciente</h2>
             <table>
@@ -230,6 +220,21 @@
             </table>
             <a href="#">Mostrar todo</a>
         </div>
+        -->
+        <!-- Contenedor para el modal -->
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>¿Quieres almacenar los datos?</p>
+            <!-- Contenedor para los botones -->
+            <div class="modal-buttons">
+                <button id="yes-btn" onclick="storeData()">Sí</button>
+                <button id="no-btn" onclick="notStoreData()">No</button>
+            </div>
+            </div>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
      </main> 
      <!-- termina el main-->
 
@@ -238,16 +243,16 @@
                 <button id="menu-btn">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
-               
+                <!--
                 <div class="theme-toggler">
                     <span class="material-symbols-outlined active">light_mode</span>
                     <span class="material-symbols-outlined">dark_mode</span>
                 </div>
-
+            -->
                 <div class="profile">
                     <div class="info">
-                        <p>Hey,</p> <b>Daniel</b>
-                        <small class="text-muted">Admin</small>
+                        <p>Hola,</p> <b style="color: white;">{{ usuario.nombre }}</b>
+                        <small class="text-muted">Maestro</small>
                     </div>
                     <div class="profile-photo">
                         <img src="../static/images/logo.png" alt="">
@@ -256,26 +261,62 @@
             </div>
             <!-- final del top-->
             <div class="recent-updates">
-                <h2>Recent updates</h2>
+                <h2>Eventos</h2>
                     <div class="updates">
+                        <div class="message">
+                            <p>Medidor de voltajes</p>
+                            
+                        </div>
                         <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
+                           
+                            <div class="profile-photos" id="gauge3" >
+                                    <script>
+                                                    var gauge3 = new JustGage({
+                                                    id: "gauge3", // the id of the html element
+                                                    value: 50,
+                                                    min: 0,
+                                                    max: 100,
+                                                    decimals: 2,
+                                                    gaugeWidthScale: 0.6,
+                                                    valueFontColor: "#FFFFFF"
+                                                });
+                    
+                                        // update the value randomly
+                                        setInterval(() => {
+                                        gauge3.refresh(Math.random() * 100);
+                                        }, 500)
+                                    </script>
+                            
                             </div>  
-                            <div class="message">
-                                <p><b>1Javier Flores </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
+                           
+                            
                         </div> 
+                        <div class="message">
+                            <p>Medidor de tiempo</p>
+                        </div>
                         <div class="update">
-                            <div class="profile-photo">
-                                <img src="../static/images/logo.png" alt="">
+                            
+                            <div class="profile-photo" id="gauge4">
+                                <script>
+                                    var gauge4 = new JustGage({
+                                    id: "gauge4", // the id of the html element
+                                    value: 50,
+                                    min: 0,
+                                    max: 100,
+                                    decimals: 2,
+                                    gaugeWidthScale: 0.6,
+                                    valueFontColor: "#FFFFFF"
+                                });
+    
+                        // update the value randomly
+                        setInterval(() => {
+                        gauge4.refresh(Math.random() * 100);
+                        }, 500)
+                    </script>
                             </div>  
-                            <div class="message">
-                                <p><b>2Javier Flores </b>solicito acceso</p>
-                                <small class="text-muted">Hace 2 minutos</small>
-                            </div>
+                            
                         </div> 
+                        <!--
                         <div class="update">
                             <div class="profile-photo">
                                 <img src="../static/images/logo.png" alt="">
@@ -293,7 +334,12 @@
                                 <p><b>4Javier Flores  </b>solicito acceso</p>
                                 <small class="text-muted">Hace 2 minutos</small>
                             </div>
-                        </div>   
+                        </div> 
+                        -->
+                              <!---->
+                                <!---->
+                                  <!---->
+                                    <!---->  
                     </div>
             </div>
             <!-- fin de la parte de actualizaciones recientes -->
@@ -351,10 +397,6 @@
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            createDynamicChart(document.getElementById('graficabarra')); // Llamar a la función con el contenedor de la gráfica
-        });
-    </script>
+    <script src="{% static 'js/maestro_barra_echart.js' %}"></script>
 </body>
 </html>

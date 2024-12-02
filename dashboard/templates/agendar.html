@@ -35,13 +35,6 @@
                 </div>
                 <!--1-->
                 <div class="sidebar">
-                    <a href="{% url 'dashboard'%}">
-                        <span class="material-symbols-outlined">
-                            grid_view
-                            </span>
-                            <h3>dashboard</h3>
-                    </a>
-    
                 <!--3-->
         
                     <a  href="{% url 'grafpulso'%}" >
@@ -69,13 +62,6 @@
                     </a>
     
                 <!--6-->
-            
-                    <a  href="{% url 'grafmedidores'%}">
-                        <span class="material-symbols-outlined">
-                            speed
-                            </span>
-                            <h3>Gráfica de medidores</h3>
-                    </a>
 
                     <a href="{% url 'historial_view'%}">
                     
@@ -284,8 +270,8 @@
 -->
                 <div class="profile">
                     <div class="info">
-                        <p>Hey,</p> <b>Daniel</b>
-                        <small class="text-muted">Admin</small>
+                        <p>Hola,</p> <b style="color: white;">{{ usuario.nombre }}</b>
+                        <small class="text-muted">Estudiante</small>
                     </div>
                     <div class="profile-photo">
                         <img src="../static/images/logo.png" alt="">

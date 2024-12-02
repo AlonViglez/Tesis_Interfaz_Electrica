@@ -42,3 +42,15 @@ class DatosAlumno(models.Model):
     def __str__(self):
         return str(self.id_alumno)
 
+#Modelo para boton
+class BotonEstado(models.Model):
+    estado = models.BooleanField(default=False)  # False: Desactivado, True: Activado
+
+class SensorData(models.Model):
+    d1 = models.FloatField()
+    d2 = models.FloatField()
+    d3 = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"D1: {self.d1}, D2: {self.d2}, D3: {self.d3}, Timestamp: {self.timestamp}"
