@@ -25,13 +25,13 @@ SECRET_KEY = 'django-insecure-8v=!))12ugozfv)r*r+l%btfe*b-ngs@5e^#f8k=uftqwz31&l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.3.218','192.168.231.115','192.168.1.5']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.3.218','192.168.231.115','192.168.1.185','192.168.1.13']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -72,15 +72,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'appWeb.wsgi.application'
 ASGI_APPLICATION = 'appWeb.asgi.application'
-'''
+# Configuración del canal de WebSocket con Redis
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("192.168.1.5", 8000)],  # Cambia esto si usas otro host o puerto
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("127.0.0.1", 6379)],
         },
     },
-}'''
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

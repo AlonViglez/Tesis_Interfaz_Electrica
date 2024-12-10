@@ -1,4 +1,4 @@
-var myChart = echarts.init(document.getElementById('barrachart')); // Gráfica
+var myChart = echarts.init(document.getElementById('graficabarra')); // Gráfica
 var eventTableBody = document.getElementById('event-table-body');
 
 var dataPointsSeries = []; // Un array para cada serie de datos
@@ -11,18 +11,6 @@ let previousDatabaseValues = {
     D3: null
 };
 let isPaused = false; // Variable para controlar el estado de pausa
-
-function fetchData() {
-    const url = `/chart-data/?storeData=${shouldStoreData}`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Verifica si los datos recibidos son correctos
-            updateConnectionStatus(data.connected);
-            fetchDatabaseData();
-        })
-        .catch(error => console.error("Error al obtener datos:", error));
-}
 
 function fetchDatabaseData() {
     const url = `/db_data/`;
@@ -99,7 +87,6 @@ function initializeSeriesVisibility(seriesNames) {
         }
     });
 }
-
 // Actualiza la gráfica con las series de datos
 function updateChart() {
     // Inicializa la visibilidad de las series
@@ -208,46 +195,6 @@ myChart.on('legendselectchanged', function (event) {
         seriesVisibility[key] = selected[key]; // Actualiza el estado de visibilidad
     }
 });
-// Función para iniciar/pausar la actualización
-function toggleUpdate() {
-    const button = document.getElementById('toggle-btn');
-    if (updateInterval) {
-        clearInterval(updateInterval);
-        updateInterval = null;
-        button.textContent = 'Iniciar';
-        actualizarEstadoBoton(false); // Notifica al servidor que se desactivó
-    } else {
-        openModal(); // Abre el modal antes de activar
-    }
-}
-
-// Función para abrir el modal
-function openModal() {
-    document.getElementById('myModal').style.display = 'block';
-}
-
-// Función para cerrar el modal
-function closeModal() {
-    document.getElementById('myModal').style.display = 'none';
-}
-
-// Función para almacenar los datos y activar el botón
-function storeData() {
-    shouldStoreData = true;
-    connectArduino(); // Función que conecta y obtiene los datos
-    closeModal();
-    document.getElementById('toggle-btn').textContent = 'Detener';
-    actualizarEstadoBoton(true); // Activa el botón en el servidor
-}
-
-// Función para no almacenar los datos
-function notStoreData() {
-    shouldStoreData = false;
-    connectArduino();
-    closeModal();
-    document.getElementById('toggle-btn').textContent = 'Iniciar';
-    actualizarEstadoBoton(true); // Desactiva el botón en el servidor
-}
 
 // Función para obtener el estado del botón desde el servidor
 function obtenerEstadoBoton() {
@@ -291,16 +238,4 @@ function getCSRFToken() {
 }
 // Llamar a obtener el estado del botón al cargar la página
 document.addEventListener('DOMContentLoaded', obtenerEstadoBoton);
-// Función para conectar el Arduino
-function connectArduino() {
-    fetch('/connect-arduino/')
-        .then(response => response.json())
-        .then(data => {
-            updateConnectionStatus(data.connected);
-            if (data.connected) {
-                fetchData();
-                updateInterval = setInterval(fetchData, 250);
-                document.querySelector('button').textContent = 'Pausar';
-            }
-        });
-}
+

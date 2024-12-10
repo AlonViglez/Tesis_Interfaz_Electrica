@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <script src="{% static 'js/chartlight.js' %}"></script>
+    <script src="{% static 'js/echarts.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/theme/dark.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
+    <!-- Material-->
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+     <!-- Inicio del apartado de menu-->
+    <div class="container">
+        <!-- etiqueta lateral-->
+        <aside>
+                <div class="top">
+                        <div class="logo">
+                            <img src="../static/images/logo.png" alt="">
+                            <h2>V<span class="danger">Signal</span></h2>
+                        </div>
+                    
+                        <div class="close" id="close-btn">
+                            <span class="material-symbols-outlined">
+                                close
+                                </span>
+                        </div>
+                </div>
+                <!--1-->
+                <div class="sidebar">
+
+                <!--3-->
+        
+                    <a  href="{% url 'grafpulsoM'%}" >
+                        <span class="material-symbols-outlined">
+                            graphic_eq
+                            </span>
+                            <h3>Gráfica de pulso</h3>
+                    </a>
+        
+                <!--4-->
+        
+                    <a href="{% url 'graflinealM'%}">
+                        <span class="material-symbols-outlined">
+                            show_chart
+                            </span>
+                            <h3>Gráfica lineal</h3>
+                    </a>
+                <!--5-->
+            
+                <a href="{% url 'grafbarraM'%}">
+                    <span class="material-symbols-outlined">
+                        bar_chart
+                        </span>
+                        <h3>Gráfica de barra</h3>
+                </a>
+    
+                <!--6-->
+        
+                    <a  class="active">
+                        <span class="material-symbols-outlined">
+                            database
+                            </span>
+                            <h3>Historial de datos</h3>
+                    </a>
+                    <a href="{% url 'logout' %}">
+                        <span class="material-symbols-outlined">
+                            logout
+                            </span>
+                            <h3>Cerrar sesión</h3>
+                            
+                    </a>
+                </div>
+            </aside>  
+                <!--Find de apartado del menu--> 
+                <main>
+        <h1>Historial de datos</h1>
+        
+        <div class="insights">
+            <div class="sales">
+                <span class="material-symbols-outlined">database</span>
+                <div class="">
+                    <div class="left">
+                        <div class="recent-order">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Dato 1</th>
+                                        <th>Dato 2</th>
+                                        <th>Dato 3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Iterar sobre los registros de DatosAlumno -->
+                                    {% for dato in datos %}
+                                    <tr>
+                                        <td>{{ dato.id }}</td>
+                                        <td>{{ dato.fecha }}</td>
+                                        <td>{{ dato.d1 }}</td>
+                                        <td>{{ dato.d2 }}</td>
+                                        <td>{{ dato.d3 }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <small class="text-muted"></small>
+            </div>
+            <div id="gauge3"></div>
+            <div id="gauge4"></div>
+        </div>
+        </div>
+     </main> 
+     <!-- termina el main-->
+
+     <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <div class="profile">
+                    <div class="info">
+                        <p>Hola,</p> <b style="color: white;">{{ usuario.nombre }}</b>
+                        <small class="text-muted">Maestro</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="../static/images/logo.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>

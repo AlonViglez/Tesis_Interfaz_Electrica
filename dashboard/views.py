@@ -23,18 +23,25 @@ def check_logueado(request, template_name, filtrar_datos=False):
         request.session['numero_cuenta'] = usuario.numero_cuenta
         # Filtrar DatosAlumno solo si filtrar_datos es True
         if filtrar_datos:
-            datos = DatosAlumno.objects.filter(id_alumno=usuario.numero_cuenta) #Filtrar datos del alumno por su numero de cuenta
+            #datos = DatosAlumno.objects.filter(id_alumno=usuario.numero_cuenta) #Filtrar datos del alumno por su numero de cuenta
+            datos = DatosAlumno.objects.all()
             return render(request, template_name, {'usuario': usuario, 'datos': datos}) #Enviar al html junto con ambos datos
         
         return render(request, template_name, {'usuario': usuario}) #Enviar al html solo los datos del usuario
     else:
         return redirect('home')
 #Checar si esta logueado el maestro sino mandarlo al home
-def check_logueado_Maestro(request, template_name):
+def check_logueado_Maestro(request, template_name, filtrar_datos=False):
     if 'usuario_id' in request.session:
         usuario_id = request.session['usuario_id']
         usuario = Maestro.objects.get(id=usuario_id)
-        return render(request, template_name,{'usuario': usuario})
+        # Guardar numero_cuenta en la sesión que se usará para identificar quien esta guardando los datos
+        request.session['email'] = usuario.email
+        if filtrar_datos:
+            datos = DatosAlumno.objects.all()
+            return render(request, template_name, {'usuario': usuario, 'datos': datos}) #Enviar al html junto con ambos datos
+        
+        return render(request, template_name, {'usuario': usuario}) #Enviar al html solo los datos del usuario
     else:
         return redirect('home')
 #Registro maestro
@@ -77,6 +84,9 @@ def solicitudes(request):
 def historial_view(request):
     return check_logueado(request, 'historial_graficas.html', filtrar_datos=True)
 
+def historial_view_maestro(request):
+    return check_logueado_Maestro(request, 'historial_graficasM.html', filtrar_datos=True)
+
 def chart(request):
     return check_logueado(request, 'simplechart.py')
 
@@ -89,14 +99,14 @@ temp_values = {"D1": None, "D2": None, "D3": None}
 invalid_line_count = 0
 MAX_INVALID_LINES = 3
 RECONNECT_DELAY = 1  # Segundos de espera antes de reintentar conexión
-MAX_RECORDS = 30  # Límite de registros en la base de datos
+MAX_RECORDS = 25  # Límite de registros en la base de datos
 
 def connect_serial():
     """Conecta al puerto serial."""
     global ser, serial_available
     try:
         if ser is None or not ser.isOpen():
-            ser = serial.Serial('COM8', 9600, timeout=1)
+            ser = serial.Serial('COM5', 9600, timeout=1)
             serial_available = True
             print("Puerto serial conectado correctamente.")
     except serial.SerialException as e:
@@ -129,6 +139,8 @@ def disconnect_and_reconnect_serial():
 def chart_data(request):
     """Lee datos del puerto serial y almacena en la base de datos."""
     global serial_available, temp_values, invalid_line_count
+    # Obtener el parámetro storeData desde la URL
+    should_store_data = request.GET.get('storeData', 'false').lower() == 'true'
     data = {
         "time": "",
         "raw_data": [],
@@ -157,6 +169,13 @@ def chart_data(request):
                         d2=temp_values["D2"],
                         d3=temp_values["D3"],
                     )
+
+                    if should_store_data:
+                        DatosAlumno.objects.create(
+                            d1=temp_values["D1"],
+                            d2=temp_values["D2"],
+                            d3=temp_values["D3"],
+                        )
 
                     # Reiniciar los valores
                     temp_values = {"D1": None, "D2": None, "D3": None}

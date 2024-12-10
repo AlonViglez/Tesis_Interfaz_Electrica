@@ -34,13 +34,13 @@ class AgendarFecha(models.Model):
 
 #Almacenar datos extraídos del arduino
 class DatosAlumno(models.Model):
-    voltaje = models.FloatField()
-    temperatura = models.FloatField()
-    fecha = models.DateTimeField()
-    id_alumno = models.CharField(max_length=9, validators=[RegexValidator(r'^\d{1,10}$')])
+    fecha = models.DateTimeField(auto_now_add=True)  # Fecha se llenará automáticamente
+    d1 = models.FloatField(null=True, blank=True)
+    d2 = models.FloatField(null=True, blank=True)
+    d3 = models.FloatField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.id_alumno)
+        return f"{self.fecha} - d1: {self.d1}, d2: {self.d2}, d3: {self.d3}"
 
 #Modelo para boton
 class BotonEstado(models.Model):

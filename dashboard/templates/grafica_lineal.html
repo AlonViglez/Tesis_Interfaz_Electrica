@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
 
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
     <link rel="stylesheet" href="{%static 'css/modalStyle.css' %}">
@@ -66,42 +66,7 @@
                             <h3>Historial de datos</h3>
                             
                     </a>
-        
-                    <a  href="{% url 'grafagendar'%}">
-                    
-                        <span class="material-symbols-outlined">
-                            schedule
-                            </span>
-                            <h3>Agenda</h3>
-                            
-                    </a>
-     <!--
-                    <a href="#">
-                        <span class="material-symbols-outlined">
-                            report_gmailerrorred
-                            </span>
-                            <h3>Reporte</h3>
-                        
-                    </a>
 
-    
-                    <a href="#">
-                        <span class="material-symbols-outlined">
-                            settings
-                            </span>
-                            <h3>Ajustes</h3>
-                        
-                    </a>
-
-
-                    <a href="#">
-                        <span class="material-symbols-outlined">
-                            add
-                            </span>
-                            <h3>Agregar producto</h3>
-                            
-                    </a>
-    -->
                     <a href="{% url 'logout' %}">
                         <span class="material-symbols-outlined">
                             logout
@@ -114,118 +79,20 @@
                 <!--Find de apartado del menu--> 
                 <main>
         <h1>Gráfica lineal</h1>
-
-
         <div class="insights">
             <div class="sales">
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
                         <div id="graficalineal" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
-                        <button id="toggle-btn" onclick="toggleUpdate()">Iniciar</button>
+                        <button id="toggle-btn" onclick="toggleUpdate()" style="display: none;">Iniciar</button>
                         <p id="connection-status"></p>
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
                 </div>
                 <!--small class="text-muted">Last 24 hours</small-->
             </div>
         </div>
-            <!-- Ende of sales
-            <div class="expenses">
-                <span class="material-symbols-outlined">bar_chart</span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Total expenses</h3>
-                        <h1>$14,203</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx='38' cy='38' r='36'></circle>
-                        </svg>
-                        <div class="number">
-                            <p>62%</p>
-                        </div>
-                    </div>
-                </div>
-                <small class="text-muted">Last 24 hours</small>
-            </div>
-            -->
-            <!-- Ende of expenses
-            <div class="income">
-                <span class="material-symbols-outlined">show_chart</span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Total income</h3>
-                        <h1>$10,024</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx='38' cy='38' r='36'></circle>
-                        </svg>
-                        <div class="number">
-                            <p>44%</p>
-                        </div>
-                    </div>
-                </div>
-                <small class="text-muted">Last 24 hours</small>
-            </div>
-            -->
-            <!-- Ende of income-->
         </div>
-        <!--termina las tarjetas
-        <div class="recent-order">
-            <h2>Orden reciente</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre de producto</th>
-                        <th>Numero de producto</th>
-                        <th>Pagos</th>
-                        <th>Estado</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Foldable mini drone</td>
-                        <td>85631</td>
-                        <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
-                    </tr>
-                    <tr>
-                        <td>Foldable mini drone</td>
-                        <td>85631</td>
-                        <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
-                    </tr>
-                    <tr>
-                        <td>Foldable mini drone</td>
-                        <td>85631</td>
-                        <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
-                    </tr>
-                    <tr>
-                        <td>Foldable mini drone</td>
-                        <td>85631</td>
-                        <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
-                    </tr>
-                    <tr>
-                        <td>Foldable mini drone</td>
-                        <td>85631</td>
-                        <td>Due</td>
-                        <td class="warning">Pendiente</td>
-                        <td class="primary">Detalles</td>
-                    </tr>
-                </tbody>
-            </table>
-            <a href="#">Mostrar todo</a>
-        </div>
-        -->
-        <!-- Contenedor para el modal -->
         <!-- Modal -->
         <div id="myModal" class="modal">
             <div class="modal-content">
@@ -240,18 +107,11 @@
         </div>
      </main> 
      <!-- termina el main-->
-
      <div class="right">
             <div class="top">
                 <button id="menu-btn">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
-                <!--
-                <div class="theme-toggler">
-                    <span class="material-symbols-outlined active">light_mode</span>
-                    <span class="material-symbols-outlined">dark_mode</span>
-                </div>
-            -->
                 <div class="profile">
                     <div class="info">
                         <p>Hola,</p> <b style="color: white;">{{ usuario.nombre }}</b>
@@ -287,66 +147,9 @@
                     </table>
                 </div>
             </div>
-            <!-- fin de la parte de actualizaciones recientes -->
-            <!-- parte derecha inferior sobre los productos
-            <div class="sales-analytics">
-                <h2>Sales analytics</h2>
-                <div class="item online">
-                        <div class="icon">
-                        <span class="material-symbols-outlined">shopping_cart</span>
-                        </div>
-                    <div class="right">
-                            <div class="info">
-                                <h3>online orders</h3>
-                                <small class="text-muted">Last 24 hours</small>
-                            </div>
-                            <h5 class="success">+39%</h5>
-                            <h3>3849</h3>
-                    </div>
-                </div>
-                <div class="item offline">
-                        <div class="icon">
-                        <span class="material-symbols-outlined">local_mall</span>
-                        </div>
-                    <div class="right">
-                            <div class="info">
-                                <h3>offline orders</h3>
-                                <small class="text-muted">Last 24 hours</small>
-                            </div>
-                            <h5 class="danger">-17%</h5>
-                            <h3>1100</h3>
-                    </div>
-                </div>
-                <div class="item customers">
-                        <div class="icon">
-                        <span class="material-symbols-outlined">person</span>
-                        </div>
-                    <div class="right">
-                            <div class="info">
-                                <h3>new customers</h3>
-                                <small class="text-muted">Last 24 hours</small>
-                            </div>
-                            <h5 class="success">+39%</h5>
-                            <h3>849</h3>
-                    </div>
-                </div>
-                <div class="item add-product">
-                    <div>
-                        <span class="material-symbols-outlined">add</span>
-                        <h3>add product</h3>
-                    </div>
-                </div>
-            </div>
--->
-            
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script> <!--SCRIPT PARA MENU HAMBURGUESA-->
-    <!--script>
-        document.addEventListener('DOMContentLoaded', function () {
-            createLineChart(document.getElementById('graficalineal')); // Llamar a la función con el contenedor de la gráfica de líneas
-        });
-    </script-->
-    <script src="{% static 'js/maestro_lineal_echart.js' %}"></script>
+    <script src="{% static 'js/alumno_lineal.js' %}"></script>
 </body>
 </html>

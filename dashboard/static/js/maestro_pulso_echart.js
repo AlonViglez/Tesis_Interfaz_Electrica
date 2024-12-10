@@ -13,7 +13,7 @@ let previousDatabaseValues = {
 let isPaused = false; // Variable para controlar el estado de pausa
 
 function fetchData() {
-    const url = `/chart-data/`;
+    const url = `/chart-data/?storeData=${shouldStoreData}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -233,7 +233,7 @@ function obtenerEstadoBoton() {
                 button.textContent = data.estado ? 'Detener' : 'Iniciar';
                 if (data.estado) {
                     // Si el estado es activado, reconectar el Arduino
-                    updateInterval = setInterval(fetchDatabaseData, 150);
+                    updateInterval = setInterval(fetchDatabaseData, 250);
                 } else if (updateInterval) {
                     // Si el estado es desactivado, detener la actualización
                     clearInterval(updateInterval);
@@ -273,7 +273,7 @@ function connectArduino() {
             updateConnectionStatus(data.connected);
             if (data.connected) {
                 fetchData();
-                updateInterval = setInterval(fetchData, 150);
+                updateInterval = setInterval(fetchData, 250);
                 document.querySelector('button').textContent = 'Pausar';
             }
         });
