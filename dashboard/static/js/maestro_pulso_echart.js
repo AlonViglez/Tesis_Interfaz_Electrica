@@ -19,11 +19,40 @@ function fetchData() {
         .then(data => {
             console.log(data); // Verifica si los datos recibidos son correctos
             updateConnectionStatus(data.connected);
-            fetchDatabaseData();
+
+            if (data.time && Array.isArray(data.raw_data) && data.raw_data.length === 3) {
+                // Procesar los datos y actualizarlos en el gráfico
+                var utcDate = new Date(data.time);
+                utcDate.setMinutes(utcDate.getMinutes() - utcDate.getTimezoneOffset());
+
+                const [currentD1, currentD2, currentD3] = data.raw_data;
+
+                // Verifica y actualiza las series de datos
+                if (dataPointsSeries.length === 0 || dataPointsSeries.length !== data.raw_data.length) {
+                    dataPointsSeries = data.raw_data.map(() => []);
+                }
+
+                // Agrega los nuevos datos a la serie
+                dataPointsSeries.forEach((dataPoints, index) => {
+                    dataPoints.push([utcDate, data.raw_data[index]]);
+                    if (dataPoints.length > 50) {
+                        dataPoints.shift(); // Mantener solo los últimos 30 puntos
+                    }
+                });
+
+                console.log("Datos graficados y actualizados.");
+
+                // Actualiza la gráfica y la tabla
+                updateChart();
+                addDataToTable(data);
+            } else {
+                console.error("Los datos obtenidos no son válidos:", data);
+            }
         })
-        .catch(error => console.error("Error al obtener datos:", error));
+        .catch(error => console.error("(fetchData) Error al obtener datos:", error));
 }
 
+/*
 function fetchDatabaseData() {
     const url = `/db_data/`;
     fetch(url)
@@ -35,43 +64,31 @@ function fetchDatabaseData() {
                 var utcDate = new Date(data.time);
                 utcDate.setMinutes(utcDate.getMinutes() - utcDate.getTimezoneOffset());
 
-                // Verifica si los valores han cambiado
                 const [currentD1, currentD2, currentD3] = data.raw_data;
 
-                if (
-                    currentD1 !== previousDatabaseValues.D1 ||
-                    currentD2 !== previousDatabaseValues.D2 ||
-                    currentD3 !== previousDatabaseValues.D3
-                ) {
-                    // Actualiza los valores anteriores
-                    previousDatabaseValues.D1 = currentD1;
-                    previousDatabaseValues.D2 = currentD2;
-                    previousDatabaseValues.D3 = currentD3;
-
-                    // Verifica y actualiza las series de datos
-                    if (dataPointsSeries.length === 0 || dataPointsSeries.length !== data.raw_data.length) {
-                        dataPointsSeries = data.raw_data.map(() => []);
-                    }
-
-                    // Agrega los nuevos datos a la serie
-                    dataPointsSeries.forEach((dataPoints, index) => {
-                        dataPoints.push([utcDate, data.raw_data[index]]);
-                        if (dataPoints.length > 30) {
-                            dataPoints.shift(); // Mantener solo los últimos 200 puntos
-                        }
-                    });
-
-                    console.log("Mostrados por base de datos");
-
-                    updateChart(); // Actualiza la gráfica
-                    addDataToTable(data); // Actualiza la tabla
-                } else {
-                    console.log("Los datos no han cambiado, no se actualizan la gráfica ni la tabla.");
+                // Verifica y actualiza las series de datos
+                if (dataPointsSeries.length === 0 || dataPointsSeries.length !== data.raw_data.length) {
+                    dataPointsSeries = data.raw_data.map(() => []);
                 }
+
+                // Agrega los nuevos datos a la serie
+                dataPointsSeries.forEach((dataPoints, index) => {
+                    dataPoints.push([utcDate, data.raw_data[index]]);
+                    if (dataPoints.length > 30) {
+                        dataPoints.shift(); // Mantener solo los últimos 30 puntos
+                    }
+                });
+
+                console.log("Datos graficados y actualizados.");
+
+                // Actualiza la gráfica y la tabla
+                updateChart(); 
+                addDataToTable(data);
             }
         })
         .catch(error => console.error("Error al obtener datos:", error));
 }
+*/
 // Actualiza el estado de conexión del Arduino
 function updateConnectionStatus(isConnected) {
     var connectionStatus = document.getElementById('connection-status');
@@ -233,7 +250,7 @@ function obtenerEstadoBoton() {
                 button.textContent = data.estado ? 'Detener' : 'Iniciar';
                 if (data.estado) {
                     // Si el estado es activado, reconectar el Arduino
-                    updateInterval = setInterval(fetchDatabaseData, 250);
+                    updateInterval = setInterval(fetchData, 150);
                 } else if (updateInterval) {
                     // Si el estado es desactivado, detener la actualización
                     clearInterval(updateInterval);
@@ -273,7 +290,7 @@ function connectArduino() {
             updateConnectionStatus(data.connected);
             if (data.connected) {
                 fetchData();
-                updateInterval = setInterval(fetchData, 250);
+                updateInterval = setInterval(fetchData, 150);
                 document.querySelector('button').textContent = 'Pausar';
             }
         });
