@@ -93,12 +93,37 @@
                 <div class="middle">
                     <div class="left">
                          <div id="pulsochart" style="width: 800px; height: 400px;  background-color: transparent;"></div>
-                         <button id="toggle-btn" onclick="toggleUpdate()" style="display: none;">Iniciar</button>
+                         <button id="toggle-btn" onclick="toggleUpdate()">Iniciar</button>
                          <p id="connection-status"></p>   
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->  
                 </div>
             </div>
         </div>
+        </div>
+        <div class="event-container">
+            <h2>Eventos recientes</h2>
+            <div class="event-header">
+                <button id="pause-button" class="control-button pause" onclick="TablePause()">⏸</button>
+                <button id="start-button" class="control-button start" style="display: none;" onclick="TableResume()">▶️</button>
+                <button class="control-button delete" onclick="TableClean()">🗑</button>
+                <input type="text" placeholder="Search for events" class="search-bar">
+            </div>
+            <div class="event-table" id="event-table-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DATOS</th>
+                            <th>FECHA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="event-body">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
      </main> 
      <!-- termina el main-->
@@ -119,63 +144,34 @@
             </div>
             <!-- final del top-->
             <div class="recent-updates">
-                <h2>Recent updates</h2>
+                <h2>Medidores</h2>
                     <div class="updates">
                         <div class="message">
-                            <p>Medidor de voltajes</p>
-                            
+                            <p>Medidor dato 1:</p>   
                         </div>
                         <div class="update">
-                           
-                            <div class="profile-photos" id="gauge3" >
-                                    <script>
-                                                    var gauge3 = new JustGage({
-                                                    id: "gauge3", // the id of the html element
-                                                    value: 50,
-                                                    min: 0,
-                                                    max: 100,
-                                                    decimals: 2,
-                                                    gaugeWidthScale: 0.6,
-                                                    valueFontColor: "#FFFFFF"
-                                                });
-                    
-                                        // update the value randomly
-                                        setInterval(() => {
-                                        gauge3.refresh(Math.random() * 100);
-                                        }, 500)
-                                    </script>
-                            
+                            <div class="profile-photos" id="gauge3" style="width: 150px; height: 150px;" >
+                                    
                             </div>  
-                              
                         </div> 
                         <div class="message">
-                            <p>Medidor de tiempo</p>
+                            <p>Medidor dato 2:</p>
                         </div>
                         <div class="update">
-                            
-                            <div class="profile-photo" id="gauge4">
-                                <script>
-                                    var gauge4 = new JustGage({
-                                    id: "gauge4", // the id of the html element
-                                    value: 50,
-                                    min: 0,
-                                    max: 100,
-                                    decimals: 2,
-                                    gaugeWidthScale: 0.6,
-                                    valueFontColor: "#FFFFFF"
-                                });
-    
-                        // update the value randomly
-                        setInterval(() => {
-                        gauge4.refresh(Math.random() * 100);
-                        }, 500)
-                    </script>
-                            </div>  
-                            
+                            <div class="profile-photos" id="gauge4" style="width: 150px; height: 150px;" >
+                                    
+                            </div>   
                         </div> 
-    
+                        <div class="message">
+                            <p>Medidor dato 3:</p>
+                        </div>
+                        <div class="update">
+                            <div class="profile-photos" id="gauge5" style="width: 150px; height: 150px;" >
+                                    
+                            </div>   
+                        </div> 
                     </div>
-            </div>   
+            </div>
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>

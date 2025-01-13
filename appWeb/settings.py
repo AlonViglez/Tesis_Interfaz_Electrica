@@ -25,13 +25,13 @@ SECRET_KEY = 'django-insecure-8v=!))12ugozfv)r*r+l%btfe*b-ngs@5e^#f8k=uftqwz31&l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.3.218','192.168.1.185','192.168.1.13']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','192.168.1.110','192.168.27.115','192.168.1.14']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -88,7 +88,7 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': r'C:\Users\Jesus\PycharmProjects\Data_Science\BigData\db.sqlite3',
     }
 }
 

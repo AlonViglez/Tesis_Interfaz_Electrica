@@ -8,8 +8,12 @@
 
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
     <link rel="stylesheet" href="{%static 'css/modalStyle.css' %}">
-    <script src="/static/js/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
     <!-- Material-->
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
@@ -92,7 +96,30 @@
             </div>
         </div>
         </div>
-        <div class="insights">
+        <div class="event-container">
+            <h2>Eventos recientes</h2>
+            <div class="event-header">
+                <button id="pause-button" class="control-button pause" onclick="TablePause()">⏸</button>
+                <button id="start-button" class="control-button start" style="display: none;" onclick="TableResume()">▶️</button>
+                <button class="control-button delete" onclick="TableClean()">🗑</button>
+                <input type="text" placeholder="Search for events" class="search-bar">
+            </div>
+            <div class="event-table" id="event-table-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DATOS</th>
+                            <th>FECHA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="event-body">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <!-- Modal -->
         <div id="myModal" class="modal">
@@ -126,29 +153,34 @@
                 </div>
             </div>
             <!-- final del top-->
-            <div class="event-container">
-                <h2>Eventos recientes</h2>
-                <div class="event-header">
-                    <button class="control-button pause" onclick="TablePause()">⏸</button>
-                    <button class="control-button delete" onclick="TableClean()">🗑</button>
-                    <input type="text" placeholder="Search for events" class="search-bar">
-                </div>
-                <div class="event-table" id="event-table-body">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>DATOS</th>
-                                <th>FECHA</th>
-                            </tr>
-                        </thead>
-                        <tbody id="event-body">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="recent-updates">
+                <h2>Medidores</h2>
+                    <div class="updates">
+                        <div class="message">
+                            <p>Medidor dato 1:</p>   
+                        </div>
+                        <div class="update">
+                            <div class="profile-photos" id="gauge3" style="width: 150px; height: 150px;" >
+                                    
+                            </div>  
+                        </div> 
+                        <div class="message">
+                            <p>Medidor dato 2:</p>
+                        </div>
+                        <div class="update">
+                            <div class="profile-photos" id="gauge4" style="width: 150px; height: 150px;" >
+                                    
+                            </div>   
+                        </div> 
+                        <div class="message">
+                            <p>Medidor dato 3:</p>
+                        </div>
+                        <div class="update">
+                            <div class="profile-photos" id="gauge5" style="width: 150px; height: 150px;" >
+                                    
+                            </div>   
+                        </div> 
+                    </div>
             </div>
         </div>
     </div>

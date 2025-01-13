@@ -7,14 +7,8 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
-    <script src="{% static 'js/chartlight.js' %}"></script>
-    <script src="{% static 'js/echarts.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/theme/dark.js"></script>
-
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
     <!-- Material-->
     <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@latest/dist/lightweight-charts.standalone.production.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -92,7 +86,7 @@
                 <div class="">
                     <div class="left">
                         <div class="recent-order">
-                            <table>
+                            <table id="data-table">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -115,12 +109,16 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            <!-- Contenedor de botones de paginación -->
+                            <div id="pagination-controls">
+                                <button id="prev-page">Anterior</button>
+                                <span id="page-numbers"></span>
+                                <button id="next-page">Siguiente</button>
+                            </div>   
                         </div>
                     </div>
                 <small class="text-muted"></small>
             </div>
-            <div id="gauge3"></div>
-            <div id="gauge4"></div>
         </div>
         </div>
      </main> 
@@ -140,8 +138,19 @@
                     </div>
                 </div>
             </div> 
+            <div class="recent-updates">
+                <div class="updates">
+                    <div class="message" style="margin-top: 35px;">
+                        <p style="color: white; font-size: 20px;">Exportar a Excel</p>
+                    </div>
+                    <a href="{% url 'export_to_excel' %}" style="text-decoration: none;">
+                        <button class="excel-button">📊 Descargar Excel</button>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/historial.js' %}"></script>
 </body>
 </html>

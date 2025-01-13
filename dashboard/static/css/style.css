@@ -290,7 +290,7 @@ main .insights > div:hover {
     box-shadow: none;
 }
 
-main .insights > div span{
+main .insights > div span:not(#pagination-controls span) {
     background: var(--color-primary);
     padding: 0.5rem;
     border-radius: 50%;
@@ -572,14 +572,16 @@ table {
 
 .event-table table thead {
     border-radius: var(--card-border-radius);
-    background-color: var(--color-dark-variant);
+    /*background-color: var(--color-dark-variant);*/
+    width: 100%;
 }
 
 .event-table th, .event-table td {
     padding: 0.75rem;
     text-align: left;
-    border-bottom: 1px solid var(--color-light);
+    border-bottom: 1px solid white;
     color: var(--color-white);
+    border-top: 1px solid white;
 }
 
 .event-table th {
@@ -868,3 +870,71 @@ table {
 
 }
 
+/*Paginacion tabla*/
+#pagination-controls {
+    margin-top: 10px;
+    text-align: center;
+}
+
+#pagination-controls button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #314255;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#pagination-controls button:hover {
+    background-color: #556987;
+}
+
+#pagination-controls .pagination-info {
+    background: #41f1b6;
+    padding: 0;
+    border-radius: 0;
+    color: #314255;
+    font-size: 1rem;
+}
+#pagination-controls {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#pagination-controls .page {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#pagination-controls .page.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+#data-table tbody tr {
+    display: none;
+}
+
+.excel-button {
+    background-color: #28a745; /* Verde tipo Excel */
+    color: white; /* Texto blanco */
+    border: none; /* Sin bordes */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de texto */
+    font-weight: bold; /* Texto en negritas */
+    cursor: pointer; /* Cambia a cursor de mano */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    transition: all 0.3s ease; /* Animación suave */
+}
+
+.excel-button:hover {
+    background-color: #218838; /* Verde más oscuro al pasar el cursor */
+    transform: scale(1.05); /* Efecto de zoom */
+}

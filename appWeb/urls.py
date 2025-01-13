@@ -30,11 +30,13 @@ urlpatterns = [
     path('agendar_fecha_view/', dashboard_views.agendar_fecha_view, name='agendar_fecha_view'),
     path('dashboardhistorial/', dashboard_views.historial_view, name='historial_view'),
     path('dashboardhistorialM/', dashboard_views.historial_view_maestro, name='historial_view_maestro'),
-    path('chart-data/', dashboard_views.chart_data, name='chart-data'),
-    path('connect-arduino/', dashboard_views.connect_arduino, name='connect_arduino'),
-    path('obtener_estado_boton/', dashboard_views.obtener_estado_boton, name='obtener_estado_boton'),
-    path('actualizar_estado_boton/', dashboard_views.actualizar_estado_boton, name='actualizar_estado_boton'),
-    path('db_data/', dashboard_views.db_data, name='db_data'),
+    path('dato-reciente/', dashboard_views.obtener_dato_reciente, name='obtener_dato_reciente'),
+    path('export/', dashboard_views.export_to_excel, name='export_to_excel'),
+    #path('chart-data/', dashboard_views.chart_data, name='chart-data'),
+    #path('connect-arduino/', dashboard_views.connect_arduino, name='connect_arduino'),
+    #path('obtener_estado_boton/', dashboard_views.obtener_estado_boton, name='obtener_estado_boton'),
+    path('update-botonestado/', dashboard_views.update_botonestado, name='update_botonestado'),
+    #path('db_data/', dashboard_views.db_data, name='db_data'),
 ]
 
 

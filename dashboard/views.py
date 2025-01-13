@@ -8,9 +8,11 @@ import random
 import datetime
 import time
 import json
+import openpyxl
 from .models import BotonEstado
 from . forms import Maestrocitar
 from .models import DatosAlumno,SensorData  # Modelo de la tabla alumnos
+from django.views.decorators.csrf import csrf_exempt
 #from . forms import registrarAgenda #Uso de mi formulario
 
 
@@ -54,8 +56,8 @@ def agendar_fecha_view(request):
     else:
         form = Maestrocitar()
     return render(request, 'agendar_fecha.html', {'form': form})
-#Seccion del alumno
 
+#Seccion del alumno
 def grafpulso(request):
     return check_logueado(request, 'grafica_de_pulso.html')
 
@@ -90,177 +92,66 @@ def historial_view_maestro(request):
 def chart(request):
     return check_logueado(request, 'simplechart.py')
 
-# Variables globales para el puerto serial
-ser = None
-serial_available = False
-
-# Variables auxiliares
-temp_values = {"D1": None, "D2": None, "D3": None}
-invalid_line_count = 0
-MAX_INVALID_LINES = 3
-RECONNECT_DELAY = 1  # Segundos de espera antes de reintentar conexión
-MAX_RECORDS = 25  # Límite de registros en la base de datos
-
-def connect_serial():
-    """Conecta al puerto serial."""
-    global ser, serial_available
+def obtener_dato_reciente(request):
     try:
-        if ser is None or not ser.isOpen():
-            ser = serial.Serial('COM5', 9600, timeout=1)
-            serial_available = True
-            print("Puerto serial conectado correctamente.")
-    except serial.SerialException as e:
-        print(f"Error al conectar al puerto serial: {e}")
-        ser = None
-        serial_available = False
+        # Verificar el estado del botón
+        boton_estado = BotonEstado.objects.first()  # Suponemos un solo registro
+        if not boton_estado or not boton_estado.estado:
+            return JsonResponse({"error": "El botón no está activado. No hay datos nuevos."})
 
-
-def disconnect_serial():
-    """Desconecta el puerto serial."""
-    global ser, serial_available
-    if ser is not None and ser.isOpen():
-        try:
-            ser.close()
-            print("Puerto serial desconectado.")
-        except serial.SerialException as e:
-            print(f"Error al cerrar el puerto serial: {e}")
-    ser = None
-    serial_available = False
-
-
-def disconnect_and_reconnect_serial():
-    """Desconecta y reconecta el puerto serial después de un retraso."""
-    global ser, serial_available
-    disconnect_serial()
-    print("Reintentando conexión con el puerto serial en breve...")
-    time.sleep(RECONNECT_DELAY)  # Espera antes de reconectar
-    connect_serial()
-
-def chart_data(request):
-    """Lee datos del puerto serial y almacena en la base de datos."""
-    global serial_available, temp_values, invalid_line_count
-    # Obtener el parámetro storeData desde la URL
-    should_store_data = request.GET.get('storeData', 'false').lower() == 'true'
-    data = {
-        "time": "",
-        "raw_data": [],
-        "connected": serial_available,
-    }
-
-    if serial_available and ser is not None and ser.isOpen():
-        try:
-            # Leer línea desde el puerto serial
-            line = ser.readline().decode('utf-8').strip()
-            print(f"Línea recibida: {line}")
-
-            # Validar el formato de la línea
-            match = re.match(r'(D[123]):\s*(-?\d+(\.\d+)?)', line)
-            if match:
-                key, value, _ = match.groups()
-                temp_values[key] = float(value)
-                print(f"Actualizado {key} con valor: {value}")
-                invalid_line_count = 0
-
-                # Verificar si todos los datos han sido recibidos
-                if all(temp_values[key] is not None for key in temp_values):
-                    # Guardar datos en la base de datos
-                    SensorData.objects.create(
-                        d1=temp_values["D1"],
-                        d2=temp_values["D2"],
-                        d3=temp_values["D3"],
-                    )
-
-                    if should_store_data:
-                        DatosAlumno.objects.create(
-                            d1=temp_values["D1"],
-                            d2=temp_values["D2"],
-                            d3=temp_values["D3"],
-                        )
-
-                    # Reiniciar los valores
-                    temp_values = {"D1": None, "D2": None, "D3": None}
-
-                    # Comprobar y eliminar registros si hay más de 5
-                    if SensorData.objects.count() > MAX_RECORDS:
-                        SensorData.objects.all().delete()  # Eliminar todos los registros
-
-            else:
-                invalid_line_count += 1
-                print(f"Línea inválida: {line}")
-
-            # Desconectar si hay demasiadas líneas inválidas
-            if invalid_line_count >= MAX_INVALID_LINES:
-                print("Demasiadas líneas inválidas. Desconectando y reconectando...")
-                disconnect_and_reconnect_serial()
-
-        except Exception as e:
-            print(f"Error leyendo desde el puerto serial: {e}")
-            disconnect_and_reconnect_serial()
-
-    else:
-        # Si no está conectado, intenta reconectar
-        print("Puerto serial no disponible. Intentando reconectar...")
-        disconnect_and_reconnect_serial()
-
-    # Consultar los últimos datos de la base de datos
-    latest_data = SensorData.objects.order_by('-timestamp').first()
-    if latest_data:
-        data.update({
-            "time": latest_data.timestamp.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "raw_data": [latest_data.d1, latest_data.d2, latest_data.d3],
-        })
-
-    print(data)
+        # Obtener el dato más reciente
+        dato_reciente = DatosAlumno.objects.latest('fecha')
+        data = {
+            "fecha": dato_reciente.fecha.strftime("%Y-%m-%d %H:%M:%S"),
+            "d1": dato_reciente.d1,
+            "d2": dato_reciente.d2,
+            "d3": dato_reciente.d3,
+        }
+    except DatosAlumno.DoesNotExist:
+        data = {
+            "error": "No hay datos disponibles."
+        }
     return JsonResponse(data)
 
-def db_data(request):
-    # Consulta los últimos datos de la base de datos
-    data = {
-        "time": "",
-        "raw_data": [],
-        "connected": serial_available,
-    }
+def export_to_excel(request):
+    # Crear un libro de Excel
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.title = "Sensor Data"
 
-    latest_data = SensorData.objects.order_by('-timestamp').first()
-    if latest_data:
-        data.update({
-            "time": latest_data.timestamp.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "raw_data": [latest_data.d1, latest_data.d2, latest_data.d3],
-        })
-    else:
-        print("No se encontraron datos en la base de datos.")
+    # Agregar encabezados
+    headers = ['ID', 'D1', 'D2', 'D3']
+    sheet.append(headers)
 
-    print(data)  # Imprime los datos que se devolverán
-    return JsonResponse(data)
+    # Agregar datos de la tabla 'dashboard_sensordata'
+    data = DatosAlumno.objects.all()
+    for item in data:
+        sheet.append([item.id, item.d1, item.d2, item.d3])
 
-def connect_arduino(request):
-    """Conecta el Arduino y devuelve el estado."""
-    connect_serial()
-    return JsonResponse({"connected": serial_available})
+    # Configurar respuesta HTTP
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename=sensordata.xlsx'
+    workbook.save(response)
 
+    return response
 
-def obtener_estado_boton(request):
-    """Obtiene el estado del botón."""
-    try:
-        boton = BotonEstado.objects.first()
-        if not boton:
-            boton = BotonEstado.objects.create(estado=False)
-        return JsonResponse({'estado': boton.estado})
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
-
-
-def actualizar_estado_boton(request):
-    """Actualiza el estado del botón."""
+@csrf_exempt
+def update_botonestado(request):
     if request.method == 'POST':
         try:
-            estado_boton = request.POST.get('estado') == 'true'
+            # Leer los datos enviados por la solicitud
+            data = json.loads(request.body)
+            activo = data.get('activo', False)
 
-            # Actualizar el modelo BotonEstado en la base de datos
-            boton, _ = BotonEstado.objects.get_or_create(id=1)
-            boton.estado = estado_boton
-            boton.save()
+            # Actualizar o crear el estado en la base de datos
+            boton, created = BotonEstado.objects.update_or_create(
+                id=1,  # Asegúrate de usar un identificador único o lógica apropiada
+                defaults={'estado': activo}
+            )
 
-            return JsonResponse({'estado': estado_boton})
+            return JsonResponse({'success': True, 'estado': boton.estado})
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'success': False, 'error': str(e)})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})

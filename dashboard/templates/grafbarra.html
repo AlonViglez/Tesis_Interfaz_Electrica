@@ -95,15 +95,38 @@
                 <span class="material-symbols-outlined">analytics</span>
                 <div class="middle">
                     <div class="left">
-                        <div id="graficabarra" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
-                        <button id="toggle-btn" onclick="toggleUpdate()" style="display: none;">Iniciar</button>
+                        <div id="barrachart" style="width: 800px; height: 400px;  background-color: transparent;"></div>  
+                        <button id="toggle-btn" onclick="toggleUpdate()">Iniciar</button>
                         <p id="connection-status"></p> 
                       <!-- <canvas id="pulso-chart" width="800" height="400"></canvas>-->
                 </div>
             </div>
-            <div id="gauge3"></div>
-            <div id="gauge4"></div>
         </div>
+        </div>
+        <div class="event-container">
+            <h2>Eventos recientes</h2>
+            <div class="event-header">
+                <button id="pause-button" class="control-button pause" onclick="TablePause()">⏸</button>
+                <button id="start-button" class="control-button start" style="display: none;" onclick="TableResume()">▶️</button>
+                <button class="control-button delete" onclick="TableClean()">🗑</button>
+                <input type="text" placeholder="Search for events" class="search-bar">
+            </div>
+            <div class="event-table" id="event-table-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DATOS</th>
+                            <th>FECHA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="event-body">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
      </main> 
      <!-- termina el main-->
@@ -122,6 +145,35 @@
                         <img src="../static/images/logo.png" alt="">
                     </div>
                 </div>
+            </div>
+            <div class="recent-updates">
+                <h2>Medidores</h2>
+                    <div class="updates">
+                        <div class="message">
+                            <p>Medidor dato 1:</p>   
+                        </div>
+                        <div class="update">
+                            <div class="profile-photos" id="gauge3" style="width: 150px; height: 150px;" >
+                                    
+                            </div>  
+                        </div> 
+                        <div class="message">
+                            <p>Medidor dato 2:</p>
+                        </div>
+                        <div class="update">
+                            <div class="profile-photos" id="gauge4" style="width: 150px; height: 150px;" >
+                                    
+                            </div>   
+                        </div> 
+                        <div class="message">
+                            <p>Medidor dato 3:</p>
+                        </div>
+                        <div class="update">
+                            <div class="profile-photos" id="gauge5" style="width: 150px; height: 150px;" >
+                                    
+                            </div>   
+                        </div> 
+                    </div>
             </div>
         </div>
     </div>

@@ -1,297 +1,250 @@
-var myChart = echarts.init(document.getElementById('pulsochart')); // Gráfica
-var eventTableBody = document.getElementById('event-table-body');
-
-var dataPointsSeries = []; // Un array para cada serie de datos
-let shouldStoreData = false;  // Variable global para controlar el almacenamiento de datos
-var updateInterval = null;
-// Objeto para almacenar los valores anteriores de D1, D2 y D3
-let previousDatabaseValues = {
-    D1: null,
-    D2: null,
-    D3: null
-};
+const tableBody = document.getElementById('event-body');
+// Variables globales
+let updateInterval = null; // Almacena el intervalo
+let chart; // Gráfica de líneas
+let justGauge; // Gauge de JustGage
+let justGauge2;
+let justGauge3;
+let chartOptions; // Opciones de configuración de la gráfica de líneas
+let tableData = []; // Almacena los datos para la tabla
 let isPaused = false; // Variable para controlar el estado de pausa
 
-function fetchData() {
-    const url = `/chart-data/?storeData=${shouldStoreData}`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Verifica si los datos recibidos son correctos
-            updateConnectionStatus(data.connected);
 
-            if (data.time && Array.isArray(data.raw_data) && data.raw_data.length === 3) {
-                // Procesar los datos y actualizarlos en el gráfico
-                var utcDate = new Date(data.time);
-                utcDate.setMinutes(utcDate.getMinutes() - utcDate.getTimezoneOffset());
+// Inicializamos la gráfica de líneas
+function initializeChart() {
+    chart = echarts.init(document.getElementById('pulsochart'));
 
-                const [currentD1, currentD2, currentD3] = data.raw_data;
-
-                // Verifica y actualiza las series de datos
-                if (dataPointsSeries.length === 0 || dataPointsSeries.length !== data.raw_data.length) {
-                    dataPointsSeries = data.raw_data.map(() => []);
-                }
-
-                // Agrega los nuevos datos a la serie
-                dataPointsSeries.forEach((dataPoints, index) => {
-                    dataPoints.push([utcDate, data.raw_data[index]]);
-                    if (dataPoints.length > 50) {
-                        dataPoints.shift(); // Mantener solo los últimos 30 puntos
-                    }
-                });
-
-                console.log("Datos graficados y actualizados.");
-
-                // Actualiza la gráfica y la tabla
-                updateChart();
-                addDataToTable(data);
-            } else {
-                console.error("Los datos obtenidos no son válidos:", data);
-            }
-        })
-        .catch(error => console.error("(fetchData) Error al obtener datos:", error));
-}
-
-/*
-function fetchDatabaseData() {
-    const url = `/db_data/`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Verifica si los datos recibidos son correctos
-            updateConnectionStatus(data.connected);
-            if (data.time && Array.isArray(data.raw_data) && data.raw_data.length === 3) {
-                var utcDate = new Date(data.time);
-                utcDate.setMinutes(utcDate.getMinutes() - utcDate.getTimezoneOffset());
-
-                const [currentD1, currentD2, currentD3] = data.raw_data;
-
-                // Verifica y actualiza las series de datos
-                if (dataPointsSeries.length === 0 || dataPointsSeries.length !== data.raw_data.length) {
-                    dataPointsSeries = data.raw_data.map(() => []);
-                }
-
-                // Agrega los nuevos datos a la serie
-                dataPointsSeries.forEach((dataPoints, index) => {
-                    dataPoints.push([utcDate, data.raw_data[index]]);
-                    if (dataPoints.length > 30) {
-                        dataPoints.shift(); // Mantener solo los últimos 30 puntos
-                    }
-                });
-
-                console.log("Datos graficados y actualizados.");
-
-                // Actualiza la gráfica y la tabla
-                updateChart(); 
-                addDataToTable(data);
-            }
-        })
-        .catch(error => console.error("Error al obtener datos:", error));
-}
-*/
-// Actualiza el estado de conexión del Arduino
-function updateConnectionStatus(isConnected) {
-    var connectionStatus = document.getElementById('connection-status');
-    if (isConnected) {
-        connectionStatus.textContent = 'Conectado el Arduino';
-        connectionStatus.classList.remove('text-danger');
-        connectionStatus.classList.add('text-success');
-    } else {
-        connectionStatus.textContent = 'Desconectado';
-        connectionStatus.classList.remove('text-success');
-        connectionStatus.classList.add('text-danger');
-    }
-}
-// Lista de colores predefinidos para las series
-const colors = ['#FF0000', '#00FF00', '#FFFF00'];
-
-// Estado de visibilidad de las series (inicializado con 'true', todas visibles)
-let seriesVisibility = {};
-
-// Inicializa la visibilidad de las series
-function initializeSeriesVisibility(seriesNames) {
-    seriesNames.forEach(name => {
-        if (seriesVisibility[name] === undefined) {
-            seriesVisibility[name] = true; // Todas las series visibles por defecto
-        }
-    });
-}
-//Actualizar grafica
-function updateChart() {
-    // Inicializa la visibilidad de las series
-    const seriesNames = dataPointsSeries.map((_, index) => `Data ${index + 1}`);
-    initializeSeriesVisibility(seriesNames);
-
-    const seriesOptions = dataPointsSeries.map((dataPoints, index) => ({
-        name: `Data ${index + 1}`,
-        type: 'line', // Cambiado de 'pulse' a 'line'
-        step: 'start', // Cambia 'start' a 'middle' o 'end' según sea necesario
-        data: dataPoints,
-        showSymbol: false,
-        animation: false, // Desactivar animaciones
-        lineStyle: {
-            width: 2,
-            color: colors[index % colors.length] // Asigna un color según el índice
-        }
-    }));
-
-    const option = {
+    chartOptions = {
         title: {
-            text: 'Gráfica de Datos',
-            textStyle: { color: '#fff' }
+            text: 'Gráfica de Pulso',
+            textStyle: {
+                color: '#ffffff',
+                fontWeight: 'bold',
+                fontSize: 20,
+            },
         },
-        tooltip: { trigger: 'axis' },
+        tooltip: {
+            trigger: 'axis',
+        },
         legend: {
-            data: seriesNames, // Usa los nombres de las series dinámicamente
-            textStyle: { color: '#fff' },
-            selected: seriesVisibility
+            data: ['Dato 1', 'Dato 2', 'Dato 3'],
+            top: '10%',
+            textStyle: {
+                color: '#ffffff',
+            },
         },
-        xAxis: { type: 'time' }, // Mantén el tipo 'time' para datos de tiempo
-        yAxis: { type: 'value' },
-        series: seriesOptions
+        toolbox: {
+            feature: {
+                saveAsImage: {
+                    show: true,
+                    title: 'Guardar como imagen',
+                    name: 'grafica_pulso',
+                    backgroundColor: '#314255',
+                },
+            },
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: [],
+            axisLine: {
+                lineStyle: { color: '#ffffff' },
+            },
+            axisLabel: { color: '#ffffff' },
+        },
+        yAxis: {
+            type: 'value',
+            axisLine: {
+                lineStyle: { color: '#ffffff' },
+            },
+            axisLabel: { color: '#ffffff' },
+        },
+        series: [
+            {
+                name: 'Dato 1',
+                type: 'line',
+                step: 'start',
+                data: [],
+                color: '#ff0000',
+            },
+            {
+                name: 'Dato 2',
+                type: 'line',
+                step: 'middle',
+                data: [],
+                color: '#00ff00',
+            },
+            {
+                name: 'Dato 3',
+                type: 'line',
+                step: 'end',
+                data: [],
+                color: '#0000ff',
+            },
+        ],
+        dataZoom: [
+            {
+                type: 'slider', // Control deslizante
+                show: true, // Mostrar el control
+                xAxisIndex: 0, // Se aplica al eje X
+                start: 0, // Empieza mostrando el 0% de los datos
+                end: 100, // Muestra el 100% de los datos
+                textStyle: {
+                    color: '#ffffff', // Color del texto en el control
+                },
+            },
+        ],
     };
 
-    myChart.setOption(option, true);
-}
-// Función para agregar datos a la tabla
-function addDataToTable(data) {
-    if (Array.isArray(data.raw_data) && !isPaused) {
-        data.raw_data.forEach((value) => {
-            // Crear una nueva fila y celdas
-            var newRow = document.createElement('tr');
-            var dataCell = document.createElement('td');
-            var timeCell = document.createElement('td');
-
-            // Establecer el contenido de las celdas
-            dataCell.textContent = value;
-            timeCell.textContent = new Date(data.time).toLocaleString();
-
-            // Agregar celdas a la fila
-            newRow.appendChild(dataCell);
-            newRow.appendChild(timeCell);
-
-            // Agregar la fila al cuerpo de la tabla
-            eventTableBody.appendChild(newRow);
-
-            // Mantener solo las últimas 50 filas
-            if (eventTableBody.rows.length > 50) {
-                eventTableBody.removeChild(eventTableBody.firstChild);
-            }
-        });
-    }
+    chart.setOption(chartOptions);
 }
 
+// Inicializamos los gauges de JustGage
+function initializeGauge() {
+    justGauge = new JustGage({
+        id: 'gauge3',
+        value: 0,
+        min: 0,
+        max: 1023,
+        title: 'Dato 1',
+        label: 'Valor',
+        gaugeWidthScale: 0.6,
+        pointer: true,
+        levelColors: ['#90ee90', '#ffa500', '#ff4500'],
+    });
+}
+
+function initializeGauge2() {
+    justGauge2 = new JustGage({
+        id: 'gauge4',
+        value: 0,
+        min: 0,
+        max: 1023,
+        title: 'Dato 2',
+        label: 'Valor',
+        gaugeWidthScale: 0.6,
+        pointer: true,
+        levelColors: ['#90ee90', '#ffa500', '#ff4500'],
+    });
+}
+
+function initializeGauge3() {
+    justGauge3 = new JustGage({
+        id: 'gauge5',
+        value: 0,
+        min: 0,
+        max: 1023,
+        title: 'Dato 3',
+        label: 'Valor',
+        gaugeWidthScale: 0.6,
+        pointer: true,
+        levelColors: ['#90ee90', '#ffa500', '#ff4500'],
+    });
+}
+
+// Inicializamos la tabla
+function initializeTable() {
+    tableBody.innerHTML = ''; // Limpiamos la tabla
+}
 // Función para limpiar la tabla
 function TableClean() {
-    eventTableBody.innerHTML = ''; // Borra todas las filas
+    tableBody.innerHTML = ''; // Borra todas las filas
 }
 
-// Función para pausar/reanudar la tabla
 function TablePause() {
-    isPaused = !isPaused; // Alterna entre pausado y no pausado
+    isPaused = true; // Cambiar a modo pausa
+    document.getElementById('pause-button').style.display = 'none'; // Ocultar botón de pausa
+    document.getElementById('start-button').style.display = 'inline-block'; // Mostrar botón de inicio
 }
 
+function TableResume() {
+    isPaused = false; // Cambiar a modo reanudar
+    document.getElementById('start-button').style.display = 'none'; // Ocultar botón de inicio
+    document.getElementById('pause-button').style.display = 'inline-block'; // Mostrar botón de pausa
+}
 
-// Escucha el evento de cambio de selección en la leyenda
-myChart.on('legendselectchanged', function (event) {
-    const selected = event.selected;
-    for (let key in selected) {
-        seriesVisibility[key] = selected[key]; // Actualiza el estado de visibilidad
+// Función para actualizar la tabla
+function updateTable(data) {
+    const tableBody = document.getElementById('event-body');
+    // Crear una nueva fila
+    const row = document.createElement('tr');
+    // Crear celdas y añadir los datos
+    row.innerHTML = `
+        <td>${tableBody.rows.length + 1}</td> <!-- Número de registro -->
+        <td>${data.fecha}</td> <!-- Fecha -->
+        <td>${data.d1}</td> <!-- Dato 1 -->
+        <td>${data.d2}</td> <!-- Dato 2 -->
+        <td>${data.d3}</td> <!-- Dato 3 -->
+    `;
+
+    // Añadir la fila al principio del cuerpo de la tabla
+    tableBody.insertBefore(row, tableBody.firstChild);
+}
+
+// Función para obtener datos y actualizar las gráficas y la tabla
+async function fetchData() {
+    try {
+        const response = await fetch('/dato-reciente/');
+        const data = await response.json();
+        if (data.error) {
+            console.error(data.error);
+            return;
+        }
+
+        const { fecha, d1, d2, d3 } = data;
+
+        // Actualizamos los datos de la gráfica de líneas
+        const xAxisData = chartOptions.xAxis.data;
+        const d1Data = chartOptions.series[0].data;
+        const d2Data = chartOptions.series[1].data;
+        const d3Data = chartOptions.series[2].data;
+
+        xAxisData.push(fecha);
+        d1Data.push(d1);
+        d2Data.push(d2);
+        d3Data.push(d3);
+
+        chart.setOption({
+            xAxis: { data: xAxisData },
+            series: [
+                { data: d1Data },
+                { data: d2Data },
+                { data: d3Data },
+            ],
+        });
+
+        // Actualizamos los gauges
+        justGauge.refresh(d1);
+        justGauge2.refresh(d2);
+        justGauge3.refresh(d3);
+
+        if(isPaused === false){
+            // Actualizamos la tabla
+            updateTable({ fecha, d1, d2, d3 });
+        }    
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
     }
-});
+}
+
 // Función para iniciar/pausar la actualización
 function toggleUpdate() {
     const button = document.getElementById('toggle-btn');
+
     if (updateInterval) {
         clearInterval(updateInterval);
         updateInterval = null;
         button.textContent = 'Iniciar';
-        actualizarEstadoBoton(false); // Notifica al servidor que se desactivó
     } else {
-        openModal(); // Abre el modal antes de activar
+        fetchData();
+        updateInterval = setInterval(fetchData, 500);
+        button.textContent = 'Pausar';
     }
 }
 
-// Función para abrir el modal
-function openModal() {
-    document.getElementById('myModal').style.display = 'block';
-}
-
-// Función para cerrar el modal
-function closeModal() {
-    document.getElementById('myModal').style.display = 'none';
-}
-
-// Función para almacenar los datos y activar el botón
-function storeData() {
-    shouldStoreData = true;
-    connectArduino(); // Función que conecta y obtiene los datos
-    closeModal();
-    document.getElementById('toggle-btn').textContent = 'Detener';
-    actualizarEstadoBoton(true); // Activa el botón en el servidor
-}
-
-// Función para no almacenar los datos
-function notStoreData() {
-    shouldStoreData = false;
-    connectArduino();
-    closeModal();
-    document.getElementById('toggle-btn').textContent = 'Iniciar';
-    actualizarEstadoBoton(true); // Desactiva el botón en el servidor
-}
-
-// Función para obtener el estado del botón desde el servidor
-function obtenerEstadoBoton() {
-    fetch('/obtener_estado_boton/')
-        .then(response => response.json())
-        .then(data => {
-            const button = document.getElementById('toggle-btn');
-            if (data.estado !== undefined) {
-                button.textContent = data.estado ? 'Detener' : 'Iniciar';
-                if (data.estado) {
-                    // Si el estado es activado, reconectar el Arduino
-                    updateInterval = setInterval(fetchData, 150);
-                } else if (updateInterval) {
-                    // Si el estado es desactivado, detener la actualización
-                    clearInterval(updateInterval);
-                    updateInterval = null;
-                }
-            }
-        })
-        .catch(error => console.error('Error al obtener el estado:', error));
-}
-
-// Función para actualizar el estado del botón en el servidor
-function actualizarEstadoBoton(estado) {
-    fetch('/actualizar_estado_boton/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': getCSRFToken()
-        },
-        body: `estado=${estado}`
-    })
-        .then(response => response.json())
-        .then(data => console.log('Estado del botón actualizado:', data))
-        .catch(error => console.error('Error al actualizar el estado:', error));
-}
-
-// Función para obtener el token CSRF
-function getCSRFToken() {
-    return document.querySelector('[name=csrfmiddlewaretoken]').value;
-}
-// Llamar a obtener el estado del botón al cargar la página
-document.addEventListener('DOMContentLoaded', obtenerEstadoBoton);
-// Función para conectar el Arduino
-function connectArduino() {
-    fetch('/connect-arduino/')
-        .then(response => response.json())
-        .then(data => {
-            updateConnectionStatus(data.connected);
-            if (data.connected) {
-                fetchData();
-                updateInterval = setInterval(fetchData, 150);
-                document.querySelector('button').textContent = 'Pausar';
-            }
-        });
-}
+// Inicialización
+initializeChart();
+initializeGauge();
+initializeGauge2();
+initializeGauge3();
+initializeTable();
